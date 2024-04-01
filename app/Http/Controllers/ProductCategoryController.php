@@ -47,7 +47,9 @@ class ProductCategoryController extends Controller
         $data->category = $request->input('category');
         $data->update();
 
-        return view('productCategory.index')->with('success', 'Data berhasil diubah!');
+        $data = ProductCategory::paginate(10);
+        $total = ProductCategory::count();
+        return view('productCategory.index', compact('data', 'total'))->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id){

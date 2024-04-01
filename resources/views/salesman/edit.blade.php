@@ -25,12 +25,12 @@
                         <input type="text" class="form-control" name="salesmanID" id="salesmanID" value="{{$data->alias}}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="category">Salesman Name</label>
-                        <input type="text" class="form-control" name="category" id="category" value="{{$data->getUserIDFromUsers2->nama}}" required>
+                        <label for="salesmanName">Salesman Name</label>
+                        <input type="text" class="form-control" name="salesmanName" id="salesmanName" value="{{$data->getUserIDFromUsers2->nama}}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="category">Salesman Code</label>
-                        <input type="text" class="form-control" name="category" id="category" pvalue="{{$data->alias}}" required>
+                        <label for="salesmanCode">Salesman Code</label>
+                        <input type="text" class="form-control" name="salesmanCode" id="salesmanCode" value="{{$data->alias}}" required>
                     </div>
                     <div class="mb-3">
                         <label for="category">Status</label>

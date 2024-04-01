@@ -36,7 +36,8 @@ class VehicleTypeController extends Controller
         ]);
 
         $data = VehicleType::paginate(10);
-        return view('vehicleType.index', compact('data'))
+        $total = VehicleType::count();
+        return view('vehicleType.index', compact('data', 'total'))
             ->with('success', 'Data berhasil ditambahkan!');
     }
 
@@ -47,19 +48,21 @@ class VehicleTypeController extends Controller
 
     public function update(Request $request, $id){
         $data = VehicleType::find($id);
-        $this->validateRequest($request, [
+        $this->validate($request, [
             'id' => 'required',
             'merk' => 'required',
             'type' => 'required',
         ]);
 
         $data->id = $request->input('id');
-        $data->merk = $request->input('merk');
+        $data->kendaraan = $request->input('merk');
         $data->type = $request->input('type');
         $data->update();
 
-        return view('vehicleType.index')
-        ->with('success', 'Data berhasil diubah!');
+        $data = VehicleType::paginate(10);
+        $total = VehicleType::count();
+        return view('vehicleType.index', compact('data', 'total'))
+            ->with('success', 'Data berhasil diubah!');
 
     }
 

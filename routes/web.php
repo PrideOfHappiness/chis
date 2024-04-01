@@ -37,10 +37,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware(['Admin'])->group(function (){
     Route::get('/admin/home', [HomeController::class, 'testHome'])->name('testHome');
     //User
-    Route::resource('/admin/user', UserController::class);
-    Route::get('/admin/user/downloadToCSV', [UserController::class, 'exportToCSV']);
+    Route::resource('/admin/user', UserController::class)->except(['show']);;
+    Route::post('/admin/user/downloadToCSV', [UserController::class, 'exportToCSV'])->name('user.export');
     Route::get('/admin/user/print', [UserController::class, 'print']);
     Route::post('/admin/user/cari', [UserController::class, 'cari'])->name('cari');
+    Route::get('/admin/user/pilihCopy', [UserController::class, 'kopiData']);
+    Route::get('/admin/user/copy/{id}', [UserController::class, 'copy']);
+    Route::post('/admin/user/proses/', [UserController::class, 'prosesData'])->name('user.prosesData');
     //Product Category
     Route::resource('/admin/productCategory', ProductCategoryController::class);
     Route::resource('/admin/vehicleType', VehicleTypeController::class);

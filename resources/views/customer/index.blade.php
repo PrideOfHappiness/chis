@@ -71,11 +71,12 @@
                                 <td>{{ $customer->customerIDs }}</td>
                                 <td>{{ $customer->code }}</td>
                                 <td>{{ $customer->customerName }}</td>
-                                <td>{{ $customer->alamat }}</td>
+                                <td>{{ $customer->deliveryAddress }}</td>
                                 <td>{{ $customer->contact }}</td>
                                 <td>{{ $customer->telepon }}</td>
                                 <td>{{ $customer->teleponHP }}</td>
                                 <td>{{ $customer->email }}</td>
+                                <td>{{ $customer->kota }}</td>
                                 <td>{{ $customer->area }}</td>
                                 <td>{{ $customer->status }}</td>
                                 <td>{{ $customer->statusPKP }}</td>

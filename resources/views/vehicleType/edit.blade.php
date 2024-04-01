@@ -19,6 +19,7 @@
                 <h4>Tambah Data Kategori Produk</h4>
                 <form action="{{ route('vehicleType.update', $data->vehicleTypeID)}}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="mb-3">
                         <label for="id">ID</label>
                         <input type="text" class="form-control" name="id" id="id" value="{{$data->ID}}" required>

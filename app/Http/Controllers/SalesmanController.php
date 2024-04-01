@@ -9,7 +9,7 @@ use App\Models\User;
 class SalesmanController extends Controller
 {
     public function index(){
-        $data = Salesman::all();
+        $data = Salesman::paginate(10);
         $total = Salesman::count();
         return view('salesman.index', compact('data', 'total'));
     }
@@ -32,14 +32,16 @@ class SalesmanController extends Controller
         $status = $request->input('status');
 
         if($salesmanID == $salesmanCode){
-            $data = User::where('name', $salesmanName)->first();
+            $data = User::where('nama', $salesmanName)->first();
             if(!$data){
                 return view('salesman.create')
                 ->with('error', 'Data Nama tidak tersedia!');
+            }else{
+                $userID = User::where('nama', $salesmanName)->value('userIDNo');
             }
 
             Salesman::create([
-                'userID' => $data->userID,
+                'userID' => $userID,
                 'alias' => $salesmanCode,
                 'status' => $status,
             ]);
@@ -70,13 +72,15 @@ class SalesmanController extends Controller
         $status = $request->input('status');
 
         if($salesmanID == $salesmanCode){
-            $data2 = User::where('name', $salesmanName)->first();
+            $data2 = User::where('nama', $salesmanName)->first();
             if(!$data2){
                 return view('salesman.create')
                 ->with('error', 'Data Nama tidak tersedia!');
+            }else{
+                $userID = User::where('nama', $salesmanName)->value('userIDNo');
             }
 
-            $data->userID = $data2->userID;
+            $data->userID = $userID;
             $data->alias = $salesmanCode;
             $data->status = $status;
             $data->update();

@@ -56,7 +56,8 @@ class ForwarderController extends Controller
         }
 
         $data = Forwarders::paginate(10);
-        return view('forwarder.index', compact('data'))->with('success', 'Data berhasil ditambahkan!');
+        $total = Forwarders::count();
+        return view('forwarder.index', compact('data', 'total'))->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id){

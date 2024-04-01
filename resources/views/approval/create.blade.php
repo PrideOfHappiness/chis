@@ -17,7 +17,7 @@
                     </div>
                 @endif 
                 <h4>Tambah Data Approval Jabatan</h4>
-                <form action="{{ route('productCategory.store')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('userApproval.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="approval">Approval</label>
@@ -34,12 +34,17 @@
                     <div class="mb-3">
                         <label for="nama">Name</label>
                         <select class="form-control" name="nama" id="nama">
-                            <option value="{{$data->userIDNo}}">{{$data->userName}} - {{$data->nama}}</option>
+                            @foreach($data as $data)
+                                <option value="{{$data->userIDNo}}">{{$data->userName}} - {{$data->nama}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="status">Status</label>
-                        <input type="text" class="form-control" name="status" id="status" placeholder="Status" required>
+                        <select name="status" id="status" class="form-control">
+                            <option value="Active">Active</option>
+                            <option value="Not Active">Not Active</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>
                 </form>

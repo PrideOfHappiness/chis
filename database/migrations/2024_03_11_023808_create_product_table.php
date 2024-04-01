@@ -22,6 +22,10 @@ return new class extends Migration
             $table->integer('min_stock');
             $table->integer('stock');
             $table->string('satuan');
+            $table->integer('harga_beli');
+            $table->integer('hpp');
+            $table->integer('harga_jual');
+            $table->text('notes');
             $table->timestamps();
 
             $table->foreign('vehicleType')->references('vehicleTypeID')->on('vehicle_type');

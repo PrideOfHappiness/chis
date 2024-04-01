@@ -44,7 +44,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>User ID</th>
                             <th>Photo</th>
                             <th>Name</th>
                             <th>Username</th>
@@ -52,8 +52,7 @@
                             <th>Department</th>
                             <th>Access Group</th>
                             <th>Status</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,38 +75,15 @@
                                 <td>{{ $user->getUserAccessFromUserAccess->user_access }}</td>
                                 <td>{{ $user->status }}</td>
                                 <td>
-                                    <a href="{{route('user.edit', $user->userIDNo)}}" class="btn btn-success">
+                                    <a href="/admin/user/copy/{{$user->userIDNo}}" class="btn btn-success">
                                         <i class="fa-solid fa-file-pen"></i>
-                                        Edit
+                                        Pilih Data
                                     </a>
-                                </td>
-                                <td>
-                                    <form action = "{{ route('user.destroy', $user->userIDNo) }}" method="Post">
-                                        @csrf
-                                        <button type="submit" class="badge bg-danger"> 
-                                            <i class="fa-solid fa-trash"></i>
-                                            Hapus Data
-                                        </button>
-                                    </form>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>
-                <a class="btn btn-primary" href="/admin/user/pilihCopy"> 
-                    <i class="fa-solid fa-copy"></i>
-                        Copy
-                </a>
-                <a class="btn btn-primary" href="{{ route('user.export') }}" method="POST"> 
-                    <i class="fa-solid fa-file-export"></i>
-                    Export to CSV
-                </a>
-                <a class="btn btn-primary" href="/admin/user/print"> 
-                    <i class="fa-solid fa-print"></i>
-                        Print
-                </a>
-
             </main>
         </div>
     </div>

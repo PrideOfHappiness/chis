@@ -17,7 +17,9 @@ class CustomerController extends Controller
     public function create(){
         $string = 'CUST-';
         $total = Customers::count();
-        if($total < 10){
+        if($total == 0){
+            $angka = '00001';
+        }elseif($total < 10){
             $angka = '0000'.$total;
         }elseif ($total >= 10 && $total < 100) {
             $angka = '000'.$total;

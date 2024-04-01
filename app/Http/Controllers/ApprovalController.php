@@ -34,6 +34,11 @@ class ApprovalController extends Controller
         $nama = $request->input('nama');
         $status = $request->input('status');
 
+        $cekData = UserApproval::where('userID', $nama)->where('approval', $data)->where('sequence', $sequence)->exists();
+        if($cekData){
+            $sequence = $sequence + 1;
+        }
+        
         UserApproval::create([
             'approval' => $data,
             'userID' => $nama,
@@ -70,7 +75,7 @@ class ApprovalController extends Controller
         return view('approval.index')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id){
+    public function destroy(Request $request, $id){
         $data = UserApproval::find($id);
         $data->delete();
 

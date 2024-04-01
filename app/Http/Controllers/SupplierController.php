@@ -82,8 +82,9 @@ class SupplierController extends Controller
         ]);
 
         $data = Suppliers::paginate(10);
-        return view('supplier.index', compact('data'))
-        ->with('success', 'Data berhasil ditambahkan!');
+        $total = Suppliers::count();
+        return view('supplier.index', compact('data', 'total'))
+            ->with('success', 'Data berhasil ditambah!');
     }
 
     public function edit($id){
@@ -127,8 +128,9 @@ class SupplierController extends Controller
         $data->update();
 
         $data = Suppliers::paginate(10);
-        return view('supplier.index', compact('data'))
-        ->with('success', 'Data berhasil diubah!');
+        $total = Suppliers::count();
+        return view('supplier.index', compact('data', 'total'))
+            ->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id){

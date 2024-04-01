@@ -75,6 +75,14 @@
             </a>
           </li>
           <li class="nav-item"> 
+            <a href="/admin/customer" class="nav-link">
+              <i class="fa-solid fa-rectangle-xmark"></i>
+                <p>
+                  Customer
+                </p>
+              </a>
+          </li>
+          <li class="nav-item"> 
             <a href="/admin/supplier" class="nav-link">
               <i class="fa-solid fa-rectangle-xmark"></i>
                 <p>

@@ -24,8 +24,21 @@ class ProductController extends Controller
 
     public function store(Request $request){
         $this->validate($request, [
-
+            'code' => 'required',
+            'partNumber' => 'required',
+            'productname' => 'required',
+            'productCategory' => 'required',
+            'vehicleType' => 'required',
+            'status' => 'required',
+            'fileFoto' => 'required',
         ]);
+
+        $code = $request->input('code');
+        $partNumber = $request->input('partNumber');
+        $productName = $request->input('productname');
+        $vehicleType = $request->input('vehicleType');
+        $productCategory = $request->input('productCategory');
+        $status = $request->input('status');
     }
 
     public function edit($id){

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('template/header')
-    <title>Ubah Data {{ $data->userName }} - {{ $data->nama }}</title>
+    <title>Tambah Data Pengguna</title>
 </head>
 <body>
     @include('template/navbar')
@@ -16,31 +16,25 @@
                         <p>{{ $message }}</p>
                     </div>
                 @endif 
-                <h4>Ubah Data {{ $data->userName }} - {{ $data->nama }}</h4>
-                <form action="{{ route('user.update', $data->userIDNo)}}" method="POST" enctype="multipart/form-data">
-                    @method('PUT')
+                <h4>Kopi Data Pengguna</h4>
+                <form action="{{ route('user.prosesData')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <h5><b>Data Perusahaan<b></h5>
                     <div class="mb-3">
                         <label for="code">Code</label>
-                        <input type="string" class="form-control" name="code" id="code" value="{{$data->code}}" required>
+                        <input type="string" class="form-control" name="code" id="code" value="{{$value}}" required>
                     </div>
                     <div class="mb-3">
                         <label for="perusahaan">Perusahaan</label>
-                        <select class="form-control" name="perusahaan" id="perusahaan">
-                            <option value="{{$data->perusahaan}}">{{$data->perusahaan}}</option>
-                            <option value="PT. Cipta Harapan Indah Strategi">PT. Cipta Harapan Indah Strategi</option>
-                            <option value="Eka Nusa">PT. Eka Nusa</option>
-                            <option value="PT. CHIS">PT. CHIS</option>
-                        </select>
+                        <input type="text" class="form-control" name="perusahaan" id="perusahaan" value="{{$data->perusahaan}}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="department">Department</label>
-                        <input type="text" class="form-control" name="department" id="department" value="{{$data->department}}" required>
+                        <input type="text" class="form-control" name="department" id="department" value="{{$data->department}}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="branch">Branch</label>
-                        <input type="text" class="form-control" name="branch" id="branch" value="{{$data->branch}}" required>
+                        <input type="text" class="form-control" name="branch" id="branch" value="{{$data->branch}}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="userAccess">User Access</label>
@@ -69,35 +63,23 @@
                     <h5><b>Data Pengguna<b></h5>
                     <div class="mb-3">
                         <label for="nama">Nama</label>
-                        <input type="text" class="form-control" name="nama" id="nama" value="{{$data->nama}}" required>
+                        <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama" required>
                     </div>
                     <div class="mb-3">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" value="{{$data->userName}}" required>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
                     </div>
                     <div class="mb-3">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" value="{{$data->email}}" required>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
                     </div>
                     <div class="mb-3">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" value="{{$data->password}}" required>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                     </div>
-                    @if($foto->count() > 0)
-                    <label for="gambar" class="form-label">Foto Awal</label>
-                    <div class="form-control">
-                        @foreach($data->setUserIDForFotoUsers as $gambar)
-                            <div class="mb-3">
-                                <img width="150px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Plat Nomor">
-                            </div>
-                        @endforeach
-                    </div>
-                    @else
-                        <p>Tidak ada gambar terkait.</p>
-                    @endif
                     <div class="mb-3">
                         <label for="fileFoto">File Foto</label>
-                        <input type="file" class="form-control" name="fileFoto" id="fileFoto">
+                        <input type="file" class="form-control" name="fileFoto" id="fileFoto" placeholder="Nama Ruangan" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>
                 </form>

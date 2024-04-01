@@ -18,6 +18,13 @@ class Product extends Model
         'vehicleType',
         'productCategory',
         'status',
+        'min_stock',
+        'stock',
+        'satuan',
+        'harga_beli',
+        'hpp',
+        'harga_jual',
+        'notes',
     ];
 
     public function getVehicleTypeFromVehicleType(){
