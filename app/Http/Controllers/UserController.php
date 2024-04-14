@@ -8,6 +8,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+
 class UserController extends Controller
 {
     public function index(){

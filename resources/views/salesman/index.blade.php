@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('template/header')
-    <title>Data User</title>
+    <title>Data Salesman</title>
 </head>
 <body>
     @include('template/navbar')
@@ -16,7 +16,7 @@
                 </div>
             @endif 
             <header>
-                <h1>User Dashboard</h1>
+                <h1>Salesman Dashboard</h1>
                 <a class="btn btn-success" href="{{ route('salesman.create') }}"> 
                     <i class="fa-solid fa-plus"></i>
                         Tambah Data

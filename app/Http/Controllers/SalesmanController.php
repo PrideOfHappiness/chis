@@ -97,4 +97,8 @@ class SalesmanController extends Controller
         return view('salesman.index', compact('data'))
                 ->with('success', 'Data berhasil dihapuskan!');
     }
+
+    public function exportToCSV(Request $request){
+        
+    }
 }

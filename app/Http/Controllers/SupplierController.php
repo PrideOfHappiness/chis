@@ -16,7 +16,9 @@ class SupplierController extends Controller
     public function create(){
         $string = 'SUP-';
         $total = Suppliers::count();
-        if($total < 10){
+        if($total == 0){
+            $angka = '00001';
+        }elseif($total < 10){
             $angka = '0000'.$total;
         }elseif ($total >= 10 && $total < 100) {
             $angka = '000'.$total;
@@ -37,17 +39,16 @@ class SupplierController extends Controller
             'supplierID' => 'required',
             'code' => 'required',
             'supplierName' => 'required',
-            'category'=> 'required',
-            'status' => 'required',
-            'npwp' => 'required',
+            'address' => 'required',
             'contact' => 'required',
             'phone' => 'required',
             'phoneHP' => 'required',
             'fax'=> 'required',
+            'status' => 'required',
+            'npwp' => 'required',
             'email' => 'required',
-            'address' => 'required',
-            'city'=> 'required',
             'top' => 'required',
+            'category' => 'required',
         ]);
 
         $supplierID = $request->input('supplierID');

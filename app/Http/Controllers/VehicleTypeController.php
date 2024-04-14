@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VehicleTypeExport;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use App\Models\VehicleType;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VehicleTypeController extends Controller
 {
@@ -72,5 +75,34 @@ class VehicleTypeController extends Controller
 
         return view('vehicleType.index')
         ->with('success', 'Data berhasil dihapus!');
+    }
+
+    public function exportToCSV(Request $request){
+        return Excel::download(new VehicleTypeExport(), 'dataVehicleTypeDownload.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv']);
+    }
+
+    public function print(Request $request){
+        $dataProduct = VehicleType::all();
+        $pdf = PDF::loadView('vehicleType.print', compact('dataProduct'));
+        return $pdf->download('Vehicle Type.pdf');
+    }
+
+    public function cari(Request $request){
+        $dataCari = $request->input('search');
+        $pagination = $request->input('searchByData');
+
+        if($dataCari != null && $pagination != null){
+            $data = VehicleType::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            $total = VehicleType::count();
+        }elseif ($dataCari != null) {
+            $data =  VehicleType::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
+            $total = VehicleType::count();
+        }else{
+            $data =  VehicleType::paginate(10);
+            $total = VehicleType::count();
+        }
+
+
+        return view('vehicleType.hasil', compact('data', 'total'));
     }
 }

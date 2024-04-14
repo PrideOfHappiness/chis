@@ -56,8 +56,12 @@
                         <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="city">NPWP</label>
-                        <input type="text" class="form-control" name="npwp" id="city" placeholder="City" required>
+                        <label for="npwp">NPWP</label>
+                        <input type="text" class="form-control" name="npwp" id="npwp" placeholder="City" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="npwp">Category</label>
+                        <input type="text" class="form-control" name="category" id="category" placeholder="City" required>
                     </div>
                     <div class="mb-3">
                         <label for="status">Status</label>

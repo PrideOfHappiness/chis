@@ -9,11 +9,11 @@ class Forwarders extends Model
 {
     use HasFactory;
     protected $table = 'forwarder';
-    protected $primaryKey = 'forwarderID';
+    protected $primaryKey = 'forwaderID';
     public $incrementing = true;
     protected $fillable = [
         'code',
-        'forwarderName',
+        'forwaderName',
         'alamat',
         'city',
         'contact',

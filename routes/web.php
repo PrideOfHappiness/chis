@@ -46,12 +46,28 @@ Route::middleware(['Admin'])->group(function (){
     Route::post('/admin/user/proses/', [UserController::class, 'prosesData'])->name('user.prosesData');
     //Product Category
     Route::resource('/admin/productCategory', ProductCategoryController::class);
+    Route::post('/admin/productCategory/cari', [VehicleTypeController::class, 'cari'])->name('cariproductCategory');
+    Route::get('/admin/productCategory/print', [VehicleTypeController::class, 'print']);
+    Route::post('/admin/productCategory/downloadToCSV', [VehicleTypeController::class, 'exportToCSV'])->name('productCategory.export');
+    //Vehicle Type
     Route::resource('/admin/vehicleType', VehicleTypeController::class);
+    Route::post('/admin/vehicleType/cari', [VehicleTypeController::class, 'cari'])->name('cariVehicleType');
+    Route::get('/admin/vehicleType/print', [VehicleTypeController::class, 'print']);
+    Route::post('/admin/vehicleType/downloadToCSV', [VehicleTypeController::class, 'exportToCSV'])->name('vehicleType.export');
+    //User Approval
     Route::resource('/admin/userApproval', ApprovalController::class);
+    Route::post('/admin/vehicleType/cari', [VehicleTypeController::class, 'cari'])->name('cariVehicleType');
+    Route::get('/admin/vehicleType/print', [VehicleTypeController::class, 'print']);
+    Route::post('/admin/vehicleType/downloadToCSV', [VehicleTypeController::class, 'exportToCSV'])->name('vehicleType.export');
+    //Product
     Route::resource('/admin/product', ProductController::class);
+    //Salesman
     Route::resource('/admin/salesman', SalesmanController::class);
+    //Customer
     Route::resource('/admin/customer', CustomerController::class);
+    //Supplier
     Route::resource('/admin/supplier', SupplierController::class);
+    //Warehouse
     Route::resource('/admin/warehouse', WarehouseController::class);
     Route::resource('/admin/forwarder', ForwarderController::class);
 });

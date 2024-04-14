@@ -13,7 +13,7 @@ class Product extends Model
     public $incrementing = true;
     protected $fillable = [
         'code',
-        'part-no',
+        'partNo',
         'productName',
         'vehicleType',
         'productCategory',

@@ -43,8 +43,8 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Photo</th>
                             <th>Code</th>
+                            <th>Photo</th>
                             <th>Part No. </th>
                             <th>Item</th>
                             <th>Vehicle Type</th>
@@ -57,31 +57,29 @@
                     <tbody>
                         @foreach($data as $product)
                             <tr>
+                                <td>{{ $product->code }}</td>
                                 <td>
-                                    <td>
                                         @if($foto->count() === 0)
                                             <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
                                         @else
-                                            @foreach($product->setUserIDForFotoUsers as $gambar)
-                                                <img width="50px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Jenis">
+                                            @foreach($product->setProductIDForFotoProduct as $gambar)
+                                                <img width="50px" src="{{ asset('fotoProduct/'. $gambar->namaFile) }}" alt="Gambar Jenis">
                                             @endforeach
                                         @endif
-                                    </td>
                                 </td>
-                                <td>{{ $product->code }}</td>
-                                <td>{{ $product->part-no }}</td>
+                                <td>{{ $product->partNo }}</td>
                                 <td>{{ $product->productName }}</td>
                                 <td>{{ $product->getVehicleTypeFromVehicleType->type }}</td>
                                 <td>{{ $product->getProductCategoryFromVehicleType->category }}</td>
                                 <td>{{ $product->status }}</td>
                                 <td>
-                                    <a href="{{route('product.edit', $product->approvalID)}}" class="btn btn-success">
+                                    <a href="{{route('product.edit', $product->productID)}}" class="btn btn-success">
                                         <i class="fa-solid fa-file-pen"></i>
                                         Edit
                                     </a>
                                 </td>
                                 <td>
-                                    <form action = "{{ route('product.destroy', $product->approvalID) }}" method="Post">
+                                    <form action = "{{ route('product.destroy', $product->productID) }}" method="Post">
                                         @csrf
                                         <button type="submit" class="badge bg-danger"> 
                                             <i class="fa-solid fa-trash"></i>

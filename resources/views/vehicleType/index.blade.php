@@ -16,7 +16,7 @@
                 </div>
             @endif 
             <header>
-                <h1>User Dashboard</h1>
+                <h1>Vehicle Type Dashboard</h1>
                 <a class="btn btn-success" href="{{ route('vehicleType.create') }}"> 
                     <i class="fa-solid fa-plus"></i>
                         Tambah Data
@@ -26,16 +26,17 @@
                 <br>
                 <h6>Data</h6>
                 <div class="table-controls">
-                    <label for="searchByData" id="searchByData">Cari berdasarkan: </label>
-                    <select name="searchByData" id="searchByData">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                    </select>
-                    <form action="#" method="post">
+                    <form action="{{route('cariVehicleType')}}" method="post">
+                        @csrf
+                        <label for="searchByData" id="searchByData">Cari berdasarkan: </label>
+                        <select name="searchByData" id="searchByData">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                        </select>
                         <label for="search">Cari berdasarkan: </label>
-                        <input type="text" name="search" id="search" placeholder="Search">
+                        <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
                         <button type="submit" class="btn btn-primary" style="height: 40px;">Cari</button>
                     </form>
                 </div>

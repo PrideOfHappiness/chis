@@ -6,5 +6,7 @@ use Illuminate\Http\Request;
 
 class BackupController extends Controller
 {
-    //
+    public function downloadDatabase(){
+
+    }
 }

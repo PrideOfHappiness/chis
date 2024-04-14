@@ -84,8 +84,8 @@
                         <input type="password" class="form-control" name="password" id="password" value="{{$data->password}}" required>
                     </div>
                     @if($foto->count() > 0)
-                    <label for="gambar" class="form-label">Foto Awal</label>
-                    <div class="form-control">
+                    <label for="gambar">Foto Awal</label>
+                    <div class="mb-3">
                         @foreach($data->setUserIDForFotoUsers as $gambar)
                             <div class="mb-3">
                                 <img width="150px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Plat Nomor">

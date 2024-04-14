@@ -35,8 +35,8 @@
                         <label for="vehicleType">Vehicle Type</label>
                         <select class="form-control" name="vehicleType" id="vehicleType">
                             <option value="">Silahkan pilih data terlebih dahulu!</option>
-                            @foreach($data as $product)
-                                <option value="{{$product->vehicleTypeID}}">{{$product->kendaraan}}-{{$product->kendaraan}}</option>
+                            @foreach($vehicleType as $product)
+                                <option value="{{$product->vehicleTypeID}}">{{$product->kendaraan}}-{{$product->type}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -51,15 +51,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="hargabeli">Harga Beli (Rp.)</label>
-                        <input type="number" class="form-control" name="productname" id="productname" placeholder="Department" required>
+                        <input type="number" class="form-control" name="hargabeli" id="hargabeli" placeholder="Department" required>
                     </div>
                     <div class="mb-3">
                         <label for="hpp">HPP (Rp.)</label>
-                        <input type="number" class="form-control" name="stock" id="stock" placeholder="Stock" required>
+                        <input type="number" class="form-control" name="hpp" id="hpp" placeholder="Stock" required>
                     </div>
                     <div class="mb-3">
                         <label for="hargaJual">Harga Jual (Rp.)</label>
-                        <input type="number" class="form-control" name="productname" id="productname" placeholder="Department" required>
+                        <input type="number" class="form-control" name="hargaJual" id="hargaJual" placeholder="Department" required>
                     </div>
                     <div class="mb-3">
                         <label for="min_stock">Minimum Stock</label>
@@ -93,6 +93,10 @@
                             <option value="Active">Active</option>
                             <option value="Inactive">Not Active</option>
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stock">Notes</label>
+                        <textarea class="form-control" name="notes" id="notes" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="fileFoto">File Produk</label>

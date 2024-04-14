@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('template/header')
-    <title>Data Kategori Produk</title>
+    <title>Data Tipe Kendaraan</title>
 </head>
 <body>
     @include('template/navbar')
@@ -16,8 +16,8 @@
                 </div>
             @endif 
             <header>
-                <h1>Product Category Dashboard</h1>
-                <a class="btn btn-success" href="{{ route('productCategory.create') }}"> 
+                <h1>Vehicle Type Dashboard</h1>
+                <a class="btn btn-success" href="{{ route('vehicleType.create') }}"> 
                     <i class="fa-solid fa-plus"></i>
                         Tambah Data
                 </a>
@@ -25,44 +25,33 @@
             <main>
                 <br>
                 <h6>Data</h6>
-                <div class="table-controls">
-                    <form action="{{route('cariProductCategory')}}" method="post">
-                        @csrf
-                        <label for="searchByData" id="searchByData">Cari berdasarkan: </label>
-                        <select name="searchByData" id="searchByData">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                        </select>
-                        <label for="search">Cari berdasarkan: </label>
-                        <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
-                        <button type="submit" class="btn btn-primary" style="height: 40px;">Cari</button>
-                    </form>
-                </div>
                 <br>
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>No.</th>
                             <th>ID</th>
-                            <th>Category</th>
+                            <th>Merk</th>
+                            <th>Type</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data as $productCategory)
+                        @foreach($hasil as $vehicleType)
                             <tr>
-                                <td>{{ $productCategory->productCategoryID }}</td>
-                                <td>{{ $productCategory->category }}</td>
+                                <td>{{ $vehicleType->vehicleTypeID }}</td>
+                                <td>{{ $vehicleType->ID }}</td>
+                                <td>{{ $vehicleType->kendaraan }}</td>
+                                <td>{{ $vehicleType->type }}</td>
                                 <td>
-                                    <a href="{{route('productCategory.edit', $productCategory->productCategoryID)}}" class="btn btn-success">
+                                    <a href="{{route('vehicleType.edit', $vehicleType->vehicleTypeID)}}" class="btn btn-success">
                                         <i class="fa-solid fa-file-pen"></i>
                                         Edit
                                     </a>
                                 </td>
                                 <td>
-                                    <form action = "{{ route('productCategory.destroy', $productCategory->productCategoryID) }}" method="Post">
+                                    <form action = "{{ route('vehicleType.destroy', $vehicleType->vehicleTypeID) }}" method="Post">
                                         @csrf
                                         <button type="submit" class="badge bg-danger"> 
                                             <i class="fa-solid fa-trash"></i>

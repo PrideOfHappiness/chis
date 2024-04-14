@@ -44,7 +44,7 @@ class ForwarderController extends Controller
         if($id != null){
             Forwarders::create([
                 'code' => $id,
-                'forwarderName' => $name,
+                'forwaderName' => $name,
                 'alamat' => $alamat,
                 'city' => $city,
                 'contact' => $contact,
@@ -61,7 +61,8 @@ class ForwarderController extends Controller
     }
 
     public function edit($id){
-
+        $data = Forwarders::find($id);
+        return view('forwarder.edit', compact('data'));
     }
 
     public function update(Request $request, $id){

@@ -18,7 +18,9 @@ class WarehouseController extends Controller
     }
 
     public function store(Request $request){
-
+        $this->validate($request, [
+            
+        ]);
     }
 
     public function edit($id){

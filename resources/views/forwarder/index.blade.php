@@ -61,8 +61,8 @@
                     <tbody>
                         @foreach($data as $forwarder)
                             <tr>
-                                <td>{{ $forwarder->forwarderID }}</td>
-                                <td>{{ $forwarder->forwarderName }}</td>
+                                <td>{{ $forwarder->forwaderID }}</td>
+                                <td>{{ $forwarder->forwaderName }}</td>
                                 <td>{{ $forwarder->city }}</td>
                                 <td>{{ $forwarder->contact }}</td>
                                 <td>{{ $forwarder->telepon }}</td>
@@ -70,13 +70,13 @@
                                 <td>{{ $forwarder->email }}</td>
                                 <td>{{ $forwarder->status }}</td>
                                 <td>
-                                    <a href="{{route('forwarder.edit', $forwarder->forwarderID)}}" class="btn btn-success">
+                                    <a href="{{route('forwarder.edit', $forwarder->forwaderID)}}" class="btn btn-success">
                                         <i class="fa-solid fa-file-pen"></i>
                                         Edit
                                     </a>
                                 </td>
                                 <td>
-                                    <form action = "{{ route('forwarder.destroy', $forwarder->forwarderID) }}" method="Post">
+                                    <form action = "{{ route('forwarder.destroy', $forwarder->forwaderID) }}" method="Post">
                                         @csrf
                                         <button type="submit" class="badge bg-danger"> 
                                             <i class="fa-solid fa-trash"></i>

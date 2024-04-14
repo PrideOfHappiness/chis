@@ -17,23 +17,23 @@
                     </div>
                 @endif 
                 <h4>Tambah Data Supplier</h4>
-                <form action="{{ route('supplier.store')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('forwarder.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="supplierID">forwarderName</label>
+                        <label for="supplierID">Code</label>
                         <input type="text" class="form-control" name="supplierID" id="supplierID" value="{{$string}}" required>
                     </div>
                     <div class="mb-3">
                         <label for="forwarderName">Forwarder Name</label>
-                        <input type="text" class="form-control" name="forwarderName" id="Forwarder Name" placeholder="forwarderName" required>
+                        <input type="text" class="form-control" name="forwarderName" id="ForwarderName" placeholder="Forwarder Name" required>
                     </div>
                     <div class="mb-3">
                         <label for="address">Address</label>
                         <textarea class="form-control" name="address" id="address" placeholder="Address" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="contact">City</label>
-                        <input type="text" class="form-control" name="contact" id="contact" placeholder="Contact" required>
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" name="city" id="city" placeholder="Contact" required>
                     </div>
                     <div class="mb-3">
                         <label for="contact">Contact</label>

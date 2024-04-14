@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('template/header')
-    <title>Data User</title>
+    <title>Data Supplier</title>
 </head>
 <body>
     @include('template/navbar')
@@ -16,7 +16,7 @@
                 </div>
             @endif 
             <header>
-                <h1>User Dashboard</h1>
+                <h1>Supplier Dashboard</h1>
                 <a class="btn btn-success" href="{{ route('supplier.create') }}"> 
                     <i class="fa-solid fa-plus"></i>
                         Tambah Data
@@ -73,9 +73,7 @@
                                 <td>{{ $supplier->telepon }}</td>
                                 <td>{{ $supplier->teleponHP }}</td>
                                 <td>{{ $supplier->email }}</td>
-                                <td>{{ $supplier->area }}</td>
                                 <td>{{ $supplier->status }}</td>
-                                <td>{{ $supplier->statusPKP }}</td>
                                 <td>
                                     <a href="{{route('supplier.edit', $supplier->supplierID)}}" class="btn btn-success">
                                         <i class="fa-solid fa-file-pen"></i>
