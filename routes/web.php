@@ -37,7 +37,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware(['Admin'])->group(function (){
     Route::get('/admin/home', [HomeController::class, 'testHome'])->name('testHome');
     //User
-    Route::resource('/admin/user', UserController::class)->except(['show']);;
+    Route::resource('/admin/user', UserController::class)->except(['show']);
     Route::post('/admin/user/downloadToCSV', [UserController::class, 'exportToCSV'])->name('user.export');
     Route::get('/admin/user/print', [UserController::class, 'print']);
     Route::post('/admin/user/cari', [UserController::class, 'cari'])->name('cari');
@@ -45,31 +45,49 @@ Route::middleware(['Admin'])->group(function (){
     Route::get('/admin/user/copy/{id}', [UserController::class, 'copy']);
     Route::post('/admin/user/proses/', [UserController::class, 'prosesData'])->name('user.prosesData');
     //Product Category
-    Route::resource('/admin/productCategory', ProductCategoryController::class);
-    Route::post('/admin/productCategory/cari', [VehicleTypeController::class, 'cari'])->name('cariproductCategory');
-    Route::get('/admin/productCategory/print', [VehicleTypeController::class, 'print']);
-    Route::post('/admin/productCategory/downloadToCSV', [VehicleTypeController::class, 'exportToCSV'])->name('productCategory.export');
+    Route::resource('/admin/productCategory', ProductCategoryController::class)->except(['show']);
+    Route::post('/admin/productCategory/cari', [ProductCategoryController::class, 'cari'])->name('cariproductCategory');
+    Route::get('/admin/productCategory/print', [ProductCategoryController::class, 'print']);
+    Route::post('/admin/productCategory/downloadToCSV', [ProductCategoryController::class, 'exportToCSV'])->name('productCategory.export');
     //Vehicle Type
-    Route::resource('/admin/vehicleType', VehicleTypeController::class);
+    Route::resource('/admin/vehicleType', VehicleTypeController::class)->except(['show']);
     Route::post('/admin/vehicleType/cari', [VehicleTypeController::class, 'cari'])->name('cariVehicleType');
     Route::get('/admin/vehicleType/print', [VehicleTypeController::class, 'print']);
     Route::post('/admin/vehicleType/downloadToCSV', [VehicleTypeController::class, 'exportToCSV'])->name('vehicleType.export');
     //User Approval
-    Route::resource('/admin/userApproval', ApprovalController::class);
-    Route::post('/admin/vehicleType/cari', [VehicleTypeController::class, 'cari'])->name('cariVehicleType');
-    Route::get('/admin/vehicleType/print', [VehicleTypeController::class, 'print']);
-    Route::post('/admin/vehicleType/downloadToCSV', [VehicleTypeController::class, 'exportToCSV'])->name('vehicleType.export');
+    Route::resource('/admin/userApproval', ApprovalController::class)->except(['show']);
+    Route::post('/admin/userApproval/cari', [ApprovalController::class, 'cari'])->name('cariApprovalType');
+    Route::get('/admin/userApproval/print', [ApprovalController::class, 'print']);
+    Route::get('/admin/userApproval/downloadToCSV', [ApprovalController::class, 'exportToCSV'])->name('approval.export');
     //Product
-    Route::resource('/admin/product', ProductController::class);
+    Route::resource('/admin/product', ProductController::class)->except(['show']);
+    Route::post('/admin/product/cari', [ProductController::class, 'cari'])->name('cariProductType');
+    Route::get('/admin/product/print', [ProductController::class, 'print']);
+    Route::get('/admin/product/downloadToCSV', [ProductController::class, 'exportToCSV'])->name('product.export');
     //Salesman
-    Route::resource('/admin/salesman', SalesmanController::class);
+    Route::resource('/admin/salesman', SalesmanController::class)->except(['show']);
+    Route::post('/admin/salesman/cari', [SalesmanController::class, 'cari'])->name('cariSalesmanType');
+    Route::get('/admin/salesman/print', [SalesmanController::class, 'print'])->name('printSalesman');
+    Route::get('/admin/salesman/downloadToCSV', [SalesmanController::class, 'exportToCSV'])->name('salesman.export');
     //Customer
-    Route::resource('/admin/customer', CustomerController::class);
+    Route::resource('/admin/customer', CustomerController::class)->except(['show']);
+    Route::post('/admin/customer/cari', [CustomerController::class, 'cari'])->name('cariCustomerType');
+    Route::get('/admin/customer/print', [CustomerController::class, 'print']);
+    Route::get('/admin/customer/downloadToCSV', [CustomerController::class, 'exportToCSV'])->name('customer.export');
+    Route::get('/admin/customer/downloadToExcel', [CustomerController::class, 'exportToExcel'])->name('customer.excel');
     //Supplier
-    Route::resource('/admin/supplier', SupplierController::class);
+    Route::resource('/admin/supplier', SupplierController::class)->except(['show']);
+    Route::post('/admin/supplier/cari', [SupplierController::class, 'cari'])->name('cariSupplierType');
+    Route::get('/admin/supplier/print', [SupplierController::class, 'print']);
+    Route::get('/admin/supplier/downloadToCSV', [SupplierController::class, 'exportToCSV'])->name('supplier.export');
+    Route::get('/admin/supplier/downloadToExcel', [SupplierController::class, 'exportToExcel'])->name('supplier.excel');
     //Warehouse
-    Route::resource('/admin/warehouse', WarehouseController::class);
-    Route::resource('/admin/forwarder', ForwarderController::class);
+    Route::resource('/admin/warehouse', WarehouseController::class)->except('show')->except('destroy');
+    //Forwarder
+    Route::resource('/admin/forwarder', ForwarderController::class)->except(['show']);
+    Route::post('/admin/forwarder/cari', [CustomerController::class, 'cari'])->name('cariForwarderType');
+    Route::get('/admin/forwarder/print', [CustomerController::class, 'print']);
+    Route::post('/admin/forwarder/downloadToCSV', [CustomerController::class, 'exportToCSV'])->name('forwarder.export');
 });
 
 Route::middleware(['auth'])->group(function(){

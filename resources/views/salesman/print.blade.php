@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <title>Data User</title>
+  <title>Data Salesman</title>
   <style>
     body {
         font-family: sans-serif;
@@ -68,39 +68,23 @@
     <header>
     </header>
     <main>
-        <h2>Data User</h2>
+        <h2>Data Salesman</h2>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Photo</th>
                     <th>Name</th>
-                    <th>Username</th>
-                    <th>Branch</th>
-                    <th>Department</th>
-                    <th>Access Group</th>
+                    <th>Code</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dataUser as $item)
+                @foreach($dataProduct as $user)
                     <tr>
-                        <td>{{ $item->userIDNo }}</td>
-                        <td> 
-                            @if($foto->count() === 0)
-                                <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
-                            @else
-                                @foreach($item->setUserIDForFotoUsers as $gambar)
-                                    <img width="50px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Jenis">
-                                @endforeach
-                            @endif
-                    </td>
-                        <td>{{ $item->nama }}</td>
-                        <td>{{ $item->userName }}</td>
-                        <td>{{ $item->branch }}</td>
-                        <td>{{ $item->department }}</td>
-                        <td>{{ $item->getUserAccessFromUserAccess->user_access }}</td>
-                        <td>{{ $item->status }}</td>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->getUserIDFromUsers2->nama }}</td>
+                        <td>{{ $user->alias }}</td>
+                        <td>{{ $user->status }}</td>
                     </tr>
                 @endforeach
             </tbody>

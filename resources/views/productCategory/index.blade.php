@@ -79,11 +79,11 @@
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="{{route('productCategory.export')}}"> 
                     <i class="fa-solid fa-file-export"></i>
                         Export to CSV
                 </a>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/productCategory/print"> 
                     <i class="fa-solid fa-print"></i>
                         Print
                 </a>

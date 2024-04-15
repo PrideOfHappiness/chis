@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('template/header')
-    <title>Data User</title>
+    <title>Data warehouse</title>
 </head>
 <body>
     @include('template/navbar')
@@ -16,8 +16,8 @@
                 </div>
             @endif 
             <header>
-                <h1>User Dashboard</h1>
-                <a class="btn btn-success" href="{{ route('user.create') }}"> 
+                <h1>warehouse Dashboard</h1>
+                <a class="btn btn-success" href="{{ route('warehouse.create') }}"> 
                     <i class="fa-solid fa-plus"></i>
                         Tambah Data
                 </a>
@@ -26,7 +26,7 @@
                 <br>
                 <h6>Data</h6>
                 <div class="table-controls">
-                    <form action="{{route('cari')}}" method="post">
+                    <form action="#" method="post">
                         @csrf
                         <label for="searchByData" id="searchByData">Cari berdasarkan: </label>
                         <select name="searchByData" id="searchByData">
@@ -47,7 +47,7 @@
                             <th>No</th>
                             <th>Code</th>
                             <th>Warehouse</th>
-                            <th>City</th>
+                            <th>Address</th>
                             <th>Contact</th>
                             <th>Phone</th>
                             <th>Email Group</th>
@@ -57,53 +57,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data as $user)
+                        @foreach($data as $warehouse)
                             <tr>
-                                <td>{{ $user->userIDNo }}</td>
+                                <td>{{ $warehouse->warehouseID }}</td>
+                                <td>{{ $warehouse->warehouseIDs }}</td>
+                                <td>{{ $warehouse->warehouseName }}</td>
+                                <td>{{ $warehouse->alamat }}</td>
+                                <td>{{ $warehouse->contact }}</td>
+                                <td>{{ $warehouse->telepon }}</td>
+                                <td>{{ $warehouse->email }}</td>
+                                <td>{{ $warehouse->status }}</td>
                                 <td>
-                                    @if($foto->count() === 0)
-                                        <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
-                                    @else
-                                        @foreach($user->setUserIDForFotoUsers as $gambar)
-                                            <img width="50px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Jenis">
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td>{{ $user->nama }}</td>
-                                <td>{{ $user->userName }}</td>
-                                <td>{{ $user->branch }}</td>
-                                <td>{{ $user->department }}</td>
-                                <td>{{ $user->getUserAccessFromUserAccess->user_access }}</td>
-                                <td>{{ $user->status }}</td>
-                                <td>
-                                    <a href="{{route('user.edit', $user->userIDNo)}}" class="btn btn-success">
+                                    <a href="{{route('warehouse.edit', $warehouse->warehouseID)}}" class="btn btn-success">
                                         <i class="fa-solid fa-file-pen"></i>
                                         Edit
                                     </a>
-                                </td>
-                                <td>
-                                    <form action = "{{ route('user.destroy', $user->userIDNo) }}" method="Post">
-                                        @csrf
-                                        <button type="submit" class="badge bg-danger"> 
-                                            <i class="fa-solid fa-trash"></i>
-                                            Hapus Data
-                                        </button>
-                                    </form>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
                 <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>
-                <a class="btn btn-primary" href="/admin/user/pilihCopy"> 
+                <a class="btn btn-primary" href="/admin/warehouse/pilihCopy"> 
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>
-                <a class="btn btn-primary" href="{{ route('user.export') }}" method="POST"> 
+                <a class="btn btn-primary" href="#" method="POST"> 
                     <i class="fa-solid fa-file-export"></i>
                     Export to CSV
                 </a>
-                <a class="btn btn-primary" href="/admin/user/print"> 
+                <a class="btn btn-primary" href="#"> 
                     <i class="fa-solid fa-print"></i>
                         Print
                 </a>

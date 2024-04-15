@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Suppliers;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class SupplierExport implements FromCollection
@@ -11,6 +12,6 @@ class SupplierExport implements FromCollection
     */
     public function collection()
     {
-        //
+        return Suppliers::all();
     }
 }

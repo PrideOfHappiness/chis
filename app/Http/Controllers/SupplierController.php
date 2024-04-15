@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SupplierExport;
 use App\Models\Suppliers;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SuppliersExcelExport;
 
 class SupplierController extends Controller
 {
@@ -18,14 +22,18 @@ class SupplierController extends Controller
         $total = Suppliers::count();
         if($total == 0){
             $angka = '00001';
-        }elseif($total < 10){
-            $angka = '0000'.$total;
+        }elseif($total !=0 && $total < 10){
+            $angka = $total + 1;
+            $angka = '0000'.$angka;
         }elseif ($total >= 10 && $total < 100) {
-            $angka = '000'.$total;
+            $angka = $total + 1;
+            $angka = '000'.$angka;
         }elseif ($total >= 100 && $total < 1000) {
-            $angka = '00'.$total;
+            $angka = $total + 1;
+            $angka = '000'.$angka;
         }elseif ($total >= 1000 && $total < 10000) {
-            $angka = '0'.$total;
+            $angka = $total + 1;
+            $angka = '000'.$angka;
         }else{
             $angka = $total;
         }
@@ -139,7 +147,41 @@ class SupplierController extends Controller
         $data->delete();
 
         $data = Suppliers::paginate(10);
-        return view('supplier.index', compact('data'))
+        $total = Suppliers::count();
+        return view('supplier.index', compact('data', 'total'))
         ->with('success', 'Data berhasil dihapus!');
+    }
+
+    public function exportToCSV(){
+        return Excel::download(new SupplierExport(), 'dataSupplierDownload.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv']);
+    }
+
+    public function print(Request $request){
+        $PDFdata = Suppliers::all();
+        $pdf = PDF::loadView('supplier.print', compact('PDFdata'));
+        return $pdf->download('Supplier.pdf');
+    }
+
+    public function cari(Request $request){
+        $dataCari = $request->input('search');
+        $pagination = $request->input('searchByData');
+
+        if($dataCari != null && $pagination != null){
+            $data = Suppliers::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            $total = Suppliers::count();
+        }elseif ($dataCari != null) {
+            $data =  Suppliers::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
+            $total = Suppliers::count();
+        }else{
+            $data =  Suppliers::paginate(10);
+            $total = Suppliers::count();
+        }
+
+
+        return view('supplier.hasil', compact('data', 'total'));
+    }
+
+    public function exportToExcel(Request $request){
+        return Excel::download(new SuppliersExcelExport, 'Supplier.xlsx');
     }
 }

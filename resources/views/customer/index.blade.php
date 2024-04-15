@@ -21,7 +21,7 @@
                     <i class="fa-solid fa-plus"></i>
                         Tambah Data
                 </a>
-                <a class="btn btn-success" href="#"> 
+                <a class="btn btn-success" href="{{route('customer.excel')}}"> 
                     <i class="fa-solid fa-file-excel"></i>
                         Excel
                 </a>
@@ -30,7 +30,8 @@
                 <br>
                 <h6>Data</h6>
                 <div class="table-controls">
-                    <form action="{{route('cari')}}" method="post">
+                    <form action="{{route('cariCustomerType')}}" method="post">
+                        @csrf
                         <label for="searchByData" id="searchByData">Cari berdasarkan: </label>
                         <select name="searchByData" id="searchByData">
                                 <option value="10">10</option>
@@ -104,11 +105,11 @@
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="{{route('customer.export')}}"> 
                     <i class="fa-solid fa-file-export"></i>
                         Export to CSV
                 </a>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/customer/print"> 
                     <i class="fa-solid fa-print"></i>
                         Print
                 </a>

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Customers;
 use App\Models\Salesman;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use App\Exports\CustomerExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CustomersExcelExport;
 
 class CustomerController extends Controller
 {
@@ -17,16 +21,20 @@ class CustomerController extends Controller
     public function create(){
         $string = 'CUST-';
         $total = Customers::count();
-        if($total == 0){
+        if($total === 0){
             $angka = '00001';
-        }elseif($total < 10){
-            $angka = '0000'.$total;
+        }elseif($total != 0 && $total < 10){
+            $angka = $total + 1;
+            $angka = '000'.$angka;
         }elseif ($total >= 10 && $total < 100) {
-            $angka = '000'.$total;
+            $angka = $total + 1;
+            $angka = '000'.$angka;
         }elseif ($total >= 100 && $total < 1000) {
-            $angka = '00'.$total;
+            $angka = $total + 1;
+            $angka = '000'.$angka;
         }elseif ($total >= 1000 && $total < 10000) {
-            $angka = '0'.$total;
+            $angka = $total + 1;
+            $angka = '000'.$angka;
         }else{
             $angka = $total;
         }
@@ -94,7 +102,8 @@ class CustomerController extends Controller
         ]);
 
         $data = Customers::paginate(10);
-        return view('customer.index', compact('data'))
+        $total = Customers::count();
+        return view('customer.index', compact('data', 'total'))
         ->with('success', 'Data customer behasil ditambahkan!');
     }
 
@@ -148,6 +157,45 @@ class CustomerController extends Controller
     }
 
     public function destroy($id){
+        $dataHapus = Customers::find($id);
+        $dataHapus->delete();
 
+        $data = Customers::paginate(10);
+        $total = Customers::count();
+        return view('customer.index', compact('data', 'total'))
+        ->with('success', 'Data customer behasil dihapus!');
+    }
+
+    public function exportToCSV(Request $request){
+        return Excel::download(new CustomerExport(), 'dataCustomersDownload.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv']);
+    }
+
+    public function print(Request $request){
+        $dataProduct = Customers::all();
+        $pdf = PDF::loadView('customer.print', compact('dataProduct'));
+        return $pdf->download('Customer.pdf');
+    }
+
+    public function cari(Request $request){
+        $dataCari = $request->input('search');
+        $pagination = $request->input('searchByData');
+
+        if($dataCari != null && $pagination != null){
+            $data = Customers::where('customerName', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            $total = Customers::count();
+        }elseif ($dataCari != null) {
+            $data =  Customers::where('customerName', 'LIKE', '%' . $dataCari . '%')->get();
+            $total = Customers::count();
+        }else{
+            $data =  Customers::paginate(10);
+            $total = Customers::count();
+        }
+
+
+        return view('customer.hasil', compact('data', 'total'));
+    }
+
+    public function exportToExcel(Request $request){
+        return Excel::download(new CustomersExcelExport, 'Customer.xlsx');
     }
 }

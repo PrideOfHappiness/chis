@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ForwarderExport;
 use Illuminate\Http\Request;
 use App\Models\Forwarders;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ForwarderController extends Controller
 {
@@ -71,5 +74,34 @@ class ForwarderController extends Controller
 
     public function destroy($id){
 
+    }
+
+    public function exportToCSV(Request $request){
+        return Excel::download(new ForwarderExport(), 'dataSupplierDownload.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv']);
+    }
+
+    public function print(Request $request){
+        $dataProduct = Forwarders::all();
+        $pdf = PDF::loadView('supplier.print', compact('dataProduct'));
+        return $pdf->download('Supplier.pdf');
+    }
+
+    public function cari(Request $request){
+        $dataCari = $request->input('search');
+        $pagination = $request->input('searchByData');
+
+        if($dataCari != null && $pagination != null){
+            $data = Forwarders::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            $total = Forwarders::count();
+        }elseif ($dataCari != null) {
+            $data =  Forwarders::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
+            $total = Forwarders::count();
+        }else{
+            $data =  Forwarders::paginate(10);
+            $total = Forwarders::count();
+        }
+
+
+        return view('supplier.hasil', compact('data', 'total'));
     }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <title>Data Vehicle Type</title>
+  <title>Data Product Category</title>
   <style>
     body {
         font-family: sans-serif;
@@ -72,21 +72,17 @@
         <table>
             <thead>
                 <tr>
-                    <th>No.</th>
                     <th>ID</th>
-                    <th>Merk</th>
-                    <th>Type</th>
+                    <th>Category</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($dataProduct as $vehicleType)
+                @foreach($dataProduct as $productCategory)
                     <tr>
-                        <td>{{ $vehicleType->vehicleTypeID }}</td>
-                        <td>{{ $vehicleType->ID }}</td>
-                        <td>{{ $vehicleType->kendaraan }}</td>
-                        <td>{{ $vehicleType->type }}</td>
+                        <td>{{ $productCategory->productCategoryID }}</td>
+                        <td>{{ $productCategory->category }}</td>
                     </tr>
                 @endforeach
             </tbody>

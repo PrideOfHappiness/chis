@@ -26,7 +26,7 @@
                 <br>
                 <h6>Data</h6>
                 <div class="table-controls">
-                    <form action="#" method="post">
+                    <form action="{{route('cariSalesmanType')}}" method="post">
                         <label for="searchByData" id="searchByData">Cari berdasarkan: </label>
                         <select name="searchByData" id="searchByData">
                                 <option value="10">10</option>
@@ -82,11 +82,11 @@
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="{{route('salesman.export')}}"> 
                     <i class="fa-solid fa-file-export"></i>
                         Export to CSV
                 </a>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/salesman/print"> 
                     <i class="fa-solid fa-print"></i>
                         Print
                 </a>

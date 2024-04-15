@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\VehicleType;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductExport;
 
 class ProductController extends Controller
 {
@@ -169,10 +172,35 @@ class ProductController extends Controller
     }
 
     public function print(Request $request){
-
+        $dataProduct = Product::all();
+        $foto = Product::with('setProductIDForFotoProduct')->get();
+        $pdf = PDF::loadView('product.print', compact('dataProduct', 'foto'));
+        return $pdf->download('Product.pdf');
     }
 
     public function exportToCSV(Request $request){
+        return Excel::download(new ProductExport(), 'dataProductDownload.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv']);
+    }
 
+    public function cari(Request $request){
+        $countData = $request->input('searchByData');
+        $cari = $request->input('search');
+
+        if($countData != null && $cari != null){
+            $data = Product::where('nama', 'LIKE', '%' . $cari . '%')->paginate($countData);
+            $foto = Product::with('setProductIDForFotoProduct')->get();
+            $total = Product::count();
+        }elseif ($cari != null) {
+            $data =  Product::where('nama', 'LIKE', '%' . $cari . '%')->get();
+            $foto = Product::with('setProductIDForFotoProduct')->get();
+            $total = Product::count();
+        }else{
+            $data =  Product::paginate(10);
+            $foto = Product::with('setProductIDForFotoProduct')->get();
+            $total = Product::count();
+        }
+
+
+        return view('product.hasil', compact('data', 'foto', 'total'));
     }
 }

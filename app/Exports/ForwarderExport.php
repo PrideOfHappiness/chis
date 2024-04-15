@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Forwarders;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ForwarderExport implements FromCollection
@@ -11,6 +12,6 @@ class ForwarderExport implements FromCollection
     */
     public function collection()
     {
-        //
+        return Forwarders::all();
     }
 }

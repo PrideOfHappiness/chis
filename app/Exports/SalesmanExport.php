@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Salesman;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class SalesmanExport implements FromCollection
@@ -11,6 +12,6 @@ class SalesmanExport implements FromCollection
     */
     public function collection()
     {
-        //
+        return Salesman::all();
     }
 }

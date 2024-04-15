@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\UserApproval;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ApprovalExport implements FromCollection
@@ -11,6 +12,6 @@ class ApprovalExport implements FromCollection
     */
     public function collection()
     {
-        //
+        return UserApproval::all();
     }
 }

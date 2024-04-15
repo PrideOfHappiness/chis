@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Salesman;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use App\Exports\SalesmanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SalesmanController extends Controller
 {
@@ -99,6 +102,31 @@ class SalesmanController extends Controller
     }
 
     public function exportToCSV(Request $request){
-        
+        return Excel::download(new SalesmanExport(), 'dataSalesmanDownload.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv']);
+    }
+
+    public function print(Request $request){
+        $dataProduct = Salesman::all();
+        $pdf = PDF::loadView('salesman.print', compact('dataProduct'));
+        return $pdf->download('Salesman.pdf');
+    }
+
+    public function cari(Request $request){
+        $dataCari = $request->input('search');
+        $pagination = $request->input('searchByData');
+
+        if($dataCari != null && $pagination != null){
+            $data = Salesman::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            $total = Salesman::count();
+        }elseif ($dataCari != null) {
+            $data =  Salesman::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
+            $total = Salesman::count();
+        }else{
+            $data =  Salesman::paginate(10);
+            $total = Salesman::count();
+        }
+
+
+        return view('salesman.hasil', compact('data', 'total'));
     }
 }

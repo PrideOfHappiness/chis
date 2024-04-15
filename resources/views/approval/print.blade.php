@@ -73,34 +73,24 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Photo</th>
+                    <th>Approval</th>
+                    <th>Sequence</th>
+                    <th>Responsible As</th>
                     <th>Name</th>
-                    <th>Username</th>
-                    <th>Branch</th>
-                    <th>Department</th>
-                    <th>Access Group</th>
                     <th>Status</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dataUser as $item)
+                @foreach($dataProduct as $productCategory)
                     <tr>
-                        <td>{{ $item->userIDNo }}</td>
-                        <td> 
-                            @if($foto->count() === 0)
-                                <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
-                            @else
-                                @foreach($item->setUserIDForFotoUsers as $gambar)
-                                    <img width="50px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Jenis">
-                                @endforeach
-                            @endif
-                    </td>
-                        <td>{{ $item->nama }}</td>
-                        <td>{{ $item->userName }}</td>
-                        <td>{{ $item->branch }}</td>
-                        <td>{{ $item->department }}</td>
-                        <td>{{ $item->getUserAccessFromUserAccess->user_access }}</td>
-                        <td>{{ $item->status }}</td>
+                        <td>{{ $productCategory->productCategoryID }}</td>
+                        <td>{{ $productCategory->approval }}</td>
+                        <td>{{ $productCategory->sequence }}</td>
+                        <td>{{ $productCategory->jabatan }}</td>
+                        <td>{{ $productCategory->getUserIDFromUsers->nama }}</td>
+                        <td>{{ $productCategory->status }}</td>
                     </tr>
                 @endforeach
             </tbody>

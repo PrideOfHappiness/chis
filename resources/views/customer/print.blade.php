@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <title>Data Vehicle Type</title>
+  <title>Data Customers</title>
   <style>
     body {
         font-family: sans-serif;
@@ -68,25 +68,43 @@
     <header>
     </header>
     <main>
-        <h2>Data Vehicle Type</h2>
+        <h2>Data Customers</h2>
         <table>
             <thead>
                 <tr>
-                    <th>No.</th>
+                    <th>No</th>
                     <th>ID</th>
-                    <th>Merk</th>
-                    <th>Type</th>
+                    <th>Code</th>
+                    <th>Customer</th>
+                    <th>Delivery Address</th>
+                    <th>Contact</th>
+                    <th>Phone</th>
+                    <th>HP</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Area</th>
+                    <th>Status</th>
+                    <th>PKP</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($dataProduct as $vehicleType)
+                @foreach($dataProduct as $customer)
                     <tr>
-                        <td>{{ $vehicleType->vehicleTypeID }}</td>
-                        <td>{{ $vehicleType->ID }}</td>
-                        <td>{{ $vehicleType->kendaraan }}</td>
-                        <td>{{ $vehicleType->type }}</td>
+                        <td>{{ $customer->customerID }}</td>
+                        <td>{{ $customer->customerIDs }}</td>
+                        <td>{{ $customer->code }}</td>
+                        <td>{{ $customer->customerName }}</td>
+                        <td>{{ $customer->deliveryAddress }}</td>
+                        <td>{{ $customer->contact }}</td>
+                        <td>{{ $customer->telepon }}</td>
+                        <td>{{ $customer->teleponHP }}</td>
+                        <td>{{ $customer->email }}</td>
+                        <td>{{ $customer->kota }}</td>
+                        <td>{{ $customer->area }}</td>
+                        <td>{{ $customer->status }}</td>
+                        <td>{{ $customer->statusPKP }}</td>
                     </tr>
                 @endforeach
             </tbody>

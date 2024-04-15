@@ -278,7 +278,8 @@ class UserController extends Controller
 
     public function print(Request $request){
         $dataUser = User::all();
-        $pdf = PDF::loadView('user.print', compact('dataUser'));
+        $foto = User::with('setUserIDForFotoUsers')->get();
+        $pdf = PDF::loadView('user.print', compact('dataUser', 'foto'));
         return $pdf->download('User.pdf');
     }
 

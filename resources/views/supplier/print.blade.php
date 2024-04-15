@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <title>Data User</title>
+  <title>Data Supplier</title>
   <style>
     body {
         font-family: sans-serif;
@@ -66,41 +66,37 @@
 </head>
 <body> 
     <header>
+        <h2>Data Supplier</h2>
     </header>
     <main>
-        <h2>Data User</h2>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Photo</th>
-                    <th>Name</th>
-                    <th>Username</th>
-                    <th>Branch</th>
-                    <th>Department</th>
-                    <th>Access Group</th>
+                    <th>ID</th>
+                    <th>Code</th>
+                    <th>Supplier Name</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>Phone</th>
+                    <th>HP</th>
+                    <th>Email</th>       
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dataUser as $item)
+                @foreach($PDFdata as $supplier)
                     <tr>
-                        <td>{{ $item->userIDNo }}</td>
-                        <td> 
-                            @if($foto->count() === 0)
-                                <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
-                            @else
-                                @foreach($item->setUserIDForFotoUsers as $gambar)
-                                    <img width="50px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Jenis">
-                                @endforeach
-                            @endif
-                    </td>
-                        <td>{{ $item->nama }}</td>
-                        <td>{{ $item->userName }}</td>
-                        <td>{{ $item->branch }}</td>
-                        <td>{{ $item->department }}</td>
-                        <td>{{ $item->getUserAccessFromUserAccess->user_access }}</td>
-                        <td>{{ $item->status }}</td>
+                        <td>{{ $supplier->supplierID }}</td>
+                        <td>{{ $supplier->supplierIDs }}</td>
+                        <td>{{ $supplier->code }}</td>
+                        <td>{{ $supplier->supplierName }}</td>
+                        <td>{{ $supplier->alamat }}</td>
+                        <td>{{ $supplier->contact }}</td>
+                        <td>{{ $supplier->telepon }}</td>
+                        <td>{{ $supplier->teleponHP }}</td>
+                        <td>{{ $supplier->email }}</td>
+                        <td>{{ $supplier->status }}</td>
                     </tr>
                 @endforeach
             </tbody>
