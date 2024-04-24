@@ -68,4 +68,8 @@ class User extends Authenticatable
     public function setUserIDForSales(){
         return $this->hasMany(Salesman::class, 'userID');
     }
+
+    public function setUserIDForCustomer(){
+        return $this->hasMany(Customers::class, 'userIDSales', 'customerID');
+    }
 }

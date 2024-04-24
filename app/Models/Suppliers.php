@@ -26,4 +26,8 @@ class Suppliers extends Model
         'npwp',
         'teleponFax',
     ];
+
+    public function setSupplierID(){
+        return $this->hasMany(PurchaseOrder::class, 'supplier', 'purchaseOrderID');
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApprovalController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ForwarderController;
 use App\Http\Controllers\ProductController;
@@ -27,7 +28,7 @@ use App\Http\Controllers\VehicleTypeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Auth::routes();
@@ -83,11 +84,17 @@ Route::middleware(['Admin'])->group(function (){
     Route::get('/admin/supplier/downloadToExcel', [SupplierController::class, 'exportToExcel'])->name('supplier.excel');
     //Warehouse
     Route::resource('/admin/warehouse', WarehouseController::class)->except('show')->except('destroy');
+    Route::post('/admin/warehouse/cari', [WarehouseController::class, 'cari'])->name('cariWarehouseType');
+    Route::get('/admin/warehouse/print', [WarehouseController::class, 'print']);
+    Route::post('/admin/warehouse/downloadToCSV', [WarehouseController::class, 'exportToCSV'])->name('warehouse.export');
     //Forwarder
     Route::resource('/admin/forwarder', ForwarderController::class)->except(['show']);
     Route::post('/admin/forwarder/cari', [CustomerController::class, 'cari'])->name('cariForwarderType');
     Route::get('/admin/forwarder/print', [CustomerController::class, 'print']);
     Route::post('/admin/forwarder/downloadToCSV', [CustomerController::class, 'exportToCSV'])->name('forwarder.export');
+    //Backup
+    Route::get('/admin/backup', [BackupController::class, 'index']);
+    Route::get('/admin/backup/download', [BackupController::class, 'downloadDatabase'])->name('backup');
 });
 
 Route::middleware(['auth'])->group(function(){

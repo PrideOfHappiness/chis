@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Warehouses;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\WarehouseExport;
 
 class WarehouseController extends Controller
 {
@@ -87,5 +90,34 @@ class WarehouseController extends Controller
         $total = Warehouses::count();
         return view('warehouse.index', compact('data', 'total'))
         ->with('success', 'Data berhasil diubah!');
+    }
+
+    public function exportToCSV(Request $request){
+        return Excel::download(new WarehouseExport(), 'dataVehicleTypeDownload.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv']);
+    }
+
+    public function print(Request $request){
+        $dataProduct = Warehouses::all();
+        $pdf = PDF::loadView('warehouse.print', compact('dataProduct'));
+        return $pdf->download('Warehouses.pdf');
+    }
+
+    public function cari(Request $request){
+        $dataCari = $request->input('search');
+        $pagination = $request->input('searchByData');
+
+        if($dataCari != null && $pagination != null){
+            $data = Warehouses::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            $total = Warehouses::count();
+        }elseif ($dataCari != null) {
+            $data =  Warehouses::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
+            $total = Warehouses::count();
+        }else{
+            $data =  Warehouses::paginate(10);
+            $total = Warehouses::count();
+        }
+
+
+        return view('warehouse.hasil', compact('data', 'total'));
     }
 }

@@ -29,4 +29,12 @@ class Customers extends Model
         'deliveryAddress',
         'bayarPer',
     ];
+
+    public function setCustomerID(){
+        return $this->hasMany(SalesOrder::class, 'customers', 'customerID');
+    }
+
+    public function getUserID(){
+        return $this->belongsTo(User::class, 'userIDSales', 'userIDNo');
+    }
 }

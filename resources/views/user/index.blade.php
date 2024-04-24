@@ -107,7 +107,7 @@
                     <i class="fa-solid fa-print"></i>
                         Print
                 </a>
-
+                {!! $data->links() !!}
             </main>
         </div>
     </div>

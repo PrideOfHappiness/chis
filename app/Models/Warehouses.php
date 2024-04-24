@@ -21,4 +21,8 @@ class Warehouses extends Model
         'email',
         'status',
     ];
+
+    public function setWarehouseID(){
+        return $this->hasMany(InvoiceRecieved::class, 'warehouseID', 'invoiceRecievedID');
+    }
 }

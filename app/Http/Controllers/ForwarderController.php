@@ -69,11 +69,44 @@ class ForwarderController extends Controller
     }
 
     public function update(Request $request, $id){
+        $dataID = Forwarders::find($id);
+        $this->validate($request, [
+            'supplierID' => 'required',
+            'forwarderName' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'contact' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'status' => 'required',
+        ]);
 
+        if($id != null){
+            $dataID->id = $request->input('supplierID');
+            $dataID->name = $request->input('forwarderName');
+            $dataID->alamat = $request->input('address');
+            $dataID->city = $request->input('city');
+            $dataID->contact = $request->input('contact');
+            $dataID->phone = $request->input('phone');
+            $dataID->email = $request->input('email');
+            $dataID->status = $request->input('status');
+            $dataID->update();
+
+            $data = Forwarders::paginate(10);
+            $total = Forwarders::count();
+            return view('forwarder.index', compact('data', 'total'))->with('success', 'Data berhasil diubah!');
+        }else{
+            return view('forwarder.edit')->with('error', 'ID belum tersedia!');
+        }
     }
 
     public function destroy($id){
+        $dataID = Forwarders::find($id);
+        $dataID->delete();
 
+        $data = Forwarders::paginate(10);
+        $total = Forwarders::count();
+        return view('forwarder.index', compact('data', 'total'))->with('success', 'Data berhasil dihapus!');
     }
 
     public function exportToCSV(Request $request){

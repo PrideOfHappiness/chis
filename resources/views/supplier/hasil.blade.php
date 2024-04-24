@@ -77,6 +77,35 @@
                                 </td>
                             </tr>
                         @endforeach
+                        @foreach($data as $supplier)
+                            <tr>
+                                <td>{{ $supplier->supplierID }}</td>
+                                <td>{{ $supplier->supplierIDs }}</td>
+                                <td>{{ $supplier->code }}</td>
+                                <td>{{ $supplier->supplierName }}</td>
+                                <td>{{ $supplier->alamat }}</td>
+                                <td>{{ $supplier->contact }}</td>
+                                <td>{{ $supplier->telepon }}</td>
+                                <td>{{ $supplier->teleponHP }}</td>
+                                <td>{{ $supplier->email }}</td>
+                                <td>{{ $supplier->status }}</td>
+                                <td>
+                                    <a href="{{route('supplier.edit', $supplier->supplierID)}}" class="btn btn-success">
+                                        <i class="fa-solid fa-file-pen"></i>
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <form action = "{{ route('supplier.destroy', $supplier->supplierID) }}" method="Post">
+                                        @csrf
+                                        <button type="submit" class="badge bg-danger"> 
+                                            <i class="fa-solid fa-trash"></i>
+                                            Hapus Data
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>

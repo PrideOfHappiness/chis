@@ -26,7 +26,7 @@
                 <br>
                 <h6>Data</h6>
                 <div class="table-controls">
-                    <form action="#" method="post">
+                    <form action="{{route('cariWarehouseType')}}" method="post">
                         @csrf
                         <label for="searchByData" id="searchByData">Cari berdasarkan: </label>
                         <select name="searchByData" id="searchByData">

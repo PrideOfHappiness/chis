@@ -167,11 +167,19 @@ class SupplierController extends Controller
         $pagination = $request->input('searchByData');
 
         if($dataCari != null && $pagination != null){
-            $data = Suppliers::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            $data = Suppliers::where('supplierName', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
             $total = Suppliers::count();
+            if(!$data){
+                $data = Suppliers::where('alamat', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+                $total = Suppliers::count();
+            }
         }elseif ($dataCari != null) {
-            $data =  Suppliers::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
+            $data =  Suppliers::where('supplierName', 'LIKE', '%' . $dataCari . '%')->get();
             $total = Suppliers::count();
+            if($data == null){
+                $data = Suppliers::where('alamat', 'LIKE', '%' . $dataCari . '%')->get();
+                $total = Suppliers::count();
+            }
         }else{
             $data =  Suppliers::paginate(10);
             $total = Suppliers::count();

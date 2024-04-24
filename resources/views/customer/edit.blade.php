@@ -30,7 +30,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="customerName">Customer Name</label>
-                        <input type="text" class="form-control" name="customerName" id="customerName" value="{{$data->customername}}" required>
+                        <input type="text" class="form-control" name="customerName" id="customerName" value="{{$data->customerName}}" required>
                     </div>
                     <div class="mb-3">
                         <label for="address">Address</label>
@@ -101,7 +101,7 @@
                     <div class="mb-3">
                         <label for="salesmanID">Salesman</label>
                         <select class="form-control" name="salesmanID" id="salesmanID">
-                            <option value="{{$data->userIDSales}}">{{$data->getUserIDFromUsers2->nama}}</option>
+                            <option value="{{$data->userIDSales}}">{{$data->getUserID->nama}}</option>
                             <option value="">--</option>
                             @foreach ($sales as $person)
                                 <option value="{{$person->id}}">{{$person->getUserIDFromUsers2->nama}}</option>
