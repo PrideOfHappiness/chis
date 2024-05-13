@@ -53,7 +53,31 @@
                     </div>
                     <div class="mb-3">
                         <label for="fax">Fax</label>
-                        <input type="text" class="form-control" name="fax" id="fax" placeholder="Fax" required>
+                        <input type="text" class="form-control" name="fax" id="fax" placeholder="Fax">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone">Other Phone</label>
+                        <input type="text" class="form-control" name="phone2" id="phone" placeholder="Phone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneHP">Other Mobile Phone Number</label>
+                        <input type="text" class="form-control" name="phoneHP2" id="phoneHP" placeholder="Mobile Phone Number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fax">Other Fax</label>
+                        <input type="text" class="form-control" name="fax2" id="fax" placeholder="Fax">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone">Other Phone Number 2</label>
+                        <input type="text" class="form-control" name="phone3" id="phone" placeholder="Phone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneHP">Other Mobile Phone Number 2</label>
+                        <input type="text" class="form-control" name="phoneHP3" id="phoneHP" placeholder="Mobile Phone Number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fax">Other Fax Number 2</label>
+                        <input type="text" class="form-control" name="fax3" id="fax" placeholder="Fax">
                     </div>
                     <div class="mb-3">
                         <label for="email">Email</label>

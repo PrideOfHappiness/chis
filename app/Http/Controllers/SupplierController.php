@@ -120,6 +120,7 @@ class SupplierController extends Controller
             'top' => 'required',
         ]);
 
+        $data->test = $request->input('test');
         $data->supplierID = $request->input('supplierID');
         $data->code = $request->input('code');
         $data->supplierName = $request->input('supplierName');
@@ -128,6 +129,12 @@ class SupplierController extends Controller
         $data->phone = $request->input('phone');
         $data->phoneHP = $request->input('phoneHP');
         $data->fax = $request->input('fax');
+        $data->phone2 = $request->input('phone2');
+        $data->phoneHP2 = $request->input('phoneHP2');
+        $data->fax2 = $request->input('fax2');
+        $data->phone3 = $request->input('phone3');
+        $data->phoneHP3 = $request->input('phoneHP3');
+        $data->fax3 = $request->input('fax3');
         $data->email = $request->input('email');
         $data->city = $request->input('city');
         $data->status = $request->input('status');
@@ -169,19 +176,39 @@ class SupplierController extends Controller
         if($dataCari != null && $pagination != null){
             $data = Suppliers::where('supplierName', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
             $total = Suppliers::count();
-            if(!$data){
-                $data = Suppliers::where('alamat', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            if($data == null){
+                $data = Suppliers::where('code', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('alamat', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('contact', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('telepon', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('teloponHP', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('email', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('kategori', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('status', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('bayarPer', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')
+                ->paginate($pagination);
                 $total = Suppliers::count();
             }
-        }elseif ($dataCari != null) {
+        }elseif ($dataCari != null && $pagination == null) {
             $data =  Suppliers::where('supplierName', 'LIKE', '%' . $dataCari . '%')->get();
             $total = Suppliers::count();
             if($data == null){
-                $data = Suppliers::where('alamat', 'LIKE', '%' . $dataCari . '%')->get();
+                $data = Suppliers::where('code', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('alamat', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('contact', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('telepon', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('teloponHP', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('email', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('kategori', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('status', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('bayarPer', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')
+                ->get();
                 $total = Suppliers::count();
             }
         }else{
-            $data =  Suppliers::paginate(10);
+            $data =  Suppliers::paginate($pagination);
             $total = Suppliers::count();
         }
 

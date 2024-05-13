@@ -41,7 +41,6 @@
                         </select>
                         <label for="search">Cari berdasarkan: </label>
                         <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
-                        <button type="submit" class="btn btn-primary" style="height: 40px;">Cari</button>
                     </form>
                 </div>
                 <br>
@@ -119,4 +118,58 @@
     </div>
 </body>
 @include('template/footer')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let inputCari = document.getElementById('searchInput');
+        inputCari.addEventListener('input', function() {
+            let dataCari = inputCari.value();
+        });
+
+        function dapatHasilCari(searchTerm){
+            fetch(`/admin/supplier/cari?query=${searchTerm}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tablebody = document.querySelector('tbody');
+                    tablebody.innerHTML = '';
+
+                    const newTableHTML = data.map((customer, index) => `
+                    <tr>
+                            <td>${index + 1}</td>
+                            <td>${customer.customerID}</td>
+                            <td>${customer.code}</td>
+                            <td>${customer.customerName}</td>
+                            <td>${customer.deliveryAddress}</td>
+                            <td>${customer.contact}</td>
+                            <td>${customer.telepon}</td>
+                            <td>${customer.teleponHP}</td>
+                            <td>${customer.email}</td>
+                            <td>${customer.kota}</td>
+                            <td>${customer.area}</td>
+                            <td>${customer.status}</td>
+                            <td>${customer.statusPKP}</td>
+                            <td>
+                                <a href="{{route('customer.edit', '${customer.customerID}')}}" class="btn btn-success">
+                                    <i class="fa-solid fa-file-pen"></i>
+                                    Edit
+                                </a>
+                            </td>
+                            <td>
+                                <form action = "{{ route('customer.destroy', '${customer.customerID}') }}" method="Post">
+                                    @csrf
+                                    <button type="submit" class="badge bg-danger"> 
+                                        <i class="fa-solid fa-trash"></i>
+                                        Hapus Data
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    `).join('');
+                    tableBody.innerHTML = newTableHTML;
+                })
+                .catch(error => {
+                    console.error('Error tangkap hasil pencarian: ', error);
+                })
+        }
+    });
+</script>
 </html>

@@ -3,12 +3,6 @@
 <head>
     @include('template/header')
     <title>Tambah Data Supplier</title>
-    <style>
-        .column {
-            float: left;
-            width: 50%; 
-        }
-    </style>
 </head>
 <body>
     @include('template/navbar')
@@ -25,126 +19,85 @@
                 <h4>Tambah Data supplier</h4>
                 <form action="{{ route('supplier.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID">Supplier ID</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" value="{{$gabungan}}" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="supplierID">Supplier ID</label>
+                        <input type="text" class="form-control" name="supplierID" id="supplierID" value="{{$gabungan}}" required>
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Code</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Code" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="code">Code</label>
+                        <input type="text" class="form-control" name="code" id="code" placeholder="Code" required>
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Supplier Name</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Supplier Name" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="supplierName">Supplier Name</label>
+                        <input type="text" class="form-control" name="supplierName" id="supplierName" placeholder="Kategori" required>
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Alamat</label>
-                        </div>
-                        <div class="col-md-8">
-                            <textarea class="form-control" name="alamat" id="alamat" placeholder="Alamat" required></textarea>
-                        </div>
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        <textarea class="form-control" name="address" id="address" placeholder="Address" required></textarea>
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Code</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Code" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="contact">Contact</label>
+                        <input type="text" class="form-control" name="contact" id="contact" placeholder="Contact" required>
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Supplier Name</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Supplier Name" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required>
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Code</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Code" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="phoneHP">Mobile Phone Number</label>
+                        <input type="text" class="form-control" name="phoneHP" id="phoneHP" placeholder="Mobile Phone Number" required>
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Supplier Name</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Supplier Name" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="fax">Fax</label>
+                        <input type="text" class="form-control" name="fax" id="fax" placeholder="Fax" required>
                     </div>
-                    <br>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Code</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Code" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="phone">Other Phone</label>
+                        <input type="text" class="form-control" name="phone2" id="phone" placeholder="Phone">
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Supplier Name</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Supplier Name" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="phoneHP">Other Mobile Phone Number</label>
+                        <input type="text" class="form-control" name="phoneHP2" id="phoneHP" placeholder="Mobile Phone Number">
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Code</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Code" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="fax">Other Fax</label>
+                        <input type="text" class="form-control" name="fax2" id="fax" placeholder="Fax">
                     </div>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Supplier Name</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Supplier Name" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="phone">Other Phone Number 2</label>
+                        <input type="text" class="form-control" name="phone3" id="phone" placeholder="Phone">
                     </div>
-                    <br>
-                    <br>
-                    <div class="column">
-                        <div class="col-md-4">
-                            <label for="supplierID" class="form-label">Code</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="supplierID" id="supplierID" placeholder="Code" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="phoneHP">Other Mobile Phone Number 2</label>
+                        <input type="text" class="form-control" name="phoneHP3" id="phoneHP" placeholder="Mobile Phone Number">
                     </div>
-                    <br>
-                    
+                    <div class="mb-3">
+                        <label for="fax">Other Fax Number 2</label>
+                        <input type="text" class="form-control" name="fax3" id="fax" placeholder="Fax">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="npwp">NPWP</label>
+                        <input type="text" class="form-control" name="npwp" id="npwp" placeholder="City" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="npwp">Category</label>
+                        <input type="text" class="form-control" name="category" id="category" placeholder="City" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status" id="status">
+                            <option value="Active">Active</option>
+                            <option value="Not Active">Not Active</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="top">Term of Payment</label>
+                        <input type="text" class="form-control" name="top" id="top" placeholder="Term of Payment" required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>
                 </form>
             </section>

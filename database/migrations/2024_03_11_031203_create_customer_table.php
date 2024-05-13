@@ -22,6 +22,12 @@ return new class extends Migration
             $table->string('telepon');
             $table->string('teleponHP');
             $table->string('teleponFax');
+            $table->string('telepon2')->nullable();
+            $table->string('teleponHP2')->nullable();
+            $table->string('teleponFax2')->nullable();
+            $table->string('telepon3')->nullable();
+            $table->string('teleponHP3')->nullable();
+            $table->string('teleponFax3')->nullable();
             $table->string('email');
             $table->string('kota');
             $table->string('area');

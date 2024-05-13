@@ -74,6 +74,12 @@ class CustomerController extends Controller
         $phone = $request->input('phone');
         $phoneHP = $request->input('phoneHP');
         $fax = $request->input('fax');
+        $phone2 = $request->input('phone2');
+        $phoneHP2 = $request->input('phoneHP2');
+        $fax2 = $request->input('fax2');
+        $phone3 = $request->input('phone3');
+        $phoneHP3 = $request->input('phoneHP3');
+        $fax3 = $request->input('fax3');
         $email = $request->input('email');
         $city = $request->input('city');
         $area = $request->input('area');
@@ -91,6 +97,12 @@ class CustomerController extends Controller
             'telepon' => $phone,
             'teleponHP' => $phoneHP,
             'teleponFax' => $fax,
+            'telepon2' => $phone2,
+            'teleponHP2' => $phoneHP2,
+            'teleponFax2' => $fax3,
+            'telepon3' => $phone3,
+            'teleponHP3' => $phoneHP3,
+            'teleponFax3' => $fax3,
             'email' => $email,
             'kota' => $city,
             'area' => $area,
@@ -143,6 +155,12 @@ class CustomerController extends Controller
         $data->phone = $request->input('phone');
         $data->phoneHP = $request->input('phoneHP');
         $data->fax = $request->input('fax');
+        $data->phone2 = $request->input('phone2');
+        $data->phoneHP2 = $request->input('phoneHP2');
+        $data->fax2 = $request->input('fax2');
+        $data->phone3 = $request->input('phone3');
+        $data->phoneHP3 = $request->input('phoneHP3');
+        $data->fax3 = $request->input('fax3');
         $data->email = $request->input('email');
         $data->city = $request->input('city');
         $data->area = $request->input('area');
@@ -181,13 +199,32 @@ class CustomerController extends Controller
         $pagination = $request->input('searchByData');
 
         if($dataCari != null && $pagination != null){
-            $data = Customers::where('customerName', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
+            $data = Customers::where('customerName', 'LIKE', '%' . $dataCari . '%')
+                ->orWhere('alamat', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('contact', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('telepon', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('teloponHP', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('email', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('kategori', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('status', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('bayarPer', 'LIKE', '%'. $dataCari . '%')
+                ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')
+                ->paginate($pagination);
             $total = Customers::count();
         }elseif ($dataCari != null) {
-            $data =  Customers::where('customerName', 'LIKE', '%' . $dataCari . '%')->get();
+            $data =  Customers::where('customerName', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('alamat', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('contact', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('telepon', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('teloponHP', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('email', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('kategori', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('status', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('bayarPer', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')->get();
             $total = Customers::count();
         }else{
-            $data =  Customers::paginate(10);
+            $data =  Customers::paginate($pagination);
             $total = Customers::count();
         }
 
