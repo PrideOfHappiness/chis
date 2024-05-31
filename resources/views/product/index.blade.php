@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('template/header')
-    <title>Data Kategori Produk</title>
+    <title>Data Produk</title>
 </head>
 <body>
     @include('template/navbar')
@@ -68,7 +68,7 @@
                                             @endforeach
                                         @endif
                                 </td>
-                                <td>{{ $product->partNo }}</td>
+                                <td>{{ $product->part_no }}</td>
                                 <td>{{ $product->productName }}</td>
                                 <td>{{ $product->getVehicleTypeFromVehicleType->type }}</td>
                                 <td>{{ $product->getProductCategoryFromVehicleType->category }}</td>
@@ -104,6 +104,10 @@
                 <a class="btn btn-primary" href="/admin/product/print"> 
                     <i class="fa-solid fa-print"></i>
                         Print
+                </a>
+                <a class="btn btn-info" href="{{route('importProduct')}}"> 
+                    <i class="fa-solid fa-file-import"></i>
+                        Import Data
                 </a>
                 {!! $data->links() !!}
             </main>

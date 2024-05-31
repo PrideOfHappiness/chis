@@ -10,6 +10,7 @@ use App\Models\VehicleType;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductExport;
+use App\Imports\ProductImport;
 
 class ProductController extends Controller
 {
@@ -62,7 +63,7 @@ class ProductController extends Controller
 
         $data = Product::create([
             'code' => $code,
-            'partNo' => $partNumber,
+            'part_no' => $partNumber,
             'productName' => $productName,
             'vehicleType' => $vehicleType,
             'productCategory' => $productCategory,
@@ -122,7 +123,7 @@ class ProductController extends Controller
 
         if($request->hasFile('fileFoto') == null){
             $data->code = $request->input('code');
-            $data->partNumber = $request->input('partNumber');
+            $data->part_no = $request->input('partNumber');
             $data->productName = $request->input('productname');
             $data->vehicleType = $request->input('vehicleType');
             $data->productCategory = $request->input('productCategory');
@@ -139,7 +140,7 @@ class ProductController extends Controller
             $data->update();
         }else{
             $data->code = $request->input('code');
-            $data->partNumber = $request->input('partNumber');
+            $data->part_no = $request->input('partNumber');
             $data->productName = $request->input('productname');
             $data->vehicleType = $request->input('vehicleType');
             $data->productCategory = $request->input('productCategory');
@@ -202,5 +203,18 @@ class ProductController extends Controller
 
 
         return view('product.hasil', compact('data', 'foto', 'total'));
+    }
+
+    public function impor(){
+        return view('product.imporData');
+    }
+
+    public function imporData(Request $request){
+        $request->validate([
+            'fileProduk' => 'required|mimes:xlsx,csv,pdf',
+        ]);
+        Excel::import(new ProductImport, $request->file('fileProduk'));
+
+        return redirect('/admin/product')->with('success', 'Data imported successfully');
     }
 }

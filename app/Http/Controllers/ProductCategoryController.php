@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Exports\ProductCategoryExport;
+use App\Imports\ProductCategoryImport;
+use App\Models\Brand;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductCategoryController extends Controller
@@ -17,23 +19,37 @@ class ProductCategoryController extends Controller
     }
 
     public function create(){
-        return view('productCategory.create');
+        $data = Brand::all();
+        return view('productCategory.create', compact('data'));
     }
 
     public function store(Request $request){
         $this->validate($request, [
+            'sub_category' => 'required',
             'category' => 'required',
+            'product_list' => 'required',
         ]);
 
+        $brand = $request->input('status');
         $category = $request->input('category');
+        $subCategory = $request->input('sub_category');
+        $productList = $request->input('product_list');
+        $remarks = $request->input('remarks');
+
+        if($brand == null){
+            $data = $request->input('brand');
+            Brand::create($data);
+        }
 
         ProductCategory::create([
+            'brandID' => $brand->id,
             'category' => $category,
+            'sub_category' => $subCategory,
+            'product_list' => $productList,
+            'remarks' => $remarks,
         ]);
 
-        $data = ProductCategory::paginate(10);
-        $total = ProductCategory::count();
-        return view('productCategory.index', compact('data', 'total'))->with('success', 'Data berhasil ditambahkan!');
+        return redirect('/admin/productCategory')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id){
@@ -77,18 +93,39 @@ class ProductCategoryController extends Controller
         $dataCari = $request->input('search');
         $pagination = $request->input('searchByData');
 
-        if($dataCari != null && $pagination != null){
-            $data = ProductCategory::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
-            $total = ProductCategory::count();
-        }elseif ($dataCari != null) {
-            $data =  ProductCategory::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
-            $total = ProductCategory::count();
+        if($dataCari != null){
+            $data = ProductCategory::with('getBrandProduct')
+            ->whereHas('getBrandProduct', function($query) use ($dataCari){
+                $query->where('brand', 'LIKE', '%' . $dataCari . '%');
+            })
+            ->orWhere('category', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('sub_category', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('product_list', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('remarks', 'LIKE', '%' . $dataCari . '%')
+            ->take($pagination)->get();
         }else{
-            $data =  ProductCategory::paginate(10);
-            $total = ProductCategory::count();
+            $data =  ProductCategory::paginate($pagination);
         }
 
+        $total = ProductCategory::count();
+        return response()->json([
+            'data' => $data,
+            'total' => $total,
+            'links' => (string) $data->links()
+        ]);
+    }
 
-        return view('productCategory.hasil', compact('data', 'total'));
+    public function getImport(){
+        return view('productCategory.imporData');
+    }
+    
+    public function imporData(Request $request){
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,pdf',
+        ]);
+
+        Excel::import(new ProductCategoryImport, $request->file('file'));
+
+        return redirect('/admin/productCategory')->with('success', 'Data imported successfully');
     }
 }

@@ -13,7 +13,7 @@ class Product extends Model
     public $incrementing = true;
     protected $fillable = [
         'code',
-        'partNo',
+        'part_no',
         'productName',
         'vehicleType',
         'productCategory',
@@ -25,6 +25,7 @@ class Product extends Model
         'hpp',
         'harga_jual',
         'notes',
+        'sub_categoryProduct',
     ];
 
     public function getVehicleTypeFromVehicleType(){

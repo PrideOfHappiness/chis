@@ -17,6 +17,7 @@
             <img src="{{ asset('style/dist/img/avatar4.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span>{{ auth()->user()->nama }}</span>
           @endauth
+          <h6>Jabatan anda : {{ auth()->user()->getUserAccessFromUserAccess->user_access}}</h6>
         </a>
       </div>
     </div>
@@ -28,7 +29,7 @@
         <li class="nav-header">Master Data</li>
           <li class="nav-item"> 
             <a href="/admin/user" class="nav-link">
-              <i class="fa-solid fa-rectangle-xmark"></i>
+              <i class="fa-solid fa-user"></i>
                 <p>
                   User
                 </p>
@@ -36,7 +37,7 @@
           </li>
           <li class="nav-item"> 
               <a href="/admin/userApproval" class="nav-link">
-                <i class="fa-solid fa-rectangle-xmark"></i>
+                <i class="fa-solid fa-person-circle-check"></i>
                   <p>
                     Approval
                   </p>
@@ -44,7 +45,7 @@
           </li>
           <li class="nav-item"> 
             <a href="/admin/product" class="nav-link">
-              <i class="fa-solid fa-signs-post"></i>
+              <i class="fa-solid fa-boxes-stacked"></i>
                 <p>
                   Product
                 </p>
@@ -52,7 +53,7 @@
           </li>
           <li class="nav-item"> 
             <a href="/admin/productCategory" class="nav-link">
-              <i class="fa-solid fa-rectangle-xmark"></i>
+              <i class="fa-solid fa-list"></i>
                 <p>
                   Product Category
                 </p>
@@ -60,7 +61,7 @@
           </li>
           <li class="nav-item"> 
               <a href="/admin/vehicleType" class="nav-link">
-                <i class="fa-solid fa-rectangle-xmark"></i>
+                <i class="fa-solid fa-car"></i>
                   <p>
                     Vehicle Type
                   </p>
@@ -68,7 +69,7 @@
           </li>
           <li class="nav-item"> 
             <a href="/admin/salesman" class="nav-link">
-              <i class="fa-solid fa-signs-post"></i>
+              <i class="fa-solid fa-person"></i>
                 <p>
                   Salesman
                 </p>
@@ -76,7 +77,7 @@
           </li>
           <li class="nav-item"> 
             <a href="/admin/customer" class="nav-link">
-              <i class="fa-solid fa-rectangle-xmark"></i>
+              <i class="fa-solid fa-person"></i>
                 <p>
                   Customer
                 </p>
@@ -84,7 +85,7 @@
           </li>
           <li class="nav-item"> 
             <a href="/admin/supplier" class="nav-link">
-              <i class="fa-solid fa-rectangle-xmark"></i>
+              <i class="fa-solid fa-boxes-packing"></i>
                 <p>
                   Supplier
                 </p>
@@ -92,7 +93,7 @@
           </li>
           <li class="nav-item"> 
               <a href="/admin/warehouse" class="nav-link">
-                <i class="fa-solid fa-rectangle-xmark"></i>
+                <i class="fa-solid fa-warehouse"></i>
                   <p>
                     Warehouse
                   </p>
@@ -108,7 +109,7 @@
           </li>
           <li class="nav-item"> 
             <a href="/admin/backup" class="nav-link">
-              <i class="fa-solid fa-signs-post"></i>
+              <i class="fa-solid fa-rotate-right"></i>
                 <p>
                   Backup
                 </p>

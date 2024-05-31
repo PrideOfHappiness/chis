@@ -40,7 +40,6 @@
                         </select>
                         <label for="search">Cari berdasarkan: </label>
                         <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
-                        <button type="submit" class="btn btn-primary" style="height: 40px;">Cari</button>
                     </form>
                 </div>
                 <br>
@@ -107,4 +106,72 @@
     </div>
 </body>
 @include('template/footer')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const searchValue = document.getElementById('search');
+    const tableBody = document.getElementById('tableBody');
+
+    searchValue.addEventListener('input', function() {
+        const searchValueSendToSql = searchValue.value;
+        fetchSearchResults(searchValueSendToSql);
+    });
+
+    function fetchSearchResults(searchQuery) {
+        const searchByData = document.getElementById('searchByData').value;
+
+        fetch('/admin/forwarder/cari', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                search: searchQuery,
+                searchByData: searchByData
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            tableBody.innerHTML = '';
+
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="15" class="text-center">Data tidak ditemukan</td></tr>';
+            } else {
+                const newTableHTML = data.map((forwarder, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${forwarder.forwaderName}</td>
+                        <td>${forwarder.city}</td>
+                        <td>${forwarder.contact}</td>
+                        <td>${forwarder.telepon}</td>
+                        <td>${forwarder.teleponHP}</td>
+                        <td>${forwarder.email}</td>
+                        <td>${forwarder.status}</td>
+                        <td>
+                            <a href="/admin/forwarder/${forwarder.customerID}/edit" class="btn btn-success">
+                                <i class="fa-solid fa-file-pen"></i>
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <form action="/admin/forwarder/${forwarder.customerID}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="badge bg-danger"> 
+                                    <i class="fa-solid fa-trash"></i>
+                                    Hapus Data
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                `).join('');
+                tableBody.innerHTML = newTableHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching search results:', error);
+        });
+    }
+});
+</script>
 </html>

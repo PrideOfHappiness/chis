@@ -37,7 +37,6 @@
                         </select>
                         <label for="search">Cari berdasarkan: </label>
                         <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
-                        <button type="submit" class="btn btn-primary" style="height: 40px;">Cari</button>
                     </form>
                 </div>
                 <br>
@@ -52,7 +51,7 @@
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tableBody">
                         @foreach($data as $vehicleType)
                             <tr>
                                 <td>{{ $vehicleType->vehicleTypeID }}</td>
@@ -97,4 +96,67 @@
     </div>
 </body>
 @include('template/footer')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const searchValue = document.getElementById('search');
+    const tableBody = document.getElementById('tableBody');
+
+    searchValue.addEventListener('input', function() {
+        const searchValueSendToSql = searchValue.value;
+        fetchSearchResults(searchValueSendToSql);
+    });
+
+    function fetchSearchResults(searchQuery) {
+        const searchByData = document.getElementById('searchByData').value;
+
+        fetch('/admin/vehicleType/cari', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                search: searchQuery,
+                searchByData: searchByData
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            tableBody.innerHTML = '';
+
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="15" class="text-center">Data tidak ditemukan</td></tr>';
+            } else {
+                const newTableHTML = data.map((vehicleType, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${vehicleType.kendaraan}</td>
+                        <td>${vehicleType.type}</td>
+                        <td>
+                            <a href="/admin/vehicleType/${vehicleType.vehicleTypeID}/edit" class="btn btn-success">
+                                <i class="fa-solid fa-file-pen"></i>
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <form action="/admin/vehicleType/${vehicleType.vehicleTypeID}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="badge bg-danger"> 
+                                    <i class="fa-solid fa-trash"></i>
+                                    Hapus Data
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                `).join('');
+                tableBody.innerHTML = newTableHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching search results:', error);
+        });
+    }
+});
+</script>
 </html>

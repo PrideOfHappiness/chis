@@ -20,17 +20,19 @@
                 <form action="{{ route('vehicleType.update', $data->vehicleTypeID)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                    <div class="mb-3">
-                        <label for="id">ID</label>
-                        <input type="text" class="form-control" name="id" id="id" value="{{$data->ID}}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="merk">Merk</label>
-                        <input type="text" class="form-control" name="merk" id="merk" value="{{$data->kendaraan}}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="type">Type</label>
-                        <input type="text" class="form-control" name="type" id="type" value="{{$data->type}}" required>
+                    <div class="row g-3">
+                        <div class="form-group col-md-4">
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" name="id" id="id" value="{{$data->ID}}" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="merk">Merk</label>
+                            <input type="text" class="form-control" name="merk" id="merk" value="{{$data->kendaraan}}" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="type">Type</label>
+                            <input type="text" class="form-control" name="type" id="type" value="{{$data->type}}" required>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>
                 </form>

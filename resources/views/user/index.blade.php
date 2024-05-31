@@ -61,12 +61,12 @@
                             <tr>
                                 <td>{{ $user->userIDNo }}</td>
                                 <td>
-                                    @if($foto->count() === 0)
-                                        <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
-                                    @else
+                                    @if($foto->count() > 0)
                                         @foreach($user->setUserIDForFotoUsers as $gambar)
                                             <img width="50px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Jenis">
-                                        @endforeach
+                                        @endforeach              
+                                    @else
+                                        <img src="{{ asset('style/dist/img/user1-128x128.jpg') }}" alt="gambarUser" width="50px" height="50px">
                                     @endif
                                 </td>
                                 <td>{{ $user->nama }}</td>

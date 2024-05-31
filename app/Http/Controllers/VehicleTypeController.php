@@ -89,20 +89,16 @@ class VehicleTypeController extends Controller
 
     public function cari(Request $request){
         $dataCari = $request->input('search');
-        $pagination = $request->input('searchByData');
+        $pagination = $request->input('searchByData', 10);
 
-        if($dataCari != null && $pagination != null){
-            $data = VehicleType::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
-            $total = VehicleType::count();
-        }elseif ($dataCari != null) {
-            $data =  VehicleType::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
-            $total = VehicleType::count();
+        if($dataCari != null){
+            $data = VehicleType::where('kendaraan', 'LIKE', '%' . $dataCari . '%')
+            ->orwhere('type', 'LIKE', '%' . $dataCari . '%')
+            ->take($pagination)->get();
         }else{
-            $data =  VehicleType::paginate(10);
-            $total = VehicleType::count();
-        }
+            $data =  VehicleType::paginate(10);        }
 
 
-        return view('vehicleType.hasil', compact('data', 'total'));
+        return response()->json($data);
     }
 }

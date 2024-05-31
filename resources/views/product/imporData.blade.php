@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('template/header')
-    <title>Tambah Data Tipe Kendaraan</title>
+    <title>Tambah Data Kategori Produk</title>
 </head>
 <body>
     @include('template/navbar')
@@ -17,20 +17,12 @@
                     </div>
                 @endif 
                 <h4>Tambah Data Kategori Produk</h4>
-                <form action="{{ route('vehicleType.store')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('imporDataP')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row g-3">
                         <div class="form-group col-md-4">
-                            <label for="id">ID</label>
-                            <input type="text" class="form-control" name="id" id="id" placeholder="ID" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="merk">Merk</label>
-                            <input type="text" class="form-control" name="merk" id="merk" placeholder="Kategori" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="type">Type</label>
-                            <input type="text" class="form-control" name="type" id="type" placeholder="Type" required>
+                            <label for="category">File Excel/CSV/PDF</label>
+                            <input type="file" class="form-control" name="fileProduk" id="fileProduk" required>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>

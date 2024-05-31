@@ -12,12 +12,14 @@ class ProductCategory extends Model
     protected $primaryKey = 'productCategoryID';
     public $incrementing = true;
     protected $fillable = [
+        'brand',
         'category',
+        'sub_category',
+        'product_list',
+        'remarks',
     ];
 
     public function setProductCategoryForProduct(){
         return $this->hasMany(Product::class, 'productCategory', 'productID');
     }
-    
-
 }

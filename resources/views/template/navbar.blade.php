@@ -12,7 +12,30 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Dashboard</a>
+        <a href="/admin/home" class="nav-link">
+          <i class="fa-solid fa-house"></i>
+        </a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">
+          <i class="fa-solid fa-plus"></i>
+          <br>
+        </a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">
+          <i class="fa-solid fa-table"></i>
+        </a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">
+          <i class="fa-solid fa-boxes-stacked"></i>
+        </a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+        </a>
       </li>
     </ul>
 

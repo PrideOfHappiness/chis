@@ -17,12 +17,19 @@
             @endif 
             <header>
                 <h1>Backup Dashboard</h1>
+                <a class="btn btn-warning" href="/admin/home"> 
+                    <i class="fa-solid fa-rotate-left"></i>
+                        Back
+                </a>
             </header>
             <main>
-                <a class="btn btn-success" href="{{ route('backup') }}"> 
-                    <i class="fa-solid fa-plus"></i>
-                        Backup Database
-                </a>
+                <form method="post" action="#" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="fileFoto">File Database</label>
+                        <input type="file" class="form-control" name="dbupload" id="dbupload" required>
+                    </div>
+                    <button type="submit" class="btn btn-info">Unggah database</button>
+                </form>
             </main>
         </div>
     </div>

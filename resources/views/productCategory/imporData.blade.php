@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('template/header')
-    <title>Ubah Data Kategori Produk</title>
+    <title>Tambah Data Kategori Produk</title>
 </head>
 <body>
     @include('template/navbar')
@@ -16,14 +16,13 @@
                         <p>{{ $message }}</p>
                     </div>
                 @endif 
-                <h4>Tambah Data Kategori Produk</h4>
-                <form action="{{ route('productCategory.update', $data->productCategoryID)}}" method="POST" enctype="multipart/form-data">
+                <h4>Tambah Data Produk</h4>
+                <form action="/admin/productCategory/import" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
                     <div class="row g-3">
                         <div class="form-group col-md-4">
-                            <label for="category">Category</label>
-                            <input type="text" class="form-control" name="category" id="category" value="{{$data->category}}" required>
+                            <label for="category">File Excel/CSV/PDF</label>
+                            <input type="file" class="form-control" name="file" id="file"  required>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>

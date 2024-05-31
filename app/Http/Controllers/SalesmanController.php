@@ -89,7 +89,7 @@ class SalesmanController extends Controller
             $data->update();
 
             $data = Salesman::paginate(10);
-            return view('salesman.index', compact('data'))
+            return redirect('/admin/salesman')
                 ->with('success', 'Data berhasil diubah!');
         }
     }
@@ -113,20 +113,21 @@ class SalesmanController extends Controller
 
     public function cari(Request $request){
         $dataCari = $request->input('search');
-        $pagination = $request->input('searchByData');
+        $pagination = $request->input('searchByData', 10);
 
-        if($dataCari != null && $pagination != null){
-            $data = Salesman::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
-            $total = Salesman::count();
-        }elseif ($dataCari != null) {
-            $data =  Salesman::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
-            $total = Salesman::count();
+        if($dataCari != null){
+            $data = Salesman::with('getUserIDFromUsers2')
+                ->whereHas('getUserIDFromUsers2', function($query) use($dataCari){
+                    $query->where('nama', 'LIKE', '%' . $dataCari . '%');
+                })
+                ->orWhere('alias',  'LIKE', '%' . $dataCari . '%')
+                ->orWhere('status',  'LIKE', '%' . $dataCari . '%')
+                ->take($pagination)->get();
         }else{
-            $data =  Salesman::paginate(10);
-            $total = Salesman::count();
+            $data =  Salesman::paginate($pagination);
         }
 
 
-        return view('salesman.hasil', compact('data', 'total'));
+        return response()->json($data);
     }
 }

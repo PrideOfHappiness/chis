@@ -121,20 +121,24 @@ class ForwarderController extends Controller
 
     public function cari(Request $request){
         $dataCari = $request->input('search');
-        $pagination = $request->input('searchByData');
+        $pagination = $request->input('searchByData', 10);
 
-        if($dataCari != null && $pagination != null){
-            $data = Forwarders::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
-            $total = Forwarders::count();
-        }elseif ($dataCari != null) {
-            $data =  Forwarders::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
-            $total = Forwarders::count();
+        if($dataCari != null ){
+            $data = Forwarders::where('forwaderName', 'LIKE', '%' . $dataCari . '%')
+                ->orWhere('code', 'LIKE', '%' . $dataCari. '%')
+                ->orWhere('alamat', 'LIKE', '%' . $dataCari. '%')
+                ->orWhere('city', 'LIKE', '%' . $dataCari. '%')
+                ->orWhere('contact', 'LIKE', '%' . $dataCari. '%')
+                ->orWhere('telepon', 'LIKE', '%' . $dataCari. '%')
+                ->orWhere('teleponHP', 'LIKE', '%' . $dataCari. '%')
+                ->orWhere('email', 'LIKE', '%' . $dataCari. '%')
+                ->orWhere('status', 'LIKE', '%' . $dataCari. '%')
+                ->take($pagination)->get();
         }else{
             $data =  Forwarders::paginate(10);
-            $total = Forwarders::count();
         }
 
 
-        return view('supplier.hasil', compact('data', 'total'));
+        return response()->json($data);
     }
 }

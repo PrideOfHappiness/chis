@@ -113,9 +113,7 @@ class CustomerController extends Controller
             'bayarPer' => $top,
         ]);
 
-        $data = Customers::paginate(10);
-        $total = Customers::count();
-        return view('customer.index', compact('data', 'total'))
+        return redirect('/admin/customer')
         ->with('success', 'Data customer behasil ditambahkan!');
     }
 
@@ -196,43 +194,52 @@ class CustomerController extends Controller
 
     public function cari(Request $request){
         $dataCari = $request->input('search');
-        $pagination = $request->input('searchByData');
+        $pagination = $request->input('searchByData', 10);
 
-        if($dataCari != null && $pagination != null){
-            $data = Customers::where('customerName', 'LIKE', '%' . $dataCari . '%')
-                ->orWhere('alamat', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('contact', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('telepon', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('teloponHP', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('email', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('kategori', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('status', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('bayarPer', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')
-                ->paginate($pagination);
-            $total = Customers::count();
-        }elseif ($dataCari != null) {
+        if($dataCari != null) {
             $data =  Customers::where('customerName', 'LIKE', '%' . $dataCari . '%')
             ->orWhere('alamat', 'LIKE', '%'. $dataCari . '%')
             ->orWhere('contact', 'LIKE', '%'. $dataCari . '%')
             ->orWhere('telepon', 'LIKE', '%'. $dataCari . '%')
-            ->orWhere('teloponHP', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('teleponHP', 'LIKE', '%'. $dataCari . '%')
             ->orWhere('email', 'LIKE', '%'. $dataCari . '%')
-            ->orWhere('kategori', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('code', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('telepon2', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('teleponHP2', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('teleponFax2', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('telepon3', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('teleponHP3', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('teleponFax3', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('kota', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('area', 'LIKE', '%'. $dataCari . '%')
+            ->orWhere('deliveryAddress', 'LIKE', '%'. $dataCari . '%')
             ->orWhere('status', 'LIKE', '%'. $dataCari . '%')
             ->orWhere('bayarPer', 'LIKE', '%'. $dataCari . '%')
-            ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')->get();
-            $total = Customers::count();
+            ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')
+            ->take($pagination)
+            ->get();
         }else{
             $data =  Customers::paginate($pagination);
-            $total = Customers::count();
         }
 
 
-        return view('customer.hasil', compact('data', 'total'));
+        return response()->json($data);
     }
 
     public function exportToExcel(Request $request){
         return Excel::download(new CustomersExcelExport, 'Customer.xlsx');
+    }
+
+    public function copy(){
+        $data = Customers::paginate(10);
+        $total = Customers::count();
+        return view('customer.copy', compact('data', 'total'));
+    }
+
+    public function pilihKopiData($id){
+
+    }
+    public function copyData(Request $request){
+
     }
 }

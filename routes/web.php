@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\SalesmanController;
 use App\Http\Controllers\UserController;
@@ -47,9 +48,11 @@ Route::middleware(['Admin'])->group(function (){
     Route::post('/admin/user/proses/', [UserController::class, 'prosesData'])->name('user.prosesData');
     //Product Category
     Route::resource('/admin/productCategory', ProductCategoryController::class)->except(['show']);
-    Route::post('/admin/productCategory/cari', [ProductCategoryController::class, 'cari'])->name('cariproductCategory');
+    Route::post('/admin/productCategory/cari', [ProductCategoryController::class, 'cari'])->name('cariProductCategory');
     Route::get('/admin/productCategory/print', [ProductCategoryController::class, 'print']);
     Route::post('/admin/productCategory/downloadToCSV', [ProductCategoryController::class, 'exportToCSV'])->name('productCategory.export');
+    Route::get('/admin/productCategory/getimport', [ProductCategoryController::class, 'getImport'])->name('imporProductCategory');
+    Route::post('/admin/productCategory/import', [ProductCategoryController::class, 'imporData']);
     //Vehicle Type
     Route::resource('/admin/vehicleType', VehicleTypeController::class)->except(['show']);
     Route::post('/admin/vehicleType/cari', [VehicleTypeController::class, 'cari'])->name('cariVehicleType');
@@ -65,6 +68,8 @@ Route::middleware(['Admin'])->group(function (){
     Route::post('/admin/product/cari', [ProductController::class, 'cari'])->name('cariProductType');
     Route::get('/admin/product/print', [ProductController::class, 'print']);
     Route::get('/admin/product/downloadToCSV', [ProductController::class, 'exportToCSV'])->name('product.export');
+    Route::get('/admin/product/import', [ProductController::class, 'impor'])->name('importProduct');
+    Route::post('/admin/product/import', [ProductController::class, 'imporData'])->name('imporDataP');
     //Salesman
     Route::resource('/admin/salesman', SalesmanController::class)->except(['show']);
     Route::post('/admin/salesman/cari', [SalesmanController::class, 'cari'])->name('cariSalesmanType');
@@ -95,6 +100,8 @@ Route::middleware(['Admin'])->group(function (){
     //Backup
     Route::get('/admin/backup', [BackupController::class, 'index']);
     Route::get('/admin/backup/download', [BackupController::class, 'downloadDatabase'])->name('backup');
+    //Navbar
+    Route::get('/admin/navbar/add', [NavbarController::class, 'getButtonOptions'])->name('navbarAdd');
 });
 
 Route::middleware(['auth'])->group(function(){

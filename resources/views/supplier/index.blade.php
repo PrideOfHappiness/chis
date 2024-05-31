@@ -92,7 +92,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                        <tbody>
+                        <tbody id="tableBody">
                         @foreach($data as $supplier)
                             <tr>
                                 <td>{{ $supplier->supplierID }}</td>
@@ -143,4 +143,74 @@
     </div>
 </body>
 @include('template/footer')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchValue = document.getElementById('search');
+        const tableBody = document.getElementById('tableBody');
+
+        searchValue.addEventListener('input', function() {
+            const searchValueSendToSql = searchValue.value;
+            fetchSearchResults(searchValueSendToSql);
+        });
+
+        function fetchSearchResults(searchTerms) {
+            const searchByData = document.getElementById('searchByData').value;
+
+            fetch('/admin/supplier/cari', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    search: searchQuery,
+                    searchByData: searchByData
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                tableBody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="15" class="text-center">Data tidak ditemukan</td></tr>';
+                } else {
+                    const newTableHTML = data.map((supplier, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${supplier.supplierIDs}</td>
+                        <td>${supplier.code}</td>
+                        <td>${supplier.supplierName}</td>
+                        <td>${supplier.alamat}</td>
+                        <td>${supplier.contact}</td>
+                        <td>${supplier.telepon}</td>
+                        <td>${supplier.teleponHP}</td>
+                        <td>${supplier.email}</td>
+                        <td>${supplier.status}</td>
+                        <td>
+                            <a href="/admin/supplier/${supplier.supplierID}/edit" class="btn btn-success">
+                                <i class="fa-solid fa-file-pen"></i>
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <form action="/admin/supplier/${supplier.supplierID}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="badge bg-danger"> 
+                                    <i class="fa-solid fa-trash"></i>
+                                    Hapus Data
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    `).join('');
+                    tableBody.innerHTML = newTableHTML;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching search results:', error); 
+            });
+        }
+    });
+</script>
 </html>

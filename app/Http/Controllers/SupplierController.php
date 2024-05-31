@@ -173,11 +173,8 @@ class SupplierController extends Controller
         $dataCari = $request->input('search');
         $pagination = $request->input('searchByData');
 
-        if($dataCari != null && $pagination != null){
-            $data = Suppliers::where('supplierName', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
-            $total = Suppliers::count();
-            if($data == null){
-                $data = Suppliers::where('code', 'LIKE', '%'. $dataCari . '%')
+        if($dataCari != null){
+            $data = Suppliers::where('supplierName', 'LIKE', '%' . $dataCari . '%')
                 ->orWhere('alamat', 'LIKE', '%'. $dataCari . '%')
                 ->orWhere('contact', 'LIKE', '%'. $dataCari . '%')
                 ->orWhere('telepon', 'LIKE', '%'. $dataCari . '%')
@@ -187,33 +184,11 @@ class SupplierController extends Controller
                 ->orWhere('status', 'LIKE', '%'. $dataCari . '%')
                 ->orWhere('bayarPer', 'LIKE', '%'. $dataCari . '%')
                 ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')
-                ->paginate($pagination);
-                $total = Suppliers::count();
-            }
-        }elseif ($dataCari != null && $pagination == null) {
-            $data =  Suppliers::where('supplierName', 'LIKE', '%' . $dataCari . '%')->get();
-            $total = Suppliers::count();
-            if($data == null){
-                $data = Suppliers::where('code', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('alamat', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('contact', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('telepon', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('teloponHP', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('email', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('kategori', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('status', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('bayarPer', 'LIKE', '%'. $dataCari . '%')
-                ->orWhere('teleponFax', 'LIKE', '%'. $dataCari . '%')
-                ->get();
-                $total = Suppliers::count();
-            }
+                ->take($pagination)->get();
         }else{
             $data =  Suppliers::paginate($pagination);
-            $total = Suppliers::count();
         }
-
-
-        return view('supplier.hasil', compact('data', 'total'));
+        return response()->json($data);
     }
 
     public function exportToExcel(Request $request){

@@ -98,6 +98,18 @@ class UserSeeder extends Seeder
                 'email' => 'finance@test.com',
                 'password' => bcrypt('finance1234567'),
             ],
+            [
+                'code' => '4757',
+                'userName' => 'iwan',
+                'nama' => 'Iwan Tan',
+                'branch' => 'pusat',
+                'perusahaan' => 'PT. CHIS',
+                'department' => 'Sales',
+                'user_access' => 5,
+                'status' => 'Active',
+                'email' => 'iwan.tan@test.com',
+                'password' => bcrypt('iwantan'),
+            ],
         ];
 
         foreach($data as $value){
