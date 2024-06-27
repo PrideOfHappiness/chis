@@ -17,9 +17,9 @@
                     </div>
                 @endif 
                 <h4>Ubah Data Approval Jabatan</h4>
-                <form action="{{ route('productCategory.store')}}" method="POST" enctype="multipart/form-data">
-                    @method('PUT')
+                <form action="{{ route('userApproval.update', $data->approvalID)}}" method="POST" enctype="multipart/form-data">  
                     @csrf
+                    @method('PUT')
                     <div class="row g-3">
                         <div class="form-group col-md-4">
                             <label for="approval">Approval</label>
@@ -35,8 +35,11 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="nama">Name</label>
-                            <select class="form-control" name="nama" id="nama">
+                            <select class="form-control custom-select" name="nama" id="nama">
                                 <option value="{{$data->getUserIDFromUsers->userIDNo}}">{{$data->getUserIDFromUsers->userName}} - {{$data->getUserIDFromUsers->nama}}</option>
+                                @foreach($users as $user)
+                                    <option value="{{$user->userIDNo}}">{{$user->userName}} - {{$user->nama}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">

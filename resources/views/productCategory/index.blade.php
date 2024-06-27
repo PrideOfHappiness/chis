@@ -3,6 +3,7 @@
 <head>
     @include('template/header')
     <title>Data Kategori Produk</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
     @include('template/navbar')
@@ -16,24 +17,32 @@
                 </div>
             @endif 
             <header>
-                <h1>Products Dashboard</h1>
+                <h1>Product Category Dashboard</h1>
                 <a class="btn btn-success" href="{{ route('productCategory.create') }}"> 
                     <i class="fa-solid fa-plus"></i>
                         Tambah Data
+                </a>
+                <a class="btn btn-success" href="/admin/productCategoryList"> 
+                    <i class="fa-solid fa-list"></i>
+                        Lihat Category
+                </a>
+                <a class="btn btn-success" href="/admin/subCategoryList"> 
+                    <i class="fa-solid fa-list"></i>
+                        Lihat Sub Category
                 </a>
             </header>
             <main>
                 <br>
                 <h6>Data</h6>
                 <div class="table-controls">
-                    <form action="{{route('cariProductCategory')}}" method="post">
+                    <form action="{{route('cariProductCategory')}}" id="searchForm" method="post">
                         @csrf
                         <label for="searchByData" id="searchByData">Cari berdasarkan: </label>
                         <select name="searchByData" id="searchByData">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
+                                <option value=10>10</option>
+                                <option value=25>25</option>
+                                <option value=50>50</option>
+                                <option value=100>100</option>
                         </select>
                         <label for="search">Cari berdasarkan: </label>
                         <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
@@ -44,7 +53,6 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Brand</th>
                             <th>Category</th>
                             <th>Sub Category</th>
                             <th>Product List</th>
@@ -57,10 +65,9 @@
                         @foreach($data as $productCategory)
                             <tr>
                                 <td>{{ $productCategory->productCategoryID }}</td>
-                                <td>{{ $productCategory->brand }}</td>
-                                <td>{{ $productCategory->category }}</td>
-                                <td>{{ $productCategory->sub_category }}</td>
-                                <td>{{ $productCategory->product_list }}</td>
+                                <td>{{ $productCategory->getProductCategoryList->product_category }}</td>
+                                <td>{{ $productCategory->getSubCategoryList->sub_category }}</td>
+                                <td>{{ $productCategory->productList }}</td>
                                 <td>{{ $productCategory->remarks }}</td>
                                 <td>
                                     <a href="{{route('productCategory.edit', $productCategory->productCategoryID)}}" class="btn btn-success">
@@ -71,6 +78,7 @@
                                 <td>
                                     <form action = "{{ route('productCategory.destroy', $productCategory->productCategoryID) }}" method="Post">
                                         @csrf
+                                        @method('DELETE')
                                         <button type="submit" class="badge bg-danger"> 
                                             <i class="fa-solid fa-trash"></i>
                                             Hapus Data
@@ -104,6 +112,7 @@
     </div>
 </body>
 @include('template/footer')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function(){
         const searchValue = document.getElementById('search');
@@ -138,31 +147,36 @@
                     <tr>
                         <td>${index + 1}</td>
                         <td>${productCategory.category}</td>
+                        <td>${productCategory.sub_category}</td>
+                        <td>${productCategory.product_list}</td>
+                        <td>${productCategory.remarks}</td>
                         <td>
-                            <a href="/admin/productCategory/${productCategory.id}/edit" class="btn btn-success">
+                            <a href="/admin/productCategory/${productCategory.productCategoryID}/edit" class="btn btn-success">
                                 <i class="fa-solid fa-file-pen"></i>
                                 Edit
                             </a>
                         </td>
                         <td>
-                            <form action="/admin/productCategory/${productCategory.id}" method="post">
+                            <form action="/admin/productCategory/${productCategory.productCategoryID}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="badge bg-danger"> 
-                                    <i class="fa-solid fa-trash"></i>
-                                    Hapus Data
+                                        <i class="fa-solid fa-trash"></i>
+                                        Hapus Data
                                 </button>
                             </form>
                         </td>
                     </tr>
                 `).join('');
                 tableBody.innerHTML = newTableHTML;
+                paginationInfo.innerHTML = `Menampilkan ${data.data.length} dari ${data.total} data`;
+                paginationLinks.innerHTML = data.links;
             }
         })
         .catch(error => {
             console.error('Error fetching search results:', error);
-            });
-        }
-    });
+        });
+    }
+});
 </script>
 </html>

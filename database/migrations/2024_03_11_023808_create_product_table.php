@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->id('productID');
+            $table->bigInteger('brand')->unsigned() ;
             $table->string('code');
             $table->string('part_no', 50);
             $table->string('productName');
             $table->bigInteger('vehicleType')->unsigned();
             $table->bigInteger('productCategory')->unsigned();
+            $table->bigInteger('subCategory')->unsigned();
             $table->string('status');
             $table->integer('min_stock');
             $table->integer('stock')->nullable();
@@ -26,11 +28,12 @@ return new class extends Migration
             $table->integer('hpp')->nullable();
             $table->integer('harga_jual');
             $table->text('notes')->nullable();
-            $table->string('sub_categoryProduct')->nullable();
             $table->timestamps();
 
+            $table->foreign('brand')->references('brandID')->on('brand');
             $table->foreign('vehicleType')->references('vehicleTypeID')->on('vehicle_type');
             $table->foreign('productCategory')->references('productCategoryID')->on('product_category');
+            $table->foreign('subCategory')->references('subCategoryListID')->on('sub_categories');
         });
     }
 

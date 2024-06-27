@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="perusahaan">Perusahaan</label>
-                            <select class="form-control" name="perusahaan" id="perusahaan">
+                            <select class="form-control custom-select" name="perusahaan" id="perusahaan">
                                 <option value="{{$data->perusahaan}}">{{$data->perusahaan}}</option>
                                 <option value="PT. Cipta Harapan Indah Strategi">PT. Cipta Harapan Indah Strategi</option>
                                 <option value="Eka Nusa">PT. Eka Nusa</option>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="userAccess">User Access</label>
-                            <select class="form-control" name="userAccess" id="userAccess">
+                            <select class="form-control custom-select" name="userAccess" id="userAccess">
                                 <option value={{ $data->user_access}}>{{$data->getUserAccessFromUserAccess->user_access}}</option>
                                 <option value=3>Admin</option>
                                 <option value=9>Admin Gudang</option>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="status">Status</label>
-                            <select class="form-control" name="status" id="status">
+                            <select class="form-control custom-select" name="status" id="status">
                                 <option value={{ $data->status}}>{{$data->status}}</option>
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Not Active</option>

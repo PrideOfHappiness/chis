@@ -7,7 +7,8 @@ use App\Models\ProductCategory;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Exports\ProductCategoryExport;
 use App\Imports\ProductCategoryImport;
-use App\Models\Brand;
+use App\Models\ProductCategory_Sub;
+use App\Models\SubCategory;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductCategoryController extends Controller
@@ -19,8 +20,9 @@ class ProductCategoryController extends Controller
     }
 
     public function create(){
-        $data = Brand::all();
-        return view('productCategory.create', compact('data'));
+        $data = ProductCategory_Sub::all();
+        $data2 = SubCategory::all();
+        return view('productCategory.create', compact('data', 'data2'));
     }
 
     public function store(Request $request){
@@ -30,19 +32,16 @@ class ProductCategoryController extends Controller
             'product_list' => 'required',
         ]);
 
-        $brand = $request->input('status');
+        if($request->input('sub_category') || $request->input('category') == '--') {
+            return redirect()->route('category.create')->with('error', 'Data Kategori atau Sub Kategori wajib diisi!');
+        }
+
         $category = $request->input('category');
         $subCategory = $request->input('sub_category');
         $productList = $request->input('product_list');
         $remarks = $request->input('remarks');
 
-        if($brand == null){
-            $data = $request->input('brand');
-            Brand::create($data);
-        }
-
         ProductCategory::create([
-            'brandID' => $brand->id,
             'category' => $category,
             'sub_category' => $subCategory,
             'product_list' => $productList,
@@ -54,7 +53,9 @@ class ProductCategoryController extends Controller
 
     public function edit($id){
         $data = ProductCategory::find($id);
-        return view('productCategory.edit', compact('data'));
+        $data2 = ProductCategory_Sub::all();
+        $data3 = SubCategory::all();
+        return view('productCategory.edit', compact('data', 'data2', 'data3'));
     }
 
     public function update(Request $request, $id){
@@ -66,17 +67,14 @@ class ProductCategoryController extends Controller
         $data->category = $request->input('category');
         $data->update();
 
-        $data = ProductCategory::paginate(10);
-        $total = ProductCategory::count();
-        return view('productCategory.index', compact('data', 'total'))->with('success', 'Data berhasil diubah!');
+        return redirect('/admin/productCategory')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id){
         $data = ProductCategory::find($id);
         $data->delete();
 
-        return view('productCategory.index')
-        ->with('success', 'Data berhasil dihapus!');
+        return redirect('/admin/productCategory')->with('success', 'Data berhasil dihapus!');
     }
 
     public function exportToCSV(Request $request){
@@ -93,11 +91,8 @@ class ProductCategoryController extends Controller
         $dataCari = $request->input('search');
         $pagination = $request->input('searchByData');
 
-        if($dataCari != null){
-            $data = ProductCategory::with('getBrandProduct')
-            ->whereHas('getBrandProduct', function($query) use ($dataCari){
-                $query->where('brand', 'LIKE', '%' . $dataCari . '%');
-            })
+        if($dataCari){
+            $data = ProductCategory::where('brand', 'LIKE', '%' . $dataCari . '%')
             ->orWhere('category', 'LIKE', '%' . $dataCari . '%')
             ->orWhere('sub_category', 'LIKE', '%' . $dataCari . '%')
             ->orWhere('product_list', 'LIKE', '%' . $dataCari . '%')
@@ -108,11 +103,7 @@ class ProductCategoryController extends Controller
         }
 
         $total = ProductCategory::count();
-        return response()->json([
-            'data' => $data,
-            'total' => $total,
-            'links' => (string) $data->links()
-        ]);
+        return response()->json($data);
     }
 
     public function getImport(){

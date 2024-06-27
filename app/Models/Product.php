@@ -12,6 +12,7 @@ class Product extends Model
     protected $primaryKey = 'productID';
     public $incrementing = true;
     protected $fillable = [
+        'brand',
         'code',
         'part_no',
         'productName',
@@ -25,8 +26,12 @@ class Product extends Model
         'hpp',
         'harga_jual',
         'notes',
-        'sub_categoryProduct',
+        'subCategory',
     ];
+
+    public function getBrand(){
+        return $this->belongsTo(Brand::class, 'brand', 'brandID');
+    }
 
     public function getVehicleTypeFromVehicleType(){
         return $this->belongsTo(VehicleType::class, 'vehicleType', 'vehicleTypeID');
@@ -36,7 +41,11 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class, 'productCategory', 'productCategoryID');
     }
 
-    public function setProductIDForFotoProduct(){
+    public function getSubCategoryFromSubCategory(){
+        return $this->belongsTo(SubCategory::class, 'subCategory', 'subCategoryListID');
+    }
+
+    public function fotoProducts(){
         return $this->hasMany(FotoProduct::class, 'productID');
     }
 }

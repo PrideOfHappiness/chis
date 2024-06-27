@@ -3,6 +3,8 @@
 <head>
     @include('template/header')
     <title>Data User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
     @include('template/navbar')
@@ -61,12 +63,12 @@
                             <tr>
                                 <td>{{ $user->userIDNo }}</td>
                                 <td>
-                                    @if($foto->count() > 0)
+                                    @if($user->setUserIDForFotoUsers->count() === 0)
+                                        <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
+                                    @else
                                         @foreach($user->setUserIDForFotoUsers as $gambar)
                                             <img width="50px" src="{{ asset('fotoUsers/'. $gambar->namaFile) }}" alt="Gambar Jenis">
-                                        @endforeach              
-                                    @else
-                                        <img src="{{ asset('style/dist/img/user1-128x128.jpg') }}" alt="gambarUser" width="50px" height="50px">
+                                        @endforeach
                                     @endif
                                 </td>
                                 <td>{{ $user->nama }}</td>
@@ -82,8 +84,9 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <form action = "{{ route('user.destroy', $user->userIDNo) }}" method="Post">
+                                    <form action = "{{ route('user.destroy', $user->userIDNo) }}" method="POST">
                                         @csrf
+                                        @method('DELETE')
                                         <button type="submit" class="badge bg-danger"> 
                                             <i class="fa-solid fa-trash"></i>
                                             Hapus Data

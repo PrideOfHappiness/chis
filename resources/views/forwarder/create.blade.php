@@ -50,7 +50,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="status">Status</label>
-                            <select class="form-control" name="status" id="status">
+                            <select class="form-control custom-select" name="status" id="status">
                                 <option value="Active">Active</option>
                                 <option value="Not Active">Not Active</option>
                             </select>

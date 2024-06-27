@@ -60,7 +60,7 @@
                             <tr>
                                 <td>{{ $user->userIDNo }}</td>
                                 <td>
-                                    @if($foto->count() === 0)
+                                    @if($user->setUserIDForFotoUsers->count() === 0)
                                         <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
                                     @else
                                         @foreach($user->setUserIDForFotoUsers as $gambar)

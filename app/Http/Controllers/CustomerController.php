@@ -99,7 +99,7 @@ class CustomerController extends Controller
             'teleponFax' => $fax,
             'telepon2' => $phone2,
             'teleponHP2' => $phoneHP2,
-            'teleponFax2' => $fax3,
+            'teleponFax2' => $fax2,
             'telepon3' => $phone3,
             'teleponHP3' => $phoneHP3,
             'teleponFax3' => $fax3,
@@ -147,25 +147,25 @@ class CustomerController extends Controller
         $data->customerID = $request->input('customerID');
         $data->code = $request->input('code');
         $data->customerName = $request->input('customerName');
-        $data->address = $request->input('address');
+        $data->alamat = $request->input('address');
         $data->deliveryAddress = $request->input('deliveryAddress');
         $data->contact = $request->input('contact');
-        $data->phone = $request->input('phone');
-        $data->phoneHP = $request->input('phoneHP');
-        $data->fax = $request->input('fax');
-        $data->phone2 = $request->input('phone2');
-        $data->phoneHP2 = $request->input('phoneHP2');
-        $data->fax2 = $request->input('fax2');
-        $data->phone3 = $request->input('phone3');
-        $data->phoneHP3 = $request->input('phoneHP3');
-        $data->fax3 = $request->input('fax3');
+        $data->telepon = $request->input('phone');
+        $data->teleponHP = $request->input('phoneHP');
+        $data->teleponFax = $request->input('fax');
+        $data->telepon2 = $request->input('phone2');
+        $data->teleponHP2 = $request->input('phoneHP2');
+        $data->teleponFax2 = $request->input('fax2');
+        $data->telepon3 = $request->input('phone3');
+        $data->teleponHP3 = $request->input('phoneHP3');
+        $data->teleponFax3 = $request->input('fax3');
         $data->email = $request->input('email');
-        $data->city = $request->input('city');
+        $data->kota = $request->input('city');
         $data->area = $request->input('area');
         $data->status = $request->input('status');
         $data->statusPKP = $request->input('statusPKP');
-        $data->salesmanID = $request->input('salesmanID');
-        $data->top = $request->input('top');
+        $data->userIDSales = $request->input('salesmanID');
+        $data->bayarPer = $request->input('top');
         $data->update();
 
         return view('customer.index')

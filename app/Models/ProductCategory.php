@@ -12,12 +12,19 @@ class ProductCategory extends Model
     protected $primaryKey = 'productCategoryID';
     public $incrementing = true;
     protected $fillable = [
-        'brand',
-        'category',
-        'sub_category',
-        'product_list',
+        'productCategoryList',
+        'subCategoryList',
+        'productList',
         'remarks',
     ];
+
+    public function getProductCategoryList(){
+        return $this->belongsTo(ProductCategory_Sub::class, 'productCategoryList', 'productCategoryListID');
+    }
+
+    public function getSubCategoryList(){
+        return $this->belongsTo(SubCategory::class, 'subCategoryList', 'subCategoryListID');
+    }
 
     public function setProductCategoryForProduct(){
         return $this->hasMany(Product::class, 'productCategory', 'productID');

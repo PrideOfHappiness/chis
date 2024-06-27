@@ -21,25 +21,22 @@
                     @csrf
                     <div class="row g-3">
                         <div class="form-group col-md-4">
-                            <label for="category">Brand</label>
-                            <select class="form-control" name="status" id="status">
+                            <label for="category">Category</label>
+                            <select class="form-control custom-select" name="category" id="category">
                                 <option value="--">Silahkan pilih data!</option>
                                 @foreach($data as $dt)
-                                    <option value="{{$dt->id}}">{{$dt->brand}}</option>
+                                    <option value="{{$dt->productCategoryListID}}">{{$dt->product_category}}</option>
                                 @endforeach                              
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="category">Brand (Apabila tidak tersedia di dalam list)</label>
-                            <input type="text" class="form-control" name="brand" id="brand" placeholder="Kategori">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="category">Category</label>
-                            <input type="text" class="form-control" name="category" id="category" placeholder="Brand" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="category">Sub Category</label>
-                            <input type="text" class="form-control" name="sub_category" id="sub_category" placeholder="Sub Kategori" required>
+                            <label for="sub_category">Sub Category</label>
+                            <select class="form-control custom-select" name="sub_category" id="sub_category">
+                                <option value="--">Silahkan pilih data!</option>
+                                @foreach($data2 as $dt)
+                                    <option value="{{$dt->subCategoryListID}}">{{$dt->sub_category}}</option>
+                                @endforeach                              
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="category">Product List</label>

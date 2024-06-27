@@ -11,20 +11,25 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductExport;
 use App\Imports\ProductImport;
+use App\Models\Brand;
+use App\Models\ProductCategory_Sub;
+use App\Models\SubCategory;
 
 class ProductController extends Controller
 {
     public function index(){
         $data = Product::paginate(10);
-        $foto = Product::with('setProductIDForFotoProduct')->get();
+        $foto = Product::with('fotoProducts')->get();
         $total = Product::count();
         return view('product.index', compact('data', 'total', 'foto'));
     }
 
     public function create(){
-        $data = ProductCategory::all();
+        $brand = Brand::all();
+        $data = ProductCategory_Sub::all();
         $vehicleType = VehicleType::all();
-        return view('product.create', compact('data', 'vehicleType'));
+        $subCategory = SubCategory::all();
+        return view('product.create', compact('data', 'vehicleType', 'brand', 'subCategory'));
     }
 
     public function store(Request $request){
@@ -35,7 +40,6 @@ class ProductController extends Controller
             'productCategory' => 'required',
             'vehicleType' => 'required',
             'status' => 'required',
-            'fileFoto' => 'required|mimes:jpg,jpeg,png|max:2048',
             'hargabeli' => 'required',
             'hpp' => 'required',
             'hargaJual' => 'required',
@@ -43,8 +47,10 @@ class ProductController extends Controller
             'min_stock' => 'required',
             'stock' => 'required',
             'notes' => 'required',
+            'subcategory' => 'required',
         ]);
 
+        $brand = $request->input('brand');
         $code = $request->input('code');
         $partNumber = $request->input('partNumber');
         $productName = $request->input('productname');
@@ -60,8 +66,10 @@ class ProductController extends Controller
         $stock = $request->input('stock');
         $status = $request->input('status');
         $notes = $request->input('notes');
+        $subCategory = $request->input('subcategory');
 
         $data = Product::create([
+            'brand' => $brand,
             'code' => $code,
             'part_no' => $partNumber,
             'productName' => $productName,
@@ -75,6 +83,7 @@ class ProductController extends Controller
             'hpp' => $hpp,
             'harga_jual' => $jual,
             'notes' => $notes,
+            'subCategory' => $subCategory,
         ]);
 
         if($request->hasFile('fileFoto')){
@@ -97,73 +106,55 @@ class ProductController extends Controller
     public function edit($id){
         $data = Product::find($id);
         $productCategory = ProductCategory::all();
+        $subCategory = SubCategory::all();
         $vehicleType = VehicleType::all();
-        $foto = $data->setProductIDForFotoProduct();
-        return view('product.edit', compact('data', 'productCategory','vehicleType', 'foto'));
+        $brand = Brand::all();
+        $foto = $data->fotoProducts;
+        return view('product.edit', compact('data', 'productCategory','vehicleType', 'subCategory','foto', 'brand'));
     }
 
-    public function update($id, Request $request){
+    public function update(Request $request, $id){
         $data = Product::find($id);
-        $this->validate($request, [
-            'code' => 'required',
-            'partNumber' => 'required',
-            'productname' => 'required',
-            'productCategory' => 'required',
-            'vehicleType' => 'required',
-            'status' => 'required',
-            'fileFoto' => 'required|mimes:jpg,jpeg,png|max:2048',
-            'hargabeli' => 'required',
-            'hpp' => 'required',
-            'hargaJual' => 'required',
-            'satuan' => 'required',
-            'min_stock' => 'required',
-            'stock' => 'required',
-            'notes' => 'required',
-        ]);
 
-        if($request->hasFile('fileFoto') == null){
-            $data->code = $request->input('code');
-            $data->part_no = $request->input('partNumber');
+        try{
+            $data->code =  $request->input('code');
+            $data->part_no = $request->input('partnumber');
             $data->productName = $request->input('productname');
             $data->vehicleType = $request->input('vehicleType');
             $data->productCategory = $request->input('productCategory');
-            //Harga
-            $data->beli = $request->input('hargabeli');
-            $data->hpp = $request->input('hpp');
-            $data->jual = $request->input('hargaJual');
-            //Stock
-            $data->min_stock = $request->input('min_stock');
-            $data->satuan = $request->input('satuan');
-            $data->stock = $request->input('stock');
             $data->status = $request->input('status');
-            $data->notes = $request->input('notes');
-            $data->update();
-        }else{
-            $data->code = $request->input('code');
-            $data->part_no = $request->input('partNumber');
-            $data->productName = $request->input('productname');
-            $data->vehicleType = $request->input('vehicleType');
-            $data->productCategory = $request->input('productCategory');
-            //Harga
-            $data->beli = $request->input('hargabeli');
-            $data->hpp = $request->input('hpp');
-            $data->jual = $request->input('hargaJual');
-            //Stock
             $data->min_stock = $request->input('min_stock');
-            $data->satuan = $request->input('satuan');
             $data->stock = $request->input('stock');
-            $data->status = $request->input('status');
+            $data->satuan = $request->input('satuan');
+            $data->harga_beli = $request->input('hargabeli');
+            $data->hpp = $request->input('hpp');
+            $data->harga_jual = $request->input('hargaJual');
             $data->notes = $request->input('notes');
+            $data->subCategory = $request->input('subcategory');
             $data->update();
 
-            $file = $request->file('fileFoto');
-            $model = FotoProduct::where('productID', $data->productID)->find('id');
-            $model->productID = $data->productID;
-            $uniqueFileName = $file->getClientOriginalName();
-            $model->namaFile = $uniqueFileName;
-            $model->update();
-            $file->move('fotoProduct/', $uniqueFileName);
+            if($request->hasFile('fileFoto')){
+                $file = $request->file('fileFoto');
+                $uniqueFileName = $file->getClientOriginalName();
+                
+                // Cari atau buat baru FotoProduct
+                $model = FotoProduct::where('productID', $data->productID)->first();
+                if($model == null){
+                    $model = new FotoProduct();
+                    $model->productID = $data->productID;
+                }
+        
+                $model->namaFile = $uniqueFileName;
+                $model->save();
+        
+                // Pindahkan file ke folder tujuan
+                $file->move('fotoProduct/', $uniqueFileName);
+            }
+            return redirect('admin/product')->with('success', 'Data berhasil diubah!');
+        }catch(\Exception $e){
+            return $e->getMessage();
         }
+        
     }
 
     public function destroy($id){
@@ -173,8 +164,9 @@ class ProductController extends Controller
     }
 
     public function print(Request $request){
+        ini_set('max_execution_time', 1000);
         $dataProduct = Product::all();
-        $foto = Product::with('setProductIDForFotoProduct')->get();
+        $foto = Product::with('fotoProducts')->get();
         $pdf = PDF::loadView('product.print', compact('dataProduct', 'foto'));
         return $pdf->download('Product.pdf');
     }
@@ -184,26 +176,38 @@ class ProductController extends Controller
     }
 
     public function cari(Request $request){
-        $countData = $request->input('searchByData');
-        $cari = $request->input('search');
+        $countData = $request->input('searchByData', 10);
+        $dataCari = $request->input('search');
 
-        if($countData != null && $cari != null){
-            $data = Product::where('nama', 'LIKE', '%' . $cari . '%')->paginate($countData);
-            $foto = Product::with('setProductIDForFotoProduct')->get();
-            $total = Product::count();
-        }elseif ($cari != null) {
-            $data =  Product::where('nama', 'LIKE', '%' . $cari . '%')->get();
-            $foto = Product::with('setProductIDForFotoProduct')->get();
-            $total = Product::count();
-        }else{
-            $data =  Product::paginate(10);
-            $foto = Product::with('setProductIDForFotoProduct')->get();
-            $total = Product::count();
+        if(empty($dataCari)){
+            return response()->json([
+                'data' => [],
+                'total' => 0,
+            ]);
         }
 
+        $query = Product::with(['fotoProducts', 'getVehicleTypeFromVehicleType', 
+        'getProductCategoryFromVehicleType', 'getSubCategoryFromSubCategory', 'getBrand']);
 
-        return view('product.hasil', compact('data', 'foto', 'total'));
+        if (!empty($dataCari)) {
+        $query->where('productName', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('code', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('part_no', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('hpp', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('status', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('min_stock', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('stock', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('satuan', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('harga_beli', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('harga_jual', 'LIKE', '%' . $dataCari . '%');
     }
+
+        $data = $query->paginate($countData);
+        $total = Product::count();
+
+        return view('product.index', compact('data', 'total'));
+    }
+
 
     public function impor(){
         return view('product.imporData');
@@ -216,5 +220,76 @@ class ProductController extends Controller
         Excel::import(new ProductImport, $request->file('fileProduk'));
 
         return redirect('/admin/product')->with('success', 'Data imported successfully');
+    }
+
+    public function kopiData(){
+        $data = Product::all();
+        $foto = Product::with('fotoProducts')->get();
+
+        return view('product.copy', compact('data', 'foto'));
+    }
+
+    public function copy($id){
+        $data = Product::find($id);
+        $productCategory = ProductCategory::all();
+        $brand = Brand::all();
+        $subCategory = SubCategory::all();
+        $vehicleType = VehicleType::all();
+        $foto = $data->fotoProducts;
+        return view('product.copyData', compact('data', 'productCategory', 'brand', 'subCategory', 'vehicleType', 'foto'));
+    }
+
+    public function prosesData(Request $request){
+        $brand = $request->input('brand');
+        $code = $request->input('code');
+        $partNumber = $request->input('partnumber');
+        $productName = $request->input('productname');
+        $vehicleType = $request->input('vehicleType');
+        $productCategory = $request->input('productCategory');
+        //Harga
+        $beli = $request->input('hargabeli');
+        $hpp = $request->input('hpp');
+        $jual = $request->input('hargaJual');
+        //Stock
+        $min_stock = $request->input('min_stock');
+        $satuan = $request->input('satuan');
+        $stock = $request->input('stock');
+        $status = $request->input('status');
+        $notes = $request->input('notes');
+        $subCategory = $request->input('subcategory');
+
+        $data = Product::create([
+            'brand' => $brand,
+            'code' => $code,
+            'part_no' => $partNumber,
+            'productName' => $productName,
+            'vehicleType' => $vehicleType,
+            'productCategory' => $productCategory,
+            'status' => $status,
+            'min_stock' => $min_stock,
+            'stock' => $stock,
+            'satuan' => $satuan,
+            'harga_beli' => $beli,
+            'hpp' => $hpp,
+            'harga_jual' => $jual,
+            'notes' => $notes,
+            'subCategory' => $subCategory,
+        ]);
+
+        if($request->hasFile('fileFoto')){
+            $file = $request->file('fileFoto');
+            $model = new FotoProduct();
+            $model->productID = $data->productID;
+            $uniqueFileName = $file->getClientOriginalName();
+            $model->namaFile = $uniqueFileName;
+            $model->save();
+            $file->move('fotoProduct/', $uniqueFileName);
+
+            return redirect()->route('product.index')
+                ->with('success', 'Data berhasil ditambahkan!');
+        }else{
+            return redirect()->route('product.create')
+                ->with('error', 'Foto belum ditambahkan!');
+        }
     }
 }

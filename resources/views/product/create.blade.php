@@ -33,26 +33,40 @@
                             <input type="text" class="form-control" name="productname" id="productname" placeholder="Department" required>
                         </div>
                         <div class="form-group col-md-4">
+                            <label for="brand">Brand</label>
+                            <select class="form-control custom-select" name="brand" id="brand">
+                                <option value="">Silahkan pilih data terlebih dahulu!</option>
+                                @foreach($brand as $product)
+                                    <option value="{{$product->brandID}}">{{$product->brand}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
                             <label for="vehicleType">Vehicle Type</label>
-                            <select class="form-control" name="vehicleType" id="vehicleType">
+                            <select class="form-control custom-select" name="vehicleType" id="vehicleType">
                                 <option value="">Silahkan pilih data terlebih dahulu!</option>
                                 @foreach($vehicleType as $product)
-                                    <option value="{{$product->vehicleTypeID}}">{{$product->kendaraan}}-{{$product->type}}</option>
+                                    <option value="{{$product->vehicleTypeID}}">{{$product->getMerkFromMerkKendaran->namaKendaraan}} {{$product->vehicle_type}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="productCategory">Product Category</label>
-                            <select class="form-control" name="productCategory" id="productCategory">
+                            <label for="productCategory">Product Category And Sub Category</label>
+                            <select class="form-control custom-select" name="productCategory" id="productCategory">
                                 <option value="">Silahkan pilih data terlebih dahulu!</option>
                                 @foreach($data as $product)
-                                    <option value="{{$product->productCategoryID}}">{{$product->category}}</option>
+                                    <option value="{{$product->productCategoryListID}}">{{$product->product_category}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="hargabeli">Product Sub Category</label>
-                            <input type="test" class="form-control" name="subcategory" id="subcategory" placeholder="Sub Product Category" required>
+                            <label for="subcategory">Product Sub Category</label>
+                            <select class="form-control custom-select" name="subcategory" id="subcategory">
+                                <option value="">Silahkan pilih data terlebih dahulu!</option>
+                                @foreach($subCategory as $product)
+                                    <option value="{{$product->subCategoryListID}}">{{$product->sub_category}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="hargabeli">Harga Beli (Rp.)</label>

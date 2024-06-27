@@ -90,7 +90,7 @@
                             @if($foto->count() === 0)
                                 <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
                             @else
-                                @foreach($product->setProductIDForFotoProduct as $gambar)
+                                @foreach($product->fotoProducts as $gambar)
                                     <img width="50px" src="{{ asset('fotoProduct/'. $gambar->namaFile) }}" alt="Gambar Jenis">
                                 @endforeach
                             @endif

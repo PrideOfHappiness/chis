@@ -14,11 +14,16 @@ return new class extends Migration
         Schema::create('inventory', function (Blueprint $table) {
             $table->id('inventoryID');
             $table->bigInteger('productIDs')->unsigned();
-            $table->integer('productQuantity');
-            $table->string('satuan', 5);
+            $table->enum('adjustment_code', ['IN', 'OUT']);
+            $table->integer('productQuantity_adjustments');
+            $table->string('satuan_adjustmets', 5);
+            $table->bigInteger('userID_adjustment')->unsigned();
+            $table->text('keterangan_return');
+            $table->date('adjustment_created');
             $table->timestamps();
 
             $table->foreign('productIDs')->references('productID')->on('product');
+            $table->foreign('userID_adjustment')->references('userIDNo')->on('users');
         });
     }
 

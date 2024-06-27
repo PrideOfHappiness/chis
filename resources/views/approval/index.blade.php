@@ -57,7 +57,7 @@
                     <tbody>
                         @foreach($data as $productCategory)
                             <tr>
-                                <td>{{ $productCategory->productCategoryID }}</td>
+                                <td>{{ $productCategory->approvalID }}</td>
                                 <td>{{ $productCategory->approval }}</td>
                                 <td>{{ $productCategory->sequence }}</td>
                                 <td>{{ $productCategory->jabatan }}</td>
@@ -72,6 +72,7 @@
                                 <td>
                                     <form action = "{{ route('userApproval.destroy', $productCategory->approvalID) }}" method="Post">
                                         @csrf
+                                        @method('DELETE')
                                         <button type="submit" class="badge bg-danger"> 
                                             <i class="fa-solid fa-trash"></i>
                                             Hapus Data
@@ -83,7 +84,7 @@
                     </tbody>
                 </table>
                 <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/userApproval/pilihCopy"> 
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>

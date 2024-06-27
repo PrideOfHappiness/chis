@@ -91,7 +91,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="area">Area</label>
-                            <select class="form-control" name="area" id="area">
+                            <select class="form-control custom-select" name="area" id="area">
                                 <option value="{{$data->area}}">{{$data->area}}</option>
                                 <option value="Bali">Bali</option>
                                 <option value="Jabodetabek">Jabodetabek</option>
@@ -109,14 +109,14 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="status">Status</label>
-                            <select class="form-control" name="status" id="status">
+                            <select class="form-control custom-select" name="status" id="status">
                                 <option value="{{$data->status}}">{{$data->status}}</option>
                                 <option value="Active">Active</option>
                                 <option value="Not Active">Not Active</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="statusPKP">Status PKP</label>
+                            <label for="statusPKP custom-select">Status PKP</label>
                             <select class="form-control" name="statusPKP" id="statusPKP">
                                 <option value="{{$data->statusPKP}}">{{$data->statusPKP}}</option>
                                 <option value="YES">Yes</option>
@@ -124,7 +124,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="salesmanID">Salesman</label>
+                            <label for="salesmanID custom-select">Salesman</label>
                             <select class="form-control" name="salesmanID" id="salesmanID">
                                 <option value="{{$data->userIDSales}}">{{$data->getUserID->nama}}</option>
                                 <option value="">--</option>

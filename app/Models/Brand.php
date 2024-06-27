@@ -10,9 +10,12 @@ class Brand extends Model
     use HasFactory;
 
     protected $table = 'brand';
+    protected $primaryKey = 'brandID';
+    public $incrementing = true;
+
     protected $fillable = ['brand'];
 
-    public function products(){
-        return $this->hasMany(ProductCategory::class, 'brandID', 'productCategoryID');
+    public function setBrand(){
+        return $this->hasMany(Product::class, 'brandID', 'productID');
     }
 }

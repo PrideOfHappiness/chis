@@ -117,19 +117,6 @@ class UserController extends Controller
 
     public function update(Request $request, $id){
         $data = User::find($id);
-        $this->validate($request, [
-            'code' => 'required',
-            'perusahaan' => 'required',
-            'department' => 'required',
-            'branch' => 'required',
-            'userAccess' => 'required',
-            'nama' => 'required',
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'status' => 'required',
-            'fileFoto' => 'mimes:jpg,png,jpeg|max:2048',
-        ]);
         
         if($request->hasFile('fileFoto')){
             $data->code = $request->input('code');
@@ -145,11 +132,14 @@ class UserController extends Controller
             $data->save();
 
             $file = $request->file('fileFoto');
-            $model = new FotoUsers();
-            $model->userID = $data->userIDNo;
-            $uniqueFileName = $file->getClientOriginalName();
-            $model->namaFile = $uniqueFileName;
-            $model->update();
+            $model = FotoUsers::where('userID', $data->userIDNo)->first();
+            if($model == null){
+                $model = new FotoUsers();
+                $model->userID = $data->userIDNo;
+            }
+            $model->namaFile = $file->getClientOriginalName();
+            $file->move('fotoUsers/', $model->namaFile);
+            $model->save();
         }else{
             $data->code = $request->input('code');
             $data->perusahaan = $request->input('perusahaan');

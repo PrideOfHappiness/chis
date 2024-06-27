@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('vehicle_type', function (Blueprint $table) {
             $table->id('vehicleTypeID');
-            $table->string('ID');
-            $table->string('kendaraan');
-            $table->string('type')->nullable();
+            $table->bigInteger('nama')->unsigned();
+            $table->string('vehicle_type')->nullable();
             $table->timestamps();
+
+            $table->foreign('nama')->references('merkID')->on('merk_kendaraan');
         });
     }
 

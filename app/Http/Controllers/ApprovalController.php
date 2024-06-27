@@ -37,9 +37,11 @@ class ApprovalController extends Controller
         $nama = $request->input('nama');
         $status = $request->input('status');
 
-        $cekData = UserApproval::where('userID', $nama)->where('approval', $data)->where('sequence', $sequence)->exists();
-        if($cekData){
-            $sequence = $sequence + 1;
+        if($sequence != ''){
+            $jabatan2 = UserApproval::where('jabatan', $jabatan)->where('approval', $data)->first();
+            if($jabatan2){
+                $sequence += 1;
+            }
         }
         
         UserApproval::create([
@@ -50,12 +52,13 @@ class ApprovalController extends Controller
             'status' => $status,
         ]);
 
-        return view('approval.index')->with('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('userApproval.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id){
         $data = UserApproval::find($id);
-        return view('approval.edit', compact('data'));
+        $users = User::all();
+        return view('approval.edit', compact('data', 'users'));
     }
 
     public function update(Request $request, $id){
@@ -75,14 +78,14 @@ class ApprovalController extends Controller
         $data->status = $request->input('status');
         $data->update();
 
-        return view('approval.index')->with('success', 'Data berhasil diubah!');
+        return redirect()->route('userApproval.index')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy(Request $request, $id){
         $data = UserApproval::find($id);
         $data->delete();
 
-        return view('approval.index')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('userApproval.index')->with('success', 'Data berhasil dihapus!');
     }
 
     public function cari(Request $request){
@@ -111,6 +114,50 @@ class ApprovalController extends Controller
     public function print(Request $request){
         $dataProduct = UserApproval::all();
         $pdf = PDF::loadView('approval.print', compact('dataProduct'));
-        return $pdf->download('Vehicle Type.pdf');
+        return $pdf->download('Approval.pdf');
     }
-}
+
+    public function kopiData(){
+        $data = UserApproval::all();
+        return view('approval.copy', compact('data'));
+    }
+
+    public function copy($id){
+        $data = UserApproval::find($id);
+        $users = User::all();
+        return view('approval.kopidata', compact('data', 'users'));
+    }
+
+    public function prosesData(Request $request){
+        $this->validate($request, [
+            'approval' => 'required',
+            'sequence' => 'integer|required',
+            'jabatan' => 'string|required',
+            'nama' => 'required',
+            'status' => 'string|required',
+        ]);
+
+        $data = $request->input('approval');
+        $sequence = $request->input('sequence');
+        $jabatan = $request->input('jabatan');
+        $nama = $request->input('nama');
+        $status = $request->input('status');
+
+        if($sequence != ''){
+            $jabatan2 = UserApproval::where('jabatan', $jabatan)->where('approval', $data)->first();
+            if($jabatan2){
+                $sequence += 1;
+            }
+        }
+        
+        UserApproval::create([
+            'approval' => $data,
+            'userID' => $nama,
+            'sequence' => $sequence,
+            'jabatan' => $jabatan,
+            'status' => $status,
+        ]);
+            return redirect()->route('userApproval.index')
+            ->with('success', 'Data berhasil ditambahkan!');
+        }
+    }

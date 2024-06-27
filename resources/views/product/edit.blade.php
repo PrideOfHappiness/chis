@@ -19,52 +19,71 @@
                 <h4>Ubah Data Produk</h4>
                 <form action="{{ route('product.update', $data->productID)}}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="row g-3">
                         <div class="form-group col-md-4">
                             <label for="code">Product Code</label>
-                            <input type="text" class="form-control" name="code" id="code" value="{{ $data->code }}" required>
+                            <input type="text" class="form-control" name="code" id="code" value="{{ $data->code }}" >
                         </div>
                         <div class="form-group col-md-4">
                             <label for="partNumber">Part Number</label>
-                            <input type="text" class="form-control" name="partNumber" id="partNumber" value="{{ $data->partNo }}" required>
+                            <textarea type="text" class="form-control" name="partnumber" id="partnumber">{{$data->part_no}}</textarea>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="productname">Product Name</label>
-                            <input type="text" class="form-control" name="productname" id="productname" value="{{ $data->productName }}" required>
+                            <input type="text" class="form-control" name="productname" id="productname" value="{{ $data->productName }}" >
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="brand">Brand</label>
+                            <select class="form-control custom-select" name="brand" id="brand">
+                                <option value="{{$data->getBrand->brandID}}">{{$data->getBrand->brand}}</option>
+                                @foreach($brand as $product)
+                                    <option value="{{$product->brandID}}">{{$product->brand}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="vehicleType">Vehicle Type</label>
-                            <select class="form-control" name="vehicleType" id="vehicleType">
-                                <option value="{{ $data->getVehicleTypeFromVehicleType->id }}">{{$data->getVehicleTypeFromVehicleType->kendaraan}} {{$data->getVehicleTypeFromVehicleType->type}}</option>
+                            <select class="form-control custom-select" name="vehicleType" id="vehicleType">
+                                <option value="{{ $data->getVehicleTypeFromVehicleType->vehicleTypeID }}">{{$data->getVehicleTypeFromVehicleType->getMerkFromMerkKendaran->namaKendaraan}} {{$data->getVehicleTypeFromVehicleType->vehicle_type}}</option>
                                 @foreach($vehicleType as $product)
-                                    <option value="{{$product->vehicleTypeID}}">{{$product->kendaraan}}-{{$product->type}}</option>
+                                    <option value="{{$product->vehicleTypeID}}">{{$product->getMerkFromMerkKendaran->namaKendaraan}}-{{$product->vehicle_type}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="productCategory">Product Category</label>
-                            <select class="form-control" name="productCategory" id="productCategory">
-                                <option value="{{ $data->getProductCategoryFromVehicleType->productCategoryID }}">{{$data->getProductCategoryFromVehicleType->category}}</option>
-                                @foreach($data as $product)
-                                    <option value="{{$product->productCategoryID}}">{{$product->category}}</option>
+                            <select class="form-control custom-select" name="productCategory" id="productCategory">
+                                <option value="{{ $data->getProductCategoryFromVehicleType->productCategoryID }}">{{$data->getProductCategoryFromVehicleType->product_category}}</option>
+                                @foreach($productCategory as $product)
+                                    <option value="{{$product->productCategoryID}}">{{$product->getProductCategoryList->product_category}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="subcategory">Sub Category</label>
+                            <select class="form-control custom-select" name="subcategory" id="subcategory">
+                                <option value="{{ $data->getSubCategoryFromSubCategory->subCategoryListID }}">{{$data->getSubCategoryFromSubCategory->sub_category}}</option>
+                                @foreach($subCategory as $product)
+                                    <option value="{{$product->subCategoryListID}}">{{$product->sub_category}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="hargabeli">Harga Beli (Rp.)</label>
-                            <input type="number" class="form-control" name="hargabeli" id="hargabeli" value="{{ $data->harga_beli }}" required>
+                            <input type="number" class="form-control" name="hargabeli" id="hargabeli" value="{{ $data->harga_beli }}" >
                         </div>
                         <div class="form-group col-md-4">
                             <label for="hpp">HPP (Rp.)</label>
-                            <input type="number" class="form-control" name="hpp" id="hpp" value="{{ $data->hpp }}" required>
+                            <input type="number" class="form-control" name="hpp" id="hpp" value="{{ $data->hpp }}" >
                         </div>
                         <div class="form-group col-md-4">
                             <label for="hargaJual">Harga Jual (Rp.)</label>
-                            <input type="number" class="form-control" name="hargaJual" id="hargaJual" value="{{ $data->harga_jual }}" required>
+                            <input type="number" class="form-control" name="hargaJual" id="hargaJual" value="{{ $data->harga_jual }}" >
                         </div>
                         <div class="form-group col-md-4">
                             <label for="min_stock">Minimum Stock</label>
-                            <input type="number" class="form-control" name="min_stock" id="min_stock" value="{{ $data->min_stock }}" required>
+                            <input type="number" class="form-control" name="min_stock" id="min_stock" value="{{ $data->min_stock }}" >
                         </div>
                         <div class="form-group col-md-4">
                             <label for="satuan">Satuan</label>
@@ -86,7 +105,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="stock">Stock</label>
-                            <input type="number" class="form-control" name="stock" id="{{ $data->stock }}" value="Stock" required>
+                            <input type="number" class="form-control" name="stock" id="stock" value="{{ $data->stock }}" >
                         </div>
                         <div class="form-group col-md-4">
                             <label for="status">Status</label>
@@ -98,12 +117,12 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="stock">Notes</label>
-                            <textarea class="form-control" name="notes" id="notes" required>{{$data->notes}}</textarea>
+                            <textarea class="form-control" name="notes" id="notes" >{{$data->notes}}</textarea>
                         </div>
                         @if($foto->count() > 0)
                         <div class="form-group col-md-4">
                             <label for="gambar">Foto Awal</label>
-                                @foreach($data->setUserIDForFotoUsers as $gambar)
+                                @foreach($foto as $gambar)
                                     <img width="150px" src="{{ asset('fotoProduct/'. $gambar->namaFile) }}" alt="Gambar Plat Nomor">
                                 @endforeach
                         </div>
@@ -115,7 +134,7 @@
                         @endif
                         <div class="form-group col-md-4">
                             <label for="fileFoto">File Produk</label>
-                            <input type="file" class="form-control" name="fileFoto" id="fileFoto" required>
+                            <input type="file" class="form-control" name="fileFoto" id="fileFoto">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>

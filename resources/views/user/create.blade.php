@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="perusahaan">Perusahaan</label>
-                            <select class="form-control" name="perusahaan" id="perusahaan">
+                            <select class="form-control custom-select" name="perusahaan" id="perusahaan">
                                 <option value="PT. Cipta Harapan Indah Strategi">PT. Cipta Harapan Indah Strategi</option>
                                 <option value="Eka Nusa">PT. Eka Nusa</option>
                                 <option value="PT. CHIS">PT. CHIS</option>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="userAccess">User Access</label>
-                            <select class="form-control" name="userAccess" id="userAccess">
+                            <select class="form-control custom-select" name="userAccess" id="userAccess">
                                 <option value=3>Admin</option>
                                 <option value=9>Admin Gudang</option>
                                 <option value=8>Back Office</option>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="vv">Status</label>
-                            <select class="form-control" name="status" id="status">
+                            <select class="form-control custom-select" name="status" id="status">
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Not Active</option>
                             </select>

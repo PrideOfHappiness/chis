@@ -51,15 +51,10 @@ class VehicleTypeController extends Controller
 
     public function update(Request $request, $id){
         $data = VehicleType::find($id);
-        $this->validate($request, [
-            'id' => 'required',
-            'merk' => 'required',
-            'type' => 'required',
-        ]);
 
         $data->id = $request->input('id');
-        $data->kendaraan = $request->input('merk');
-        $data->type = $request->input('type');
+        $data->nama = $request->input('nama');
+        $data->kendaraan = $request->input('type');
         $data->update();
 
         $data = VehicleType::paginate(10);
@@ -92,11 +87,13 @@ class VehicleTypeController extends Controller
         $pagination = $request->input('searchByData', 10);
 
         if($dataCari != null){
-            $data = VehicleType::where('kendaraan', 'LIKE', '%' . $dataCari . '%')
+            $data = VehicleType::where('ID', 'LIKE', '%' . $dataCari . '%')
+            ->orwhere('kendaraan', 'LIKE', '%' . $dataCari . '%')
             ->orwhere('type', 'LIKE', '%' . $dataCari . '%')
             ->take($pagination)->get();
         }else{
-            $data =  VehicleType::paginate(10);        }
+            $data =  VehicleType::paginate(10);        
+        }
 
 
         return response()->json($data);

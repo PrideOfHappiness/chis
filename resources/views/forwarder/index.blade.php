@@ -77,6 +77,7 @@
                                 <td>
                                     <form action = "{{ route('forwarder.destroy', $forwarder->forwaderID) }}" method="Post">
                                         @csrf
+                                        @method('DELETE')
                                         <button type="submit" class="badge bg-danger"> 
                                             <i class="fa-solid fa-trash"></i>
                                             Hapus Data

@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="nama">Name</label>
-                            <select class="form-control" name="nama" id="nama">
+                            <select class="form-control custom-select" name="nama" id="nama">
                                 @foreach($data as $data)
                                     <option value="{{$data->userIDNo}}">{{$data->userName}} - {{$data->nama}}</option>
                                 @endforeach
@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="status">Status</label>
-                            <select name="status" id="status" class="form-control">
+                            <select name="status" id="status" class="form-control custom-select">
                                 <option value="Active">Active</option>
                                 <option value="Not Active">Not Active</option>
                             </select>

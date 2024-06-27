@@ -44,8 +44,8 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>ID</th>
-                            <th>Merk</th>
+                            <th>Brand Kendaraan</th>
+                            <th>Nama Kendaraan</th>
                             <th>Type</th>
                             <th>Edit</th>
                             <th>Delete</th>
@@ -55,9 +55,9 @@
                         @foreach($data as $vehicleType)
                             <tr>
                                 <td>{{ $vehicleType->vehicleTypeID }}</td>
-                                <td>{{ $vehicleType->ID }}</td>
-                                <td>{{ $vehicleType->kendaraan }}</td>
-                                <td>{{ $vehicleType->type }}</td>
+                                <td>{{ $vehicleType->getMerkFromMerkKendaran->inisial }}</td>
+                                <td>{{ $vehicleType->getMerkFromMerkKendaran->namaKendaraan }}</td>
+                                <td>{{ $vehicleType->vehicle_type }}</td>
                                 <td>
                                     <a href="{{route('vehicleType.edit', $vehicleType->vehicleTypeID)}}" class="btn btn-success">
                                         <i class="fa-solid fa-file-pen"></i>
@@ -67,6 +67,7 @@
                                 <td>
                                     <form action = "{{ route('vehicleType.destroy', $vehicleType->vehicleTypeID) }}" method="Post">
                                         @csrf
+                                        @method('delete')
                                         <button type="submit" class="badge bg-danger"> 
                                             <i class="fa-solid fa-trash"></i>
                                             Hapus Data

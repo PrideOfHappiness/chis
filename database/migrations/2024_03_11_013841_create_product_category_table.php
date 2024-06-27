@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('product_category', function (Blueprint $table) {
             $table->id('productCategoryID');
-            $table->string('brand');
-            $table->string('category');
-            $table->string('sub_category')->nullable();
-            $table->string('product_list')->nullable();
+            $table->bigInteger('productCategoryList')->unsigned();
+            $table->bigInteger('subCategoryList')->unsigned();
+            $table->string('productList');
             $table->string('remarks')->nullable();
             $table->timestamps();
 
+            $table->foreign('productCategoryList')->references('productCategoryListID')->on('product_category_list');
+            $table->foreign('subCategoryList')->references('subCategoryListID')->on('sub_categories');
         });
     }
 

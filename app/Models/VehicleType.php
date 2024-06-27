@@ -13,12 +13,16 @@ class VehicleType extends Model
     protected $primaryKey = 'vehicleTypeID';
     public $incrementing = true;
     protected $fillable = [
-        'ID',
-        'kendaraan',
-        'type',
+        'nama',
+        'vehicle_type',
     ];
 
+    public function getMerkFromMerkKendaran(){
+        return $this->belongsTo(MerkKendaraan::class, 'nama', 'merkID');
+    }
     public function setVehicleTypeForProduct(){
         return $this->hasMany(Product::class, 'vehicleType', 'productID');
     }
+
+
 }
