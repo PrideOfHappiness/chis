@@ -58,7 +58,7 @@
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tableBody">
                         @foreach($data as $user)
                             <tr>
                                 <td>{{ $user->userIDNo }}</td>

@@ -54,9 +54,9 @@
                         <div class="form-group col-md-4">
                             <label for="productCategory">Product Category</label>
                             <select class="form-control custom-select" name="productCategory" id="productCategory">
-                                <option value="{{ $data->getProductCategoryFromVehicleType->productCategoryID }}">{{$data->getProductCategoryFromVehicleType->product_category}}</option>
+                                <option value="{{ $data->getProductCategoryFromVehicleType->productCategoryID }}">{{$data->getProductCategoryFromVehicleType->getProductCategoryList->product_category}}</option>
                                 @foreach($productCategory as $product)
-                                    <option value="{{$product->productCategoryID}}">{{$product->getProductCategoryList->product_category}}</option>
+                                    <option value="{{$product->productCategoryListID}}">{{$product->product_category}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -135,6 +135,15 @@
                         <div class="form-group col-md-4">
                             <label for="fileFoto">File Produk</label>
                             <input type="file" class="form-control" name="fileFoto" id="fileFoto">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="satuan">Gudang Lokasi Produk</label>
+                            <select class="form-control custom-select" name="gudang" id="gudang">
+                                <option value="{{$data->getWarehouseID->warehouseID}}">{{$data->getWarehouseID->warehouseName}}</option>
+                                @foreach($warehouse as $data)
+                                    <option value="{{$data->warehouseID}}">{{$data->warehouseName}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>

@@ -90,9 +90,8 @@ class SupplierController extends Controller
             'teleponFax' => $fax,
         ]);
 
-        $data = Suppliers::paginate(10);
-        $total = Suppliers::count();
-        return view('supplier.index', compact('data', 'total'))
+
+        return redirect()->route('supplier.index')
             ->with('success', 'Data berhasil ditambah!');
     }
 
@@ -145,7 +144,7 @@ class SupplierController extends Controller
 
         $data = Suppliers::paginate(10);
         $total = Suppliers::count();
-        return view('supplier.index', compact('data', 'total'))
+        return redirect()->route('supplier.index')
             ->with('success', 'Data berhasil diubah!');
     }
 
@@ -193,5 +192,89 @@ class SupplierController extends Controller
 
     public function exportToExcel(Request $request){
         return Excel::download(new SuppliersExcelExport, 'Supplier.xlsx');
+    }
+
+    public function copy(){
+        $data = Suppliers::paginate(10);
+        return view('supplier.copy', compact('data'));
+    }
+
+    public function kopiData($id){
+        $data = Suppliers::find($id);
+        $string = 'SUP-';
+        $total = Suppliers::count();
+        if($total == 0){
+            $angka = '00001';
+        }elseif($total !=0 && $total < 10){
+            $angka = $total + 1;
+            $angka = '0000'.$angka;
+        }elseif ($total >= 10 && $total < 100) {
+            $angka = $total + 1;
+            $angka = '000'.$angka;
+        }elseif ($total >= 100 && $total < 1000) {
+            $angka = $total + 1;
+            $angka = '000'.$angka;
+        }elseif ($total >= 1000 && $total < 10000) {
+            $angka = $total + 1;
+            $angka = '000'.$angka;
+        }else{
+            $angka = $total;
+        }
+
+        $gabungan = $string.$angka; 
+        return view('supplier.copyData', compact('data', 'gabungan'));
+    }
+
+    public function prosesData(Request $request){
+        $this->validate($request, [
+            'supplierID' => 'required',
+            'code' => 'required',
+            'supplierName' => 'required',
+            'address' => 'required',
+            'contact' => 'required',
+            'phone' => 'required',
+            'phoneHP' => 'required',
+            'fax'=> 'required',
+            'status' => 'required',
+            'npwp' => 'required',
+            'email' => 'required',
+            'top' => 'required',
+            'category' => 'required',
+        ]);
+
+        $supplierID = $request->input('supplierID');
+        $code = $request->input('code');
+        $supplierName = $request->input('supplierName');
+        $address = $request->input('address');
+        $contact = $request->input('contact');
+        $phone = $request->input('phone');
+        $phoneHP = $request->input('phoneHP');
+        $fax = $request->input('fax');
+        $email = $request->input('email');
+        $city = $request->input('city');
+        $status = $request->input('status');
+        $top = $request->input('top');
+        $category = $request->input('category');
+        $npwp = $request->input('npwp');
+
+        Suppliers::create([
+            'supplierIDs' => $supplierID,
+            'code' => $code,
+            'supplierName' => $supplierName,
+            'alamat' => $address,
+            'contact' => $contact,
+            'telepon' => $phone,
+            'teleponHP' => $phoneHP,
+            'email' => $email,
+            'kategori' => $category,
+            'status' => $status,
+            'bayarPer' => $top,
+            'npwp' => $npwp,
+            'teleponFax' => $fax,
+        ]);
+
+
+        return redirect()->route('supplier.index')
+            ->with('success', 'Data berhasil ditambah!');
     }
 }

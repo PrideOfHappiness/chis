@@ -22,7 +22,7 @@
                     <div class="row g-3">
                         <div class="form-group col-md-4">
                             <label for="category">Category</label>
-                            <select class="form-control custom-select" name="category" id="category">
+                            <select class="form-control custom-select" name="category" id="category" required>
                                 <option value="--">Silahkan pilih data!</option>
                                 @foreach($data as $dt)
                                     <option value="{{$dt->productCategoryListID}}">{{$dt->product_category}}</option>
@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="sub_category">Sub Category</label>
-                            <select class="form-control custom-select" name="sub_category" id="sub_category">
+                            <select class="form-control custom-select" name="sub_category" id="sub_category" required>
                                 <option value="--">Silahkan pilih data!</option>
                                 @foreach($data2 as $dt)
                                     <option value="{{$dt->subCategoryListID}}">{{$dt->sub_category}}</option>

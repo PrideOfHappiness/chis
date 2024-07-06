@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\MerkKendaraan;
 use App\Models\ProductCategory_Sub;
 use App\Models\SubCategory;
+use App\Models\Warehouses;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Support\Str;
@@ -23,6 +24,7 @@ class ProductImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+        Log::info("Processing row: " , $row);
         $brandname = $row['brand'] ?? null;
         $categoryName = $row['category'] ?? null;
         $sub_category = $row['sub_category'] ?? null;
@@ -38,6 +40,7 @@ class ProductImport implements ToModel, WithHeadingRow
         $hpp = $row['hpp'] ?? null;
         $stock = $row['stock'] ?? null;
         $min = $row['min_stock'] ?? null;
+        $gudang = $row['gudang'] ?? null;
         
 
         //dd($merk);
@@ -46,16 +49,17 @@ class ProductImport implements ToModel, WithHeadingRow
             $brand = Brand::firstOrCreate(['brand' => $brandname]);
             $category = ProductCategory_Sub::firstOrCreate(['product_category' => $categoryName]);
             $subCategory = SubCategory::firstOrCreate(['sub_category' => $sub_category]);
+            $gudang1 = Warehouses::firstOrCreate(['warehouseName' => $gudang]);
             $vehicle = MerkKendaraan::firstOrCreate(
                 ['inisial' => $vehicle], 
                 ['namaKendaraan' => $merk]
             );
             $codes = $code ?? Str::random(3);
 
-            $test = VehicleType::firstOrCreate(
-                ['nama' => $vehicle->merkID],
-                ['vehicle_type' => $modelType]
-            );
+            $test = VehicleType::create([
+                'nama' => $vehicle->merkID,
+                'vehicle_type' => $modelType
+            ]);
 
             return new Product([
                 'brand' => $brand->brandID,
@@ -73,6 +77,7 @@ class ProductImport implements ToModel, WithHeadingRow
                 'harga_jual' => $jual,
                 'hpp' => $hpp,
                 'notes' => $row['notes'] ?? null,
+                'warehouseID' => $gudang1->warehouseID,
             ]);
         }else{
             return null;

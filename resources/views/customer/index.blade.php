@@ -67,9 +67,9 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        @foreach($data as $customer)
+                        @foreach($data as $item=>$customer)
                             <tr>
-                                <td>{{ $customer->customerID }}</td>
+                                <td>{{ $item + 1 }}</td>
                                 <td>{{ $customer->customerIDs }}</td>
                                 <td>{{ $customer->code }}</td>
                                 <td>{{ $customer->customerName }}</td>
@@ -103,7 +103,7 @@
                     </tbody>
                 </table>
                 <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/customer/pilihCopy"> 
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>

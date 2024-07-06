@@ -24,25 +24,24 @@
                         <div class="form-group col-md-4">
                             <label for="category">Category</label>
                             <select class="form-control custom-select" name="category" id="category">
-                                <option value="{{$data->category}}">{{$data->getProductCategoryList->product_category}}</option>
-                                @foreach($data as $dt)
+                                <option value="{{$data->productCategoryList}}">{{$data->getProductCategoryList->product_category}}</option>
+                                @foreach($data2 as $dt)
                                     <option value="{{$dt->productCategoryListID}}">{{$dt->product_category}}</option>
                                 @endforeach                              
                             </select>
                         </div>
-                        </div>
                         <div class="form-group col-md-4">
                             <label for="category">Sub Category</label>
                             <select class="form-control custom-select" name="sub_category" id="sub_category">
-                                <option value="{{$data->category}}">{{$data->getProductCategoryList->product_category}}</option>
-                                @foreach($data2 as $dt)
+                                <option value="{{$data->subCategoryList}}">{{$data->getSubCategoryList->sub_category}}</option>
+                                @foreach($data3 as $dt)
                                     <option value="{{$dt->subCategoryListID}}">{{$dt->sub_category}}</option>
                                 @endforeach                              
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="category">Product List</label>
-                            <input type="text" class="form-control" name="product_list" id="product_list" value="{{$data->product_list}}" required>
+                            <input type="text" class="form-control" name="product_list" id="product_list" value="{{$data->productList}}" required>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="category">Remarks</label>

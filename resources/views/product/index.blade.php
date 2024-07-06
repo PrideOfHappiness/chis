@@ -1,3 +1,12 @@
+<?php 
+    function removeLastWord($string, $wordsToRemove = ['ACIPI', 'EN']) {
+    $words = explode(' ', $string);
+    while (!empty($words) && in_array(end($words), $wordsToRemove)) {
+        array_pop($words);
+    }
+    return implode(' ', $words);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,9 +63,11 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Nomor</th>
                             <th>Photo</th>
+                            <th>Brand</th>
                             <th>Code</th>
-                            <th>Part No. </th>
+                            <th>Part Number</th>
                             <th>Item</th>
                             <th>Vehicle Type</th>
                             <th>Category</th>
@@ -67,8 +78,9 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        @foreach($data as $product)
+                        @foreach($data as $item=>$product)
                             <tr>
+                                <td>{{$item + 1}}</td>
                                 <td>
                                     @if($product->fotoProducts->count() === 0)
                                         <img src="{{asset('style/dist/img/avatar5.png')}}" alt="gambarUser" width="50px" height="50px">
@@ -78,8 +90,9 @@
                                         @endforeach
                                     @endif
                                 </td>
+                                <td>{{ $product->getBrand->brand }}</td>
                                 <td>{{ $product->code }}</td>
-                                <td>{{ $product->part_no }}</td>
+                                <td>{{ removeLastWord($product->part_no) }}</td>
                                 <td>{{ $product->productName }}</td>
                                 <td>{{ $product->getVehicleTypeFromVehicleType->getMerkFromMerkKendaran->namaKendaraan }} {{$product->getVehicleTypeFromVehicleType->vehicle_type}}</td>
                                 <td>{{ $product->getProductCategoryFromVehicleType->getProductCategoryList->product_category }}</td>
@@ -123,6 +136,10 @@
                 <a class="btn btn-info" href="{{route('importProduct')}}">
                     <i class="fa-solid fa-file-import"></i>
                     Import Data
+                </a>
+                <a class="btn btn-info" href="{{route('downloadFormatProduk')}}">
+                    <i class="fa-solid fa-download"></i>
+                    Download Format Data
                 </a>
                 {!! $data->links() !!}
             </main>

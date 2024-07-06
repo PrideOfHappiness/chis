@@ -28,12 +28,14 @@ return new class extends Migration
             $table->integer('hpp')->nullable();
             $table->integer('harga_jual');
             $table->text('notes')->nullable();
+            $table->bigInteger('warehouseID')->unsigned();
             $table->timestamps();
 
             $table->foreign('brand')->references('brandID')->on('brand');
             $table->foreign('vehicleType')->references('vehicleTypeID')->on('vehicle_type');
             $table->foreign('productCategory')->references('productCategoryID')->on('product_category');
             $table->foreign('subCategory')->references('subCategoryListID')->on('sub_categories');
+            $table->foreign('warehouseID')->references('warehouseID')->on('warehouse');
         });
     }
 

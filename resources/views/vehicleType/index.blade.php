@@ -37,6 +37,7 @@
                         </select>
                         <label for="search">Cari berdasarkan: </label>
                         <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
+                        <button type="submit" class="btn btn-primary">Cari</button>
                     </form>
                 </div>
                 <br>
@@ -79,7 +80,7 @@
                     </tbody>
                 </table>
                 <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/vehicleType/pilihCopy"> 
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>

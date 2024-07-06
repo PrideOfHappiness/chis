@@ -46,13 +46,14 @@
                         </select>
                         <label for="search">Cari berdasarkan: </label>
                         <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
+                        <button type="submit" class="btn btn-primary">Cari</button>
                     </form>
                 </div>
                 <br>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Nomor</th>
                             <th>Category</th>
                             <th>Sub Category</th>
                             <th>Product List</th>
@@ -62,9 +63,9 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        @foreach($data as $productCategory)
+                        @foreach($data as $item=>$productCategory)
                             <tr>
-                                <td>{{ $productCategory->productCategoryID }}</td>
+                                <td>{{ $item + 1 }}</td>
                                 <td>{{ $productCategory->getProductCategoryList->product_category }}</td>
                                 <td>{{ $productCategory->getSubCategoryList->sub_category }}</td>
                                 <td>{{ $productCategory->productList }}</td>
@@ -90,7 +91,7 @@
                     </tbody>
                 </table>
                 <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/productCategory/pilihCopy"> 
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>
@@ -105,6 +106,10 @@
                 <a class="btn btn-info" href="{{route('imporProductCategory')}}"> 
                     <i class="fa-solid fa-file-import"></i>
                         Import Data
+                </a>
+                <a class="btn btn-info" href="{{route('downloadFormatProdukCategory')}}">
+                    <i class="fa-solid fa-download"></i>
+                    Download Format Data
                 </a>
                 {!! $data->links() !!}
             </main>

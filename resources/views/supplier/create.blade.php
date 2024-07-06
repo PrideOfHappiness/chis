@@ -56,27 +56,27 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="phone">Other Phone</label>
-                            <input type="text" class="form-control" name="phone2" id="phone" placeholder="Phone">
+                            <input type="text" class="form-control" name="phone2" id="phone" placeholder="Phone 2">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="phoneHP">Other Mobile Phone Number</label>
-                            <input type="text" class="form-control" name="phoneHP2" id="phoneHP" placeholder="Mobile Phone Number">
+                            <input type="text" class="form-control" name="phoneHP2" id="phoneHP" placeholder="Mobile Phone Number 2">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="fax">Other Fax</label>
-                            <input type="text" class="form-control" name="fax2" id="fax" placeholder="Fax">
+                            <input type="text" class="form-control" name="fax2" id="fax" placeholder="Fax 2">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="phone">Other Phone Number 2</label>
-                            <input type="text" class="form-control" name="phone3" id="phone" placeholder="Phone">
+                            <input type="text" class="form-control" name="phone3" id="phone" placeholder="Phone 3">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="phoneHP">Other Mobile Phone Number 2</label>
-                            <input type="text" class="form-control" name="phoneHP3" id="phoneHP" placeholder="Mobile Phone Number">
+                            <input type="text" class="form-control" name="phoneHP3" id="phoneHP" placeholder=" #Mobile Phone Number3">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="fax">Other Fax Number 2</label>
-                            <input type="text" class="form-control" name="fax3" id="fax" placeholder="Fax">
+                            <input type="text" class="form-control" name="fax3" id="fax" placeholder="Fax 3">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="email">Email</label>
@@ -84,15 +84,20 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="npwp">NPWP</label>
-                            <input type="text" class="form-control" name="npwp" id="npwp" placeholder="City" required>
+                            <input type="text" class="form-control" name="npwp" id="npwp" placeholder="NPWP" required>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="npwp">Category</label>
-                            <input type="text" class="form-control" name="category" id="category" placeholder="City" required>
+                            <select class="form-control custom-select" name="category" id="category">
+                                <option value="Mobil">Mobil</option>
+                                <option value="Motor">Motor</option>
+                                <option value="Import">Import</option>
+                                <option value="Local">Local</option>
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="status">Status</label>
-                            <select class="form-control" name="status" id="status">
+                            <select class="form-control custom-select" name="status" id="status">
                                 <option value="Active">Active</option>
                                 <option value="Not Active">Not Active</option>
                             </select>

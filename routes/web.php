@@ -5,6 +5,7 @@ use App\Http\Controllers\BackupController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ForwarderController;
+use App\Http\Controllers\InventoryByCategoryController;
 use App\Http\Controllers\ProductCategoryListController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
@@ -19,6 +20,8 @@ use App\Http\Controllers\SalesmanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleTypeController;
 use App\Http\Controllers\InventoryAdjustmentController;
+use App\Http\Controllers\InventoryByDateController;
+use App\Http\Controllers\InventoryByProductController;
 use App\Http\Controllers\InventoryReturnController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProductSubCategoryListController;
@@ -59,6 +62,10 @@ Route::middleware(['Admin'])->group(function (){
     Route::post('/admin/productCategory/downloadToCSV', [ProductCategoryController::class, 'exportToCSV'])->name('productCategory.export');
     Route::get('/admin/productCategory/getimport', [ProductCategoryController::class, 'getImport'])->name('imporProductCategory');
     Route::post('/admin/productCategory/import', [ProductCategoryController::class, 'imporData']);
+    Route::get('/admin/productCategory/pilihCopy', [ProductCategoryController::class, 'kopiData']);
+    Route::get('/admin/productCategory/copy/{id}', [ProductCategoryController::class, 'copy']);
+    Route::post('/admin/productCategory/copy/proses/', [ProductCategoryController::class, 'prosesData'])->name('productCategory.prosesData');
+    Route::get('admin/productCategory/downloadFormat', [ProductCategoryController::class, 'getFileDownload'])->name('downloadFormatProdukCategory');
     //Product Category List
     Route::resource('/admin/productCategoryList', ProductCategoryListController::class)->except(['show', 'edit', 'update', 'destroy']);
     Route::post('/admin/productCategoryList/cari', [ProductCategoryListController::class, 'cari']);
@@ -66,13 +73,16 @@ Route::middleware(['Admin'])->group(function (){
     Route::resource('/admin/subCategoryList', ProductSubCategoryListController::class)->except(['show', 'edit', 'update', 'destroy']);
     Route::post('/admin/subCategoryList/cari', [ProductSubCategoryListController::class, 'cari']);
      //Product Brand List
-     Route::resource('/admin/brand', BrandController::class)->except(['show', 'edit', 'update', 'destroy']);
+     Route::resource('/admin/brand', BrandController::class)->except(['show']);
      Route::post('/admin/brand/cari', [BrandController::class, 'cari']);
     //Vehicle Type
     Route::resource('/admin/vehicleType', VehicleTypeController::class)->except(['show']);
     Route::post('/admin/vehicleType/cari', [VehicleTypeController::class, 'cari'])->name('cariVehicleType');
     Route::get('/admin/vehicleType/print', [VehicleTypeController::class, 'print']);
     Route::post('/admin/vehicleType/downloadToCSV', [VehicleTypeController::class, 'exportToCSV'])->name('vehicleType.export');
+    Route::get('/admin/vehicleType/pilihCopy', [VehicleTypeController::class, 'kopiData']);
+    Route::get('/admin/vehicleType/copy/{id}', [VehicleTypeController::class, 'copy']);
+    Route::post('/admin/vehicleType/copy/proses/', [VehicleTypeController::class, 'prosesData'])->name('vehicleType.prosesData');
     //User Approval
     Route::resource('/admin/userApproval', ApprovalController::class)->except(['show']);
     Route::post('/admin/userApproval/cari', [ApprovalController::class, 'cari'])->name('cariApprovalType');
@@ -91,6 +101,7 @@ Route::middleware(['Admin'])->group(function (){
     Route::get('/admin/product/pilihCopy', [ProductController::class, 'kopiData']);
     Route::get('/admin/product/copy/{id}', [ProductController::class, 'copy']);
     Route::post('/admin/product/copy/proses/', [ProductController::class, 'prosesData'])->name('product.prosesData');
+    Route::get('admin/product/downloadFormat', [ProductController::class, 'getFileDownload'])->name('downloadFormatProduk');
     //Salesman
     Route::resource('/admin/salesman', SalesmanController::class)->except(['show']);
     Route::post('/admin/salesman/cari', [SalesmanController::class, 'cari'])->name('cariSalesmanType');
@@ -105,25 +116,34 @@ Route::middleware(['Admin'])->group(function (){
     Route::get('/admin/customer/print', [CustomerController::class, 'print']);
     Route::get('/admin/customer/downloadToCSV', [CustomerController::class, 'exportToCSV'])->name('customer.export');
     Route::get('/admin/customer/downloadToExcel', [CustomerController::class, 'exportToExcel'])->name('customer.excel');
-    Route::get('/admin/customer/pilihCopy', [CustomerController::class, 'kopiData']);
-    Route::get('/admin/customer/copy/{id}', [CustomerController::class, 'copy']);
-    Route::post('/admin/customer/copy/proses/', [CustomerController::class, 'prosesData'])->name('salesman.prosesData');
+    Route::get('/admin/customer/pilihCopy', [CustomerController::class, 'copy']);
+    Route::get('/admin/customer/copy/{id}', [CustomerController::class, 'kopiData']);
+    Route::post('/admin/customer/copy/proses/', [CustomerController::class, 'prosesData'])->name('customer.prosesData');
     //Supplier
     Route::resource('/admin/supplier', SupplierController::class)->except(['show']);
     Route::post('/admin/supplier/cari', [SupplierController::class, 'cari'])->name('cariSupplierType');
     Route::get('/admin/supplier/print', [SupplierController::class, 'print']);
     Route::get('/admin/supplier/downloadToCSV', [SupplierController::class, 'exportToCSV'])->name('supplier.export');
     Route::get('/admin/supplier/downloadToExcel', [SupplierController::class, 'exportToExcel'])->name('supplier.excel');
+    Route::get('/admin/supplier/pilihCopy', [SupplierController::class, 'copy']);
+    Route::get('/admin/supplier/copy/{id}', [SupplierController::class, 'kopiData']);
+    Route::post('/admin/supplier/copy/proses/', [SupplierController::class, 'prosesData'])->name('supplier.prosesData');
     //Warehouse
-    Route::resource('/admin/warehouse', WarehouseController::class)->except('show')->except('destroy');
+    Route::resource('/admin/warehouse', WarehouseController::class)->except(['show', 'destroy']);
     Route::post('/admin/warehouse/cari', [WarehouseController::class, 'cari'])->name('cariWarehouseType');
     Route::get('/admin/warehouse/print', [WarehouseController::class, 'print']);
     Route::post('/admin/warehouse/downloadToCSV', [WarehouseController::class, 'exportToCSV'])->name('warehouse.export');
+    Route::get('/admin/warehouse/pilihCopy', [WarehouseController::class, 'kopiData']);
+    Route::get('/admin/warehouse/copy/{id}', [WarehouseController::class, 'copy']);
+    Route::post('/admin/warehouse/copy/proses/', [WarehouseController::class, 'prosesData'])->name('warehouse.prosesData');
     //Forwarder
     Route::resource('/admin/forwarder', ForwarderController::class)->except(['show']);
-    Route::post('/admin/forwarder/cari', [CustomerController::class, 'cari'])->name('cariForwarderType');
-    Route::get('/admin/forwarder/print', [CustomerController::class, 'print']);
-    Route::post('/admin/forwarder/downloadToCSV', [CustomerController::class, 'exportToCSV'])->name('forwarder.export');
+    Route::post('/admin/forwarder/cari', [ForwarderController::class, 'cari'])->name('cariForwarderType');
+    Route::get('/admin/forwarder/print', [ForwarderController::class, 'print']);
+    Route::post('/admin/forwarder/downloadToCSV', [ForwarderController::class, 'exportToCSV'])->name('forwarder.export');
+    Route::get('/admin/Forwarder/pilihCopy', [ForwarderController::class, 'kopiData']);
+    Route::get('/admin/Forwarder/copy/{id}', [ForwarderController::class, 'copy']);
+    Route::post('/admin/Forwarder/copy/proses/', [ForwarderController::class, 'prosesData'])->name('forwarder.prosesData');
     //Backup
     Route::get('/admin/backup', [BackupController::class, 'index']);
     Route::get('/admin/backup/download', [BackupController::class, 'downloadDatabase'])->name('backup');
@@ -146,6 +166,15 @@ Route::middleware(['Admin'])->group(function (){
     Route::post('admin/inventory/return/in/store', [InventoryReturnController::class, 'store'])->name('returnIn.store');
     Route::post('admin/inventory/return/out/store', [InventoryReturnController::class, 'store'])->name('returnOut.store');
     Route::post('admin/inventory/return/cari', [InventoryReturnController::class, 'cari'])->name('cariReturn');
+    //Inventory By Category
+    Route::get('admin/inventory/byCategory', [InventoryByCategoryController::class, 'index']);
+    Route::post('admin/inventory/byCategory/cari', [InventoryByCategoryController::class, 'cari'])->name('hasilRekapInventoryCategory');
+    //Inventory By Date
+    Route::get('admin/inventory/byDate', [InventoryByDateController::class, 'index']);
+    Route::post('admin/inventory/byDate/cari', [InventoryByDateController::class, 'cari'])->name('hasilRekapInventoryDate');
+    //Inventory By Product
+    Route::get('admin/inventory/byProduct', [InventoryByProductController::class, 'index']);
+    Route::post('admin/inventory/byProduct/cari', [InventoryByProductController::class, 'cari'])->name('hasilRekapInventoryProduct');
     });
 
 Route::middleware(['auth'])->group(function(){

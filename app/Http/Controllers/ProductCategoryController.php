@@ -7,6 +7,7 @@ use App\Models\ProductCategory;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Exports\ProductCategoryExport;
 use App\Imports\ProductCategoryImport;
+use App\Models\Product;
 use App\Models\ProductCategory_Sub;
 use App\Models\SubCategory;
 use Maatwebsite\Excel\Facades\Excel;
@@ -32,19 +33,15 @@ class ProductCategoryController extends Controller
             'product_list' => 'required',
         ]);
 
-        if($request->input('sub_category') || $request->input('category') == '--') {
-            return redirect()->route('category.create')->with('error', 'Data Kategori atau Sub Kategori wajib diisi!');
-        }
-
         $category = $request->input('category');
         $subCategory = $request->input('sub_category');
         $productList = $request->input('product_list');
         $remarks = $request->input('remarks');
 
         ProductCategory::create([
-            'category' => $category,
-            'sub_category' => $subCategory,
-            'product_list' => $productList,
+            'productCategoryList' => $category,
+            'subCategoryList' => $subCategory,
+            'productList' => $productList,
             'remarks' => $remarks,
         ]);
 
@@ -60,11 +57,11 @@ class ProductCategoryController extends Controller
 
     public function update(Request $request, $id){
         $data = ProductCategory::find($id);
-        $this->validate($request, [
-            'category' => 'required',
-        ]);
 
-        $data->category = $request->input('category');
+        $data->productCategoryList = $request->input('category');
+        $data->subCategoryList = $request->input('sub_category');
+        $data->productList = $request->input('product_list');
+        $data->remarks = $request->input('remarks');
         $data->update();
 
         return redirect('/admin/productCategory')->with('success', 'Data berhasil diubah!');
@@ -72,9 +69,16 @@ class ProductCategoryController extends Controller
 
     public function destroy($id){
         $data = ProductCategory::find($id);
-        $data->delete();
+        $id = $data->productCategoryID;
+        $product = Product::where('productCategory', $id)->get();
 
-        return redirect('/admin/productCategory')->with('success', 'Data berhasil dihapus!');
+        if(sizeof($product)>0){
+            redirect('/admin/productCategory')
+                ->with('error', 'Data tidak dapat dihapus!');
+        }else{
+            $data->delete();
+            return redirect('/admin/productCategory')->with('success', 'Data berhasil dihapus!');
+        }
     }
 
     public function exportToCSV(Request $request){
@@ -92,18 +96,22 @@ class ProductCategoryController extends Controller
         $pagination = $request->input('searchByData');
 
         if($dataCari){
-            $data = ProductCategory::where('brand', 'LIKE', '%' . $dataCari . '%')
-            ->orWhere('category', 'LIKE', '%' . $dataCari . '%')
-            ->orWhere('sub_category', 'LIKE', '%' . $dataCari . '%')
-            ->orWhere('product_list', 'LIKE', '%' . $dataCari . '%')
+            $data = ProductCategory::with('getProductCategoryList', 'getSubCategoryList')
+            ->whereHas('getProductCategoryList', function($query) use($dataCari){
+                $query->where('product_category', 'LIKE', '%' . $dataCari . '%');
+            })
+            ->orWhereHas('getSubCategoryList', function($query) use($dataCari){
+                $query->where('sub_category', 'LIKE', '%' . $dataCari . '%');
+            })
+            ->orWhere('productList', 'LIKE', '%' . $dataCari . '%')
             ->orWhere('remarks', 'LIKE', '%' . $dataCari . '%')
-            ->take($pagination)->get();
+            ->paginate($pagination);
         }else{
             $data =  ProductCategory::paginate($pagination);
         }
 
         $total = ProductCategory::count();
-        return response()->json($data);
+        return view('productCategory.index', compact('data', 'total'));
     }
 
     public function getImport(){
@@ -118,5 +126,43 @@ class ProductCategoryController extends Controller
         Excel::import(new ProductCategoryImport, $request->file('file'));
 
         return redirect('/admin/productCategory')->with('success', 'Data imported successfully');
+    }
+
+    public function kopiData(){
+        $data = ProductCategory::all();
+        return view('productCategory.copy', compact('data'));
+    }
+
+    public function copy($id){
+        $data = ProductCategory::find($id);
+        $subCategory = SubCategory::all();
+        $productCategory= ProductCategory_Sub::all();
+        return view('productCategory.copyData', compact('data', 'productCategory', 'subCategory'));
+    }
+
+    public function prosesData(Request $request){
+
+        $category = $request->input('category');
+        $subCategory = $request->input('sub_category');
+        $productList = $request->input('product_list');
+        $remarks = $request->input('remarks');
+
+        ProductCategory::create([
+            'productCategoryList' => $category,
+            'subCategoryList' => $subCategory,
+            'productList' => $productList,
+            'remarks' => $remarks,
+        ]);
+        return redirect('/admin/productCategory')->with('success', 'Data berhasil ditambahkan!');
+    } 
+
+    public function getFileDownload(){
+        $filePath = public_path('fileDownload/formatProductCategory.xlsx');
+
+        if(file_exists($filePath)){
+            return response()->download($filePath);
+        }else{
+            abort(404, 'File tidak tersedia');
+        }
     }
 }

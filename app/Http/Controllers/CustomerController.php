@@ -168,7 +168,7 @@ class CustomerController extends Controller
         $data->bayarPer = $request->input('top');
         $data->update();
 
-        return view('customer.index')
+        return redirect()->route('customer.index')
         ->with('success', 'Data customer behasil diubah!');
     }
 
@@ -236,10 +236,80 @@ class CustomerController extends Controller
         return view('customer.copy', compact('data', 'total'));
     }
 
-    public function pilihKopiData($id){
-
+    public function kopiData($id){
+        $data = Customers::find($id);
+        $sales = Salesman::all();
+        return view('customer.copyData', compact('data', 'sales'));   
     }
-    public function copyData(Request $request){
+    public function prosesData(Request $request){
+        $this->validate($request, [
+            'customerID' => 'required',
+            'code' => 'required',
+            'customerName' => 'required',
+            'address' => 'required',
+            'deliveryAddress' => 'required',
+            'contact' => 'required',
+            'phone' => 'required',
+            'phoneHP' => 'required',
+            'fax' => 'required',
+            'email' => 'required',
+            'city' => 'required',
+            'area' => 'required',
+            'status' => 'required',
+            'statusPKP' => 'required',
+            'salesmanID' => 'required',
+            'top' => 'required',
+        ]);
 
+        $customerID = $request->input('customerID') + 1;
+        $code = $request->input('code');
+        $customerName = $request->input('customerName');
+        $address = $request->input('address');
+        $deliveryAddress = $request->input('deliveryAddress');
+        $contact = $request->input('contact');
+        $phone = $request->input('phone');
+        $phoneHP = $request->input('phoneHP');
+        $fax = $request->input('fax');
+        $phone2 = $request->input('phone2');
+        $phoneHP2 = $request->input('phoneHP2');
+        $fax2 = $request->input('fax2');
+        $phone3 = $request->input('phone3');
+        $phoneHP3 = $request->input('phoneHP3');
+        $fax3 = $request->input('fax3');
+        $email = $request->input('email');
+        $city = $request->input('city');
+        $area = $request->input('area');
+        $status = $request->input('status');
+        $statusPKP = $request->input('statusPKP');
+        $salesmanID = $request->input('salesmanID');
+        $top = $request->input('top');
+
+        Customers::create([
+            'customerIDs' => $customerID,
+            'code' => $code,
+            'customerName' => $customerName,
+            'alamat' => $address,
+            'contact' => $contact,
+            'telepon' => $phone,
+            'teleponHP' => $phoneHP,
+            'teleponFax' => $fax,
+            'telepon2' => $phone2,
+            'teleponHP2' => $phoneHP2,
+            'teleponFax2' => $fax2,
+            'telepon3' => $phone3,
+            'teleponHP3' => $phoneHP3,
+            'teleponFax3' => $fax3,
+            'email' => $email,
+            'kota' => $city,
+            'area' => $area,
+            'status' => $status,
+            'statusPKP' => $statusPKP,
+            'userIDSales' => $salesmanID,
+            'deliveryAddress' => $deliveryAddress,
+            'bayarPer' => $top,
+        ]);
+
+        return redirect('/admin/customer')
+        ->with('success', 'Data customer behasil ditambahkan!');
     }
 }

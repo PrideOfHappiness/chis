@@ -14,6 +14,7 @@ use App\Imports\ProductImport;
 use App\Models\Brand;
 use App\Models\ProductCategory_Sub;
 use App\Models\SubCategory;
+use App\Models\Warehouses;
 
 class ProductController extends Controller
 {
@@ -21,7 +22,8 @@ class ProductController extends Controller
         $data = Product::paginate(10);
         $foto = Product::with('fotoProducts')->get();
         $total = Product::count();
-        return view('product.index', compact('data', 'total', 'foto'));
+        $brands = Brand::all();
+        return view('product.index', compact('data', 'total', 'foto', 'brands'));
     }
 
     public function create(){
@@ -29,7 +31,8 @@ class ProductController extends Controller
         $data = ProductCategory_Sub::all();
         $vehicleType = VehicleType::all();
         $subCategory = SubCategory::all();
-        return view('product.create', compact('data', 'vehicleType', 'brand', 'subCategory'));
+        $warehouse = Warehouses::all();
+        return view('product.create', compact('data', 'vehicleType', 'brand', 'subCategory', 'warehouse'));
     }
 
     public function store(Request $request){
@@ -46,8 +49,8 @@ class ProductController extends Controller
             'satuan' => 'required',
             'min_stock' => 'required',
             'stock' => 'required',
-            'notes' => 'required',
             'subcategory' => 'required',
+            'gudang' => 'required',
         ]);
 
         $brand = $request->input('brand');
@@ -67,6 +70,7 @@ class ProductController extends Controller
         $status = $request->input('status');
         $notes = $request->input('notes');
         $subCategory = $request->input('subcategory');
+        $gudang = $request->input('gudang');
 
         $data = Product::create([
             'brand' => $brand,
@@ -84,6 +88,7 @@ class ProductController extends Controller
             'harga_jual' => $jual,
             'notes' => $notes,
             'subCategory' => $subCategory,
+            'warehouseID' => $gudang,
         ]);
 
         if($request->hasFile('fileFoto')){
@@ -105,12 +110,13 @@ class ProductController extends Controller
 
     public function edit($id){
         $data = Product::find($id);
-        $productCategory = ProductCategory::all();
+        $productCategory = ProductCategory_Sub::all();
         $subCategory = SubCategory::all();
         $vehicleType = VehicleType::all();
         $brand = Brand::all();
+        $warehouse = Warehouses::all();
         $foto = $data->fotoProducts;
-        return view('product.edit', compact('data', 'productCategory','vehicleType', 'subCategory','foto', 'brand'));
+        return view('product.edit', compact('data', 'productCategory','vehicleType', 'subCategory','foto', 'brand', 'warehouse'));
     }
 
     public function update(Request $request, $id){
@@ -131,6 +137,7 @@ class ProductController extends Controller
             $data->harga_jual = $request->input('hargaJual');
             $data->notes = $request->input('notes');
             $data->subCategory = $request->input('subcategory');
+            $data->warehouseID = $request->input('gudang');
             $data->update();
 
             if($request->hasFile('fileFoto')){
@@ -159,8 +166,14 @@ class ProductController extends Controller
 
     public function destroy($id){
         $data = Product::find($id);
+        $foto = $data->fotoProducts;
+        if($foto->count() > 0){
+            foreach($foto as $datas){
+                $datas->delete();
+            }
+        }
         $data->delete();
-        return view('product.index')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('product.index')->with('success', 'Data berhasil dihapus!');
     }
 
     public function print(Request $request){
@@ -199,7 +212,13 @@ class ProductController extends Controller
             ->orWhere('stock', 'LIKE', '%' . $dataCari . '%')
             ->orWhere('satuan', 'LIKE', '%' . $dataCari . '%')
             ->orWhere('harga_beli', 'LIKE', '%' . $dataCari . '%')
-            ->orWhere('harga_jual', 'LIKE', '%' . $dataCari . '%');
+            ->orWhere('harga_jual', 'LIKE', '%' . $dataCari . '%')
+            ->orWhereHas('getSubCategoryFromSubCategory', function($query) use($dataCari){
+                $query->where('sub_category', 'LIKE', '%' . $dataCari . '%');
+            })
+            ->orWhereHas('getBrand', function($query) use($dataCari){
+                $query->where('brand', 'LIKE', '%' . $dataCari . '%');
+            });
     }
 
         $data = $query->paginate($countData);
@@ -257,6 +276,7 @@ class ProductController extends Controller
         $status = $request->input('status');
         $notes = $request->input('notes');
         $subCategory = $request->input('subcategory');
+        $gudang = $request->input('gudang');
 
         $data = Product::create([
             'brand' => $brand,
@@ -274,6 +294,7 @@ class ProductController extends Controller
             'harga_jual' => $jual,
             'notes' => $notes,
             'subCategory' => $subCategory,
+            'warehouseID' => $gudang,
         ]);
 
         if($request->hasFile('fileFoto')){
@@ -290,6 +311,16 @@ class ProductController extends Controller
         }else{
             return redirect()->route('product.create')
                 ->with('error', 'Foto belum ditambahkan!');
+        }
+    }
+
+    public function getFileDownload(){
+        $filePath = public_path('fileDownload/formatProduct.xlsx');
+
+        if(file_exists($filePath)){
+            return response()->download($filePath);
+        }else{
+            abort(404, 'File tidak tersedia');
         }
     }
 }

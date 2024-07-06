@@ -20,21 +20,23 @@
                 <form action="{{ route('adjustmentsOut.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="type" id="type" value="OUT">
-                    <div class="mb-3">
-                        <label for="products">Warehouse | Product | Stock</label>
-                        <select class="form-control" name="productID" id="productID">
-                            @foreach($data as $list)
-                                <option value="{{$list->productID}}">{{$list->code}} {{$list->partNo}} {{$list->productName}} Kendaraan : {{$list->getVehicleTypeFromVehicleType->kendaraan}}  {{$list->getVehicleTypeFromVehicleType->type}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="qty">Qty</label>
-                        <input type="number" class="form-control" name="qty" id="qty" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="keterangan">Keterangan</label>
-                        <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Keterangan" required>
+                    <div class="row g-2">
+                        <div class="form-group col-md-6">
+                            <label for="perusahaan">Warehouse | Product | Stock</label>
+                            <select class="form-control custom-select" name="productID" id="productID">
+                                @foreach($data as $list)
+                                    <option value="{{$list->productID}}">{{$list->getWarehouseID->warehouseName}} | {{$list->partNo}} {{$list->productName}} ( Stock :{{$list->stock}} ) | Kendaraan: {{$list->getVehicleTypeFromVehicleType->getMerkFromMerkKendaran->namaKendaraan}}  {{$list->getVehicleTypeFromVehicleType->vehicle_type}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="department">Qty</label>
+                            <input type="number" class="form-control" name="qty" id="qty" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="branch">Keterangan</label>
+                            <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Keterangan" required>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah Data</button>
                 </form>

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->enum('return_code', ['IN', 'OUT']);
             $table->integer('productQuantity_return');
             $table->string('satuan_return', 5);
-            $table->bigInteger('customerIDs')->nullble()->unsigned();
-            $table->bigInteger('supplierIDs')->nullble()->unsigned();
+            $table->bigInteger('customerIDs')->nullable()->unsigned();
+            $table->bigInteger('supplierIDs')->nullable()->unsigned();
             $table->bigInteger('userID_return')->unsigned();
             $table->text('keterangan_return');
             $table->date('return_created');

@@ -50,7 +50,7 @@ class SalesmanController extends Controller
             ]);
 
             $data = Salesman::paginate(10);
-            return view('salesman.index', compact('data'))
+            return redirect()->route('salesman.index')
                 ->with('success', 'Data berhasil ditambahkan!');
         }
     }
@@ -97,7 +97,7 @@ class SalesmanController extends Controller
     public function destroy($id){
         $data = Salesman::find($id);
         $data->delete();
-        return view('salesman.index', compact('data'))
+        return redirect()->route('salesman.index')
                 ->with('success', 'Data berhasil dihapuskan!');
     }
 
@@ -128,6 +128,43 @@ class SalesmanController extends Controller
         }
 
 
-        return response()->json($data);
+        return view('salesman.index', compact('data', 'pagination'));
     }
+
+    public function kopiData(){
+        $data = Salesman::paginate(10);
+        return view('salesman.copy', compact('data'));
+    }
+
+    public function copy($id){
+        $data = Salesman::find($id);
+        return view('salesman.copyData', compact('data'));
+    }
+
+    public function prosesData(Request $request){
+
+        $salesmanID = $request->input('salesmanID');
+        $salesmanName = $request->input('salesmanName');
+        $salesmanCode = $request->input('salesmanCode');
+        $status = $request->input('status');
+
+        if($salesmanID == $salesmanCode){
+            $data = User::where('nama', $salesmanName)->first();
+            if(!$data){
+                return view('salesman.create')
+                ->with('error', 'Data Nama tidak tersedia!');
+            }else{
+                $userID = User::where('nama', $salesmanName)->value('userIDNo');
+            }
+
+            Salesman::create([
+                'userID' => $userID,
+                'alias' => $salesmanCode,
+                'status' => $status,
+            ]);
+            return redirect()->route('salesman.index')
+                ->with('success', 'Data berhasil ditambahkan!');
+        }
+    }
+
 }

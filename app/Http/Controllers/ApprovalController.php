@@ -92,19 +92,26 @@ class ApprovalController extends Controller
         $dataCari = $request->input('search');
         $pagination = $request->input('searchByData');
 
-        if($dataCari != null && $pagination != null){
-            $data = UserApproval::where('nama', 'LIKE', '%' . $dataCari . '%')->paginate($pagination);
-            $total = UserApproval::count();
-        }elseif ($dataCari != null) {
-            $data =  UserApproval::where('nama', 'LIKE', '%' . $dataCari . '%')->get();
-            $total = UserApproval::count();
-            if(!$dataCari){
-                $data =  UserApproval::where('jabatan', 'LIKE', '%' . $dataCari . '%')->get();
-            }
-        }else{
-            $data =  UserApproval::paginate(10);
-            $total = UserApproval::count();
+        if(empty($dataCari)){
+            return response()->json([
+                'data' => [],
+                'total' => 0,
+            ]);
         }
+
+        $query = UserApproval::with(['getUserIDFromUsers']);
+
+        if (!empty($dataCari)) {
+            $query->where('approval', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('sequence', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('jabatan', 'LIKE', '%' . $dataCari . '%')
+            ->orWhere('status', 'LIKE', '%' . $dataCari . '%');
+    }
+
+        $data = $query->paginate($pagination);
+        $total = UserApproval::count();
+
+        return view('approval.index', compact('data', 'total'));
     }
 
     public function exportToCSV(Request $request){

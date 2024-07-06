@@ -57,10 +57,10 @@
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($data as $forwarder)
+                    <tbody id="tableBody">
+                        @foreach($data as $item=>$forwarder)
                             <tr>
-                                <td>{{ $forwarder->forwaderID }}</td>
+                                <td>{{ $item + 1}}</td>
                                 <td>{{ $forwarder->forwaderName }}</td>
                                 <td>{{ $forwarder->city }}</td>
                                 <td>{{ $forwarder->contact }}</td>
@@ -89,15 +89,15 @@
                     </tbody>
                 </table>
                 <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/Forwarder/pilihCopy"> 
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="{{route('forwarder.export')}}"> 
                     <i class="fa-solid fa-file-export"></i>
                         Export to CSV
                 </a>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/forwarder/print"> 
                     <i class="fa-solid fa-print"></i>
                         Print
                 </a>

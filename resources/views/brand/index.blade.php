@@ -16,6 +16,11 @@
                     <p>{{ $message }}</p>
                 </div>
             @endif 
+            @if ($message = Session::get('error'))
+                <div class="alert alert-danger">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif 
             <header>
                 <h1>Brand Dashboard</h1>
                 <a class="btn btn-success" href="{{ route('brand.create') }}"> 
@@ -46,6 +51,8 @@
                         <tr>
                             <th>ID</th>
                             <th>Category</th>
+                            <th>Update</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -53,6 +60,22 @@
                             <tr>
                                 <td>{{ $productCategory->brandID }}</td>
                                 <td>{{ $productCategory->brand }}</td>
+                                <td>
+                                    <a href="{{route('brand.edit', $productCategory->brandID)}}" class="btn btn-success">
+                                        <i class="fa-solid fa-file-pen"></i>
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <form action="{{ route('brand.destroy', $productCategory->brandID) }}" method="Post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="badge bg-danger">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Hapus Data
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

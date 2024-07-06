@@ -19,11 +19,11 @@
                 <h1>Product Return Dashboard</h1>
                 <a class="btn btn-info" href="{{route('returnOut.create')}}"> 
                     <i class="fa-solid fa-minus"></i>
-                        Return OUT
+                        Return OUT (Ke Supplier)
                 </a>
                 <a class="btn btn-primary" href="{{route('returnIn.create')}}"> 
                     <i class="fa-solid fa-plus"></i>
-                        Return IN
+                        Return IN (Dari Customer)
                 </a>
             </header>
             <main>

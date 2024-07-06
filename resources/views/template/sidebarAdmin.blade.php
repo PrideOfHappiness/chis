@@ -319,31 +319,31 @@
             <ul class="nav nav-treeview">
               <li class="nav-item"> 
                 <a href="/admin/inventory/perProduct" class="nav-link">
-                  <i class="fa-solid fa-rectangle-xmark"></i>
+                  <i class="fa-solid fa-table"></i>
                     <p>
                       Stock per Product
                     </p>
                   </a>
               </li>
               <li class="nav-item"> 
-                  <a href="#" class="nav-link">
-                    <i class="fa-solid fa-rectangle-xmark"></i>
+                  <a href="/admin/inventory/byCategory" class="nav-link">
+                    <i class="fa-solid fa-table-list"></i>
                       <p>
                         Stock per Category
                       </p>
                     </a>
               </li>
               <li class="nav-item"> 
-                <a href="#" class="nav-link">
-                  <i class="fa-solid fa-signs-post"></i>
+                <a href="/admin/inventory/byProduct" class="nav-link">
+                  <i class="fa-solid fa-list"></i>
                     <p>
                       Stock Card per Product
                     </p>
                 </a>
               </li>
               <li class="nav-item"> 
-                <a href="#" class="nav-link">
-                  <i class="fa-solid fa-rectangle-xmark"></i>
+                <a href="/admin/inventory/byDate" class="nav-link">
+                  <i class="fa-solid fa-calendar-days"></i>
                     <p>
                       Stock Card per Date
                     </p>
@@ -351,7 +351,7 @@
               </li>
               <li class="nav-item"> 
                   <a href="/admin/inventory/adjustments" class="nav-link">
-                    <i class="fa-solid fa-rectangle-xmark"></i>
+                    <i class="fa-solid fa-plus-minus"></i>
                       <p>
                         Stock Adjustments
                       </p>
@@ -359,7 +359,7 @@
               </li>
               <li class="nav-item"> 
                 <a href="/admin/inventory/return" class="nav-link">
-                  <i class="fa-solid fa-signs-post"></i>
+                  <i class="fa-solid fa-arrow-rotate-left"></i>
                     <p>
                       Stock Returns
                     </p>
@@ -376,7 +376,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item"> 
               <a href="#" class="nav-link">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <i class="fa-solid fa-file-invoice"></i>
                   <p>
                     Supplier Payment
                   </p>
@@ -384,7 +384,7 @@
               </li>
               <li class="nav-item"> 
                 <a href="#" class="nav-link">
-                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <i class="fa-solid fa-receipt"></i>
                     <p>
                       Customer Payment
                     </p>
@@ -392,7 +392,7 @@
             </li>
             <li class="nav-item"> 
               <a href="#" class="nav-link">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <i class="fa-solid fa-file-invoice-dollar"></i>
                   <p>
                     Akuntansi
                   </p>

@@ -62,6 +62,16 @@
                             <input type="text" class="form-control" name="npwp" id="city" value="{{$data->npwp}}" required>
                         </div>
                         <div class="form-group col-md-4">
+                            <label for="npwp">Category</label>
+                            <select class="form-control custom-select" name="category" id="category">
+                                <option value="{{$data->kategori}}">{{$data->kategori}}</option>
+                                <option value="Mobil">Mobil</option>
+                                <option value="Motor">Motor</option>
+                                <option value="Import">Import</option>
+                                <option value="Local">Local</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
                             <label for="status">Status</label>
                             <select class="form-control" name="status" id="status">
                                 <option value="{{$data->status}}">{{$data->status}}</option>

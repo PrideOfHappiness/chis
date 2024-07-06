@@ -19,6 +19,7 @@
                 <h4>Tambah Data Gudang</h4>
                 <form action="{{ route('warehouse.update', $data->warehouseID)}}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="row g-3">
                         <div class="form-group col-md-4">
                             <label for="code">Code</label>

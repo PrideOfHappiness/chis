@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exports\VehicleTypeExport;
+use App\Models\Brand;
+use App\Models\MerkKendaraan;
+use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use App\Models\VehicleType;
@@ -18,58 +21,54 @@ class VehicleTypeController extends Controller
     }
 
     public function create(){
-        return view('vehicleType.create');
+        $brand = MerkKendaraan::all();
+        return view('vehicleType.create', compact('brand'));
     }
 
     public function store(Request $request){
-        $this->validate($request, [
-            'id' => 'required',
-            'merk' => 'required',
-            'type' => 'required',
-        ]);
-
-        $id = $request->input('id');
-        $merk = $request->input('merk');
+        $id = $request->input('category');
         $type = $request->input('type');
 
         VehicleType::create([
-            'ID' => $id,
-            'kendaraan' => $merk,
-            'type' => $type,
+            'nama' => $id,
+            'vehicle_type' => $type,
         ]);
 
-        $data = VehicleType::paginate(10);
-        $total = VehicleType::count();
-        return view('vehicleType.index', compact('data', 'total'))
+        return redirect()->route('vehicleType.index')
             ->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id){
         $data = VehicleType::find($id);
-        return view('vehicleType.edit', compact('data'));
+        $brand = MerkKendaraan::all();
+        return view('vehicleType.edit', compact('data', 'brand'));
     }
 
     public function update(Request $request, $id){
         $data = VehicleType::find($id);
 
-        $data->id = $request->input('id');
-        $data->nama = $request->input('nama');
-        $data->kendaraan = $request->input('type');
-        $data->update();
+        $data->nama = $request->input('category');
+        $data->vehicle_type = $request->input('type');
+        $data->save();
 
-        $data = VehicleType::paginate(10);
-        $total = VehicleType::count();
-        return view('vehicleType.index', compact('data', 'total'))
+        return redirect()->route('vehicleType.index')
             ->with('success', 'Data berhasil diubah!');
 
     }
 
     public function destroy($id){
         $data = VehicleType::find($id);
-        $data->delete();
 
-        return view('vehicleType.index')
-        ->with('success', 'Data berhasil dihapus!');
+        $product = Product::where('vehicleType', $data)->get();
+        if(sizeof($product) > 0){
+            return redirect()->route('vehicleType.index')
+            ->with('error', 'Data tidak dapat dihapus karena data terikat dengan data lain!');
+        }else{
+            $data->delete();
+        }
+
+        return redirect()->route('vehicleType.index')
+            ->with('success', 'Data berhasil dihapus!');
     }
 
     public function exportToCSV(Request $request){
@@ -87,15 +86,45 @@ class VehicleTypeController extends Controller
         $pagination = $request->input('searchByData', 10);
 
         if($dataCari != null){
-            $data = VehicleType::where('ID', 'LIKE', '%' . $dataCari . '%')
-            ->orwhere('kendaraan', 'LIKE', '%' . $dataCari . '%')
-            ->orwhere('type', 'LIKE', '%' . $dataCari . '%')
-            ->take($pagination)->get();
+            $data = VehicleType::with('getMerkFromMerkKendaran')
+            ->whereHas('getMerkFromMerkKendaran', function($query) use($dataCari){
+                $query->where('namaKendaraan', 'LIKE', '%' . $dataCari . '%')
+                ->orWhere('inisial', 'LIKE', '%' . $dataCari . '%');
+            })
+            ->orwhere('vehicle_type', 'LIKE', '%' . $dataCari . '%')
+            ->paginate($pagination);
         }else{
             $data =  VehicleType::paginate(10);        
         }
 
+        $total = VehicleType::count();
 
-        return response()->json($data);
+        return view('vehicleType.index', compact('data', 'total'));
+    }
+
+    public function kopiData(){
+        $data = VehicleType::all();
+
+        return view('vehicleType.copy', compact('data'));
+    }
+
+    public function copy($id){
+        $data = VehicleType::find($id);
+        $productCategory = MerkKendaraan::all();
+        return view('vehicleType.copyData', compact('data', 'productCategory'));
+    }
+
+    public function prosesData(Request $request){
+        $id = $request->input('category');
+        $type = $request->input('type');
+
+        VehicleType::create([
+            'nama' => $id,
+            'vehicle_type' => $type,
+        ]);
+
+
+        return redirect()->route('vehicleType.index')
+            ->with('success', 'Data berhasil ditambahkan!');
     }
 }

@@ -55,9 +55,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data as $productCategory)
+                        @foreach($data as $item=>$productCategory)
                             <tr>
-                                <td>{{ $productCategory->approvalID }}</td>
+                                <td>{{ $item + 1 }}</td>
                                 <td>{{ $productCategory->approval }}</td>
                                 <td>{{ $productCategory->sequence }}</td>
                                 <td>{{ $productCategory->jabatan }}</td>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UserExport;
+use App\Models\Customers;
 use App\Models\FotoUsers;
+use App\Models\Salesman;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
@@ -159,7 +161,22 @@ class UserController extends Controller
 
     public function destroy($id){
         $data = User::find($id);
-        $data->delete();
+        $id = $data->userIDNo;
+        $foto = $data->setUserIDForFotoUsers;
+
+        $salesman = Salesman::where('userID', $id)->get();
+        $customer = Customers::where('userIDSales', $id)->get();
+        if(sizeof($salesman)>0 || sizeof($customer)>0){
+            return redirect()->route('user.index')
+                ->with('error', 'Data tidak dapat dihapus!');
+        }else{
+            if($foto->count() > 0){
+                foreach($foto as $datas){
+                    $datas->delete();
+                }
+            }
+            $data->delete();
+        }
         return redirect()->route('user.index')
         ->with('success', 'Data berhasil dihapus!');
     }
@@ -274,24 +291,32 @@ class UserController extends Controller
     }
 
     public function cari(Request $request){
-        $countData = $request->input('searchByData');
+        $countData = $request->input('searchByData', 10);
         $cari = $request->input('search');
 
-        if($countData != null && $cari != null){
-            $data = User::where('nama', 'LIKE', '%' . $cari . '%')->paginate($countData);
-            $foto = User::with('setUserIDForFotoUsers')->get();
-            $total = User::count();
-        }elseif ($cari != null) {
-            $data =  User::where('nama', 'LIKE', '%' . $cari . '%')->get();
-            $foto = User::with('setUserIDForFotoUsers')->get();
-            $total = User::count();
-        }else{
-            $data =  User::paginate(10);
-            $foto = User::with('setUserIDForFotoUsers')->get();
-            $total = User::count();
+        if(empty($cari)){
+            return response()->json([
+                'data' => [],
+                'total' => 0,
+            ]);
         }
 
+        $query = User::with(['setUserIDForFotoUsers', 'getUserAccessFromUserAccess']);
 
-        return view('user.hasil', compact('data', 'foto', 'total'));
+        if (!empty($cari)) {
+            $query->where('nama', 'LIKE', '%' . $cari . '%')
+            ->orWhere('userName', 'LIKE', '%' . $cari . '%')
+            ->orWhere('branch', 'LIKE', '%' . $cari . '%')
+            ->orWhere('department', 'LIKE', '%' . $cari . '%')
+            ->orWhere('status', 'LIKE', '%' . $cari . '%')
+            ->orWhere('email', 'LIKE', '%' . $cari . '%')
+            ->orWhere('perusahaan', 'LIKE', '%' . $cari . '%')
+            ->orWhere('code', 'LIKE', '%' . $cari . '%');
+    }
+
+        $data = $query->paginate($countData);
+        $total = User::count();
+
+        return view('user.index', compact('data', 'total'));
     }
 }

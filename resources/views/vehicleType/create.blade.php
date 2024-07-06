@@ -21,12 +21,13 @@
                     @csrf
                     <div class="row g-3">
                         <div class="form-group col-md-4">
-                            <label for="id">ID</label>
-                            <input type="text" class="form-control" name="id" id="id" placeholder="ID" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="merk">Merk</label>
-                            <input type="text" class="form-control" name="merk" id="merk" placeholder="Kategori" required>
+                            <label for="id">Brand</label>
+                            <select class="form-control custom-select" name="category" id="category">
+                                <option value="--">Silahkan pilih data!</option>
+                                @foreach($brand as $dt)
+                                    <option value="{{$dt->merkID}}">{{$dt->inisial}} - {{$dt->namaKendaraan}}</option>
+                                @endforeach                              
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="type">Type</label>

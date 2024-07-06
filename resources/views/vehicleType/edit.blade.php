@@ -23,11 +23,12 @@
                     <div class="row g-3">
                         <div class="form-group col-md-4">
                             <label for="id">Brand Kendaraan</label>
-                            <input type="text" class="form-control" name="id" id="id" value="{{$data->getMerkFromMerkKendaran->inisial}}" >
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="merk">Nama Kendaraan</label>
-                            <input type="text" class="form-control" name="nama" id="nama" value="{{$data->getMerkFromMerkKendaran->namaKendaraan}}">
+                            <select class="form-control custom-select" name="category" id="category">
+                                <option value="{{$data->nama}}">{{$data->getMerkFromMerkKendaran->inisial}} - {{$data->getMerkFromMerkKendaran->namaKendaraan}}</option>
+                                @foreach($brand as $dt)
+                                    <option value="{{$dt->merkID}}">{{$dt->inisial}} - {{$dt->namaKendaraan}}</option>
+                                @endforeach                              
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="type">Type</label>

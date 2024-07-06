@@ -23,6 +23,6 @@ class Warehouses extends Model
     ];
 
     public function setWarehouseID(){
-        return $this->hasMany(InvoiceRecieved::class, 'warehouseID', 'invoiceRecievedID');
+        return $this->hasMany(Product::class, 'warehouseID', 'productID');
     }
 }

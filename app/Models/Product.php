@@ -27,6 +27,7 @@ class Product extends Model
         'harga_jual',
         'notes',
         'subCategory',
+        'warehouseID',
     ];
 
     public function getBrand(){
@@ -47,5 +48,17 @@ class Product extends Model
 
     public function fotoProducts(){
         return $this->hasMany(FotoProduct::class, 'productID');
+    }
+
+    public function getWarehouseID(){
+        return $this->belongsTo(Warehouses::class, 'warehouseID', 'warehouseID');
+    }
+
+    public function setInventory(){
+        return $this->hasMany(Inventory::class, 'productIDs', 'inventoryID');
+    }
+
+    public function setInventoryReturn(){
+        return $this->hasMany(InventoryReturn::class, 'productIDs', 'inventory_returnID');
     }
 }

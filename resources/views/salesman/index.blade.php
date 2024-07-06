@@ -36,6 +36,7 @@
                         </select>
                         <label for="search">Cari berdasarkan: </label>
                         <input type="text" name="search" id="search" placeholder="Cari dengan nama...">
+                        <button type="submit" class="btn btn-primary">Cari</button>
                     </form>
                 </div>
                 <br>
@@ -51,9 +52,9 @@
                         </tr>
                     </thead>
                     <tbody class="tableBody">
-                        @foreach($data as $user)
+                        @foreach($data as $item=>$user)
                             <tr>
-                                <td>{{ $user->id }}</td>
+                                <td>{{ $item + 1 }}</td>
                                 <td>{{ $user->getUserIDFromUsers2->nama }}</td>
                                 <td>{{ $user->alias }}</td>
                                 <td>{{ $user->status }}</td>
@@ -78,7 +79,7 @@
                     </tbody>
                 </table>
                 <p>Menampilkan {{$data->count()}} dari {{$total}} data</p>
-                <a class="btn btn-primary" href="#"> 
+                <a class="btn btn-primary" href="/admin/salesman/pilihCopy"> 
                     <i class="fa-solid fa-copy"></i>
                         Copy
                 </a>
